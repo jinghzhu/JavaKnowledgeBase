@@ -1,0 +1,570 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Synchronized · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ConcurrentHashMap.html" />
+    
+    
+    <link rel="prev" href="ReentrantLock.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Fundamental/Fundamental.html">
+            
+                <a href="../Fundamental/Fundamental.html">
+            
+                    
+                    Fundanmental
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Fundamental/Upcast_Downcast.html">
+            
+                <a href="../Fundamental/Upcast_Downcast.html">
+            
+                    
+                    Upcast & Downcast
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Fundamental/Rewrite_Equals_of_String.html">
+            
+                <a href="../Fundamental/Rewrite_Equals_of_String.html">
+            
+                    
+                    Rewrite Equals() of String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Fundamental/String.html">
+            
+                <a href="../Fundamental/String.html">
+            
+                    
+                    String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../Fundamental/Class.html">
+            
+                <a href="../Fundamental/Class.html">
+            
+                    
+                    Class
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Fundamental/Serializable.html">
+            
+                <a href="../Fundamental/Serializable.html">
+            
+                    
+                    Serializable
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Advanced/Advanced.html">
+            
+                <a href="../Advanced/Advanced.html">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="Concurrent.html">
+            
+                <a href="Concurrent.html">
+            
+                    
+                    Concurrent
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="AQS.html">
+            
+                <a href="AQS.html">
+            
+                    
+                    AQS(AbstractQueuedSynchronizer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="CAS.html">
+            
+                <a href="CAS.html">
+            
+                    
+                    CAS(Compare and Swap)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="CLH.html">
+            
+                <a href="CLH.html">
+            
+                    
+                    CLH(Craig, Landin, and Hagersten)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="ReentrantLock.html">
+            
+                <a href="ReentrantLock.html">
+            
+                    
+                    ReentrantLock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.5" data-path="Synchronized.html">
+            
+                <a href="Synchronized.html">
+            
+                    
+                    Synchronized
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="ConcurrentHashMap.html">
+            
+                <a href="ConcurrentHashMap.html">
+            
+                    
+                    ConcurrentHashMap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="ThreadPool.html">
+            
+                <a href="ThreadPool.html">
+            
+                    
+                    ThreadPool
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Synchronized</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="synchronized">Synchronized</h1>
+<h2 id="1-&#x539F;&#x7406;">1. &#x539F;&#x7406;</h2>
+<p>&#x3000;&#x3000;&#x5E95;&#x5C42;&#x4E5F;&#x662F;&#x57FA;&#x4E8E;CAS&#x64CD;&#x4F5C;&#x7684;&#x7B49;&#x5F85;&#x961F;&#x5217;&#xFF0C;&#x628A;&#x7B49;&#x5F85;&#x961F;&#x5217;&#x5206;&#x4E3A;<code>ContentionList</code>&#x548C;<code>EntryList</code>&#x3002;&#x4F46;&#x7531;JVM&#x5B9E;&#x73B0;&#xFF0C;&#x4E0D;&#x50CF;ReentrantLock&#x7531;&#x4E0A;&#x5C42;&#x7C7B;&#x5B9E;&#x73B0;&#x3002;&#x662F;&#x975E;&#x516C;&#x5E73;&#x60B2;&#x89C2;&#x9501;&#x3002;</p>
+<h2 id="2&#x5185;&#x90E8;&#x72B6;&#x6001;&#x548C;&#x961F;&#x5217;">2.&#x5185;&#x90E8;&#x72B6;&#x6001;&#x548C;&#x961F;&#x5217;</h2>
+<ul>
+<li>Contention List&#xFF1A;&#x6240;&#x6709;&#x8BF7;&#x6C42;&#x9501;&#x7684;&#x7EBF;&#x7A0B;&#x5C06;&#x88AB;&#x9996;&#x5148;&#x653E;&#x7F6E;&#x5230;&#x8BE5;&#x7ADE;&#x4E89;&#x961F;&#x5217;</li>
+<li>Entry List&#xFF1A;Contention List&#x4E2D;&#x90A3;&#x4E9B;&#x6709;&#x8D44;&#x683C;&#x6210;&#x4E3A;&#x5019;&#x9009;&#x4EBA;&#x7684;&#x7EBF;&#x7A0B;&#x88AB;&#x79FB;&#x5230;Entry List</li>
+<li>Wait Set&#xFF1A;&#x90A3;&#x4E9B;&#x8C03;&#x7528;wait&#x65B9;&#x6CD5;&#x88AB;&#x963B;&#x585E;&#x7684;&#x7EBF;&#x7A0B;&#x88AB;&#x653E;&#x7F6E;&#x5230;Wait Set</li>
+<li>OnDeck&#xFF1A;&#x4EFB;&#x4F55;&#x65F6;&#x523B;&#x6700;&#x591A;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6B63;&#x5728;&#x7ADE;&#x4E89;&#x9501;&#xFF0C;&#x8BE5;&#x7EBF;&#x7A0B;&#x79F0;&#x4E3A;OnDeck</li>
+<li>Owner&#xFF1A;&#x83B7;&#x5F97;&#x9501;&#x7684;&#x7EBF;&#x7A0B;&#x79F0;&#x4E3A;Owner</li>
+<li>!Owner&#xFF1A;&#x91CA;&#x653E;&#x9501;&#x7684;&#x7EBF;&#x7A0B;</li>
+</ul>
+<p><img src="Images/synchronized.png" alt="Synchronized"></p>
+<h2 id="3-&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;">3. &#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;</h2>
+<ul>
+<li><p>&#x65B0;&#x8BF7;&#x6C42;&#x9501;&#x7684;&#x7EBF;&#x7A0B;&#x5C06;&#x9996;&#x5148;&#x88AB;&#x52A0;&#x5165;&#x5230;ContentionList&#x4E2D;</p>
+</li>
+<li><p><code>ContentionList</code>&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x961F;&#x5217;&#xFF0C;&#x539F;&#x56E0;&#x5728;&#x4E8E;<code>ContentionList</code>&#x662F;&#x7531;<code>Node</code>&#x53CA;&#x5176;<code>next</code>&#x6307;&#x9488;&#x903B;&#x8F91;&#x6784;&#x6210;&#xFF0C;&#x5E76;&#x4E0D;&#x5B58;&#x5728;&#x4E00;&#x4E2A;Queue&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x3002;</p>
+</li>
+<li><code>ContentionList</code>&#x662F;&#x4E00;&#x4E2A;&#x540E;&#x8FDB;&#x5148;&#x51FA;&#xFF08;LIFO&#xFF09;&#x7684;&#x961F;&#x5217;&#xFF0C;&#x6BCF;&#x6B21;&#x65B0;&#x52A0;&#x5165;Node&#x65F6;&#x90FD;&#x4F1A;&#x5728;&#x961F;&#x5934;&#x8FDB;&#x884C;&#xFF0C;&#x901A;&#x8FC7;CAS&#x6539;&#x53D8;&#x7B2C;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x7684;&#x6307;&#x9488;&#x4E3A;&#x65B0;&#x589E;&#x8282;&#x70B9;&#xFF0C;&#x540C;&#x65F6;&#x8BBE;&#x7F6E;&#x65B0;&#x589E;&#x8282;&#x70B9;&#x7684;next&#x6307;&#x5411;&#x540E;&#x7EED;&#x8282;&#x70B9;&#xFF0C;&#x800C;&#x53D6;&#x5F97;&#x64CD;&#x4F5C;&#x5219;&#x53D1;&#x751F;&#x5728;&#x961F;&#x5C3E;&#x3002;&#x663E;&#x7136;&#xFF0C;&#x8BE5;&#x7ED3;&#x6784;&#x5176;&#x5B9E;&#x662F;&#x4E2A;Lock-Free&#x7684;&#x961F;&#x5217;&#x3002;</li>
+<li><p>&#x56E0;&#x4E3A;&#x53EA;&#x6709;Owner&#x7EBF;&#x7A0B;&#x624D;&#x80FD;&#x4ECE;&#x961F;&#x5C3E;&#x53D6;&#x5143;&#x7D20;&#xFF0C;&#x4E5F;&#x5373;&#x7EBF;&#x7A0B;&#x51FA;&#x5217;&#x64CD;&#x4F5C;&#x65E0;&#x4E89;&#x7528;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x5C31;&#x907F;&#x514D;&#x4E86;CAS&#x7684;ABA&#x95EE;&#x9898;&#x3002;</p>
+</li>
+<li><p>&#x5F53;&#x67D0;&#x4E2A;&#x62E5;&#x6709;&#x9501;&#x7684;&#x7EBF;&#x7A0B;&#xFF08;Owner&#x72B6;&#x6001;&#xFF09;&#x8C03;&#x7528;unlock&#x4E4B;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;EntryList&#x4E3A;&#x7A7A;&#x5219;&#x4ECE;ContentionList&#x4E2D;&#x79FB;&#x52A8;&#x7EBF;&#x7A0B;&#x5230;EntryList</p>
+</li>
+<li><p><code>EntryList</code>&#x4E0E;<code>ContentionList</code>&#x903B;&#x8F91;&#x4E0A;&#x540C;&#x5C5E;&#x7B49;&#x5F85;&#x961F;&#x5217;&#xFF0C;<code>ContentionList</code>&#x4F1A;&#x88AB;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x8BBF;&#x95EE;&#xFF0C;&#x4E3A;&#x4E86;&#x964D;&#x4F4E;&#x5BF9;<code>ContentionList</code>&#x961F;&#x5C3E;&#x7684;&#x4E89;&#x7528;&#xFF0C;&#x800C;&#x5EFA;&#x7ACB;<code>EntryList</code>&#x3002;</p>
+</li>
+<li>Owner&#x7EBF;&#x7A0B;&#x5728;unlock&#x65F6;&#x4F1A;&#x4ECE;<code>ContentionList</code>&#x4E2D;&#x8FC1;&#x79FB;&#x7EBF;&#x7A0B;&#x5230;<code>EntryList</code>&#xFF0C;&#x5E76;&#x4F1A;&#x6307;&#x5B9A;<code>EntryList</code>&#x4E2D;&#x7684;&#x67D0;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF08;&#x4E00;&#x822C;&#x4E3A;Head&#xFF09;&#x4E3A;Ready&#xFF08;OnDeck&#xFF09;&#x7EBF;&#x7A0B;&#x3002;</li>
+<li>Owner&#x7EBF;&#x7A0B;&#x5E76;&#x4E0D;&#x662F;&#x628A;&#x9501;&#x4F20;&#x9012;&#x7ED9;OnDeck&#x7EBF;&#x7A0B;&#xFF0C;&#x53EA;&#x662F;&#x628A;&#x7ADE;&#x4E89;&#x9501;&#x7684;&#x6743;&#x5229;&#x4EA4;&#x7ED9;OnDeck&#xFF0C;OnDeck&#x7EBF;&#x7A0B;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x7ADE;&#x4E89;&#x9501;&#x3002;</li>
+<li><p>OnDeck&#x7EBF;&#x7A0B;&#x83B7;&#x5F97;&#x9501;&#x540E;&#x5373;&#x53D8;&#x4E3A;owner&#x7EBF;&#x7A0B;&#xFF0C;&#x65E0;&#x6CD5;&#x83B7;&#x5F97;&#x9501;&#x5219;&#x4F1A;&#x4F9D;&#x7136;&#x7559;&#x5728;<code>EntryList</code>&#x4E2D;&#xFF0C;&#x8003;&#x8651;&#x5230;&#x516C;&#x5E73;&#x6027;&#xFF0C;&#x5728;<code>EntryList</code>&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#x4E0D;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF08;&#x4F9D;&#x7136;&#x5728;&#x961F;&#x5934;&#xFF09;&#x3002;&#x5982;&#x679C;Owner&#x7EBF;&#x7A0B;&#x88AB;wait&#x65B9;&#x6CD5;&#x963B;&#x585E;&#xFF0C;&#x5219;&#x8F6C;&#x79FB;&#x5230;WaitSet&#x961F;&#x5217;&#xFF1B;&#x5982;&#x679C;&#x5728;&#x67D0;&#x4E2A;&#x65F6;&#x523B;&#x88AB;notify/notifyAll&#x5524;&#x9192;&#xFF0C;&#x5219;&#x518D;&#x6B21;&#x8F6C;&#x79FB;&#x5230;<code>EntryList</code>&#x3002;</p>
+</li>
+<li><p>&#x5904;&#x4E8E;ContetionList&#x3001;EntryList&#x3001;WaitSet&#x4E2D;&#x7684;&#x7EBF;&#x7A0B;&#x5747;&#x5904;&#x4E8E;&#x963B;&#x585E;&#x72B6;&#x6001;&#xFF0C;&#x963B;&#x585E;&#x64CD;&#x4F5C;&#x7531;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5B8C;&#x6210;&#x3002;&#x7EBF;&#x7A0B;&#x88AB;&#x963B;&#x585E;&#x540E;&#x4FBF;&#x8FDB;&#x5165;&#x5185;&#x6838;&#xFF08;Linux&#xFF09;&#x8C03;&#x5EA6;&#x72B6;&#x6001;</p>
+</li>
+</ul>
+<p>&#x3000;&#x3000;&#x7F13;&#x89E3;&#x4E0A;&#x8FF0;&#x95EE;&#x9898;&#x7684;&#x529E;&#x6CD5;&#x4FBF;&#x662F;&#x81EA;&#x65CB;&#xFF0C;&#x5176;&#x539F;&#x7406;&#x662F;&#xFF1A;&#x5F53;&#x53D1;&#x751F;&#x4E89;&#x7528;&#x65F6;&#xFF0C;&#x82E5;Owner&#x7EBF;&#x7A0B;&#x80FD;&#x5728;&#x5F88;&#x77ED;&#x7684;&#x65F6;&#x95F4;&#x5185;&#x91CA;&#x653E;&#x9501;&#xFF0C;&#x5219;&#x90A3;&#x4E9B;&#x6B63;&#x5728;&#x4E89;&#x7528;&#x7EBF;&#x7A0B;&#x53EF;&#x4EE5;&#x7A0D;&#x5FAE;&#x7B49;&#x4E00;&#x7B49;&#xFF08;&#x81EA;&#x65CB;&#xFF09;&#xFF0C;&#x5728;Owner&#x7EBF;&#x7A0B;&#x91CA;&#x653E;&#x9501;&#x540E;&#xFF0C;&#x4E89;&#x7528;&#x7EBF;&#x7A0B;&#x53EF;&#x80FD;&#x4F1A;&#x7ACB;&#x5373;&#x5F97;&#x5230;&#x9501;&#xFF0C;&#x4ECE;&#x800C;&#x907F;&#x514D;&#x4E86;&#x7CFB;&#x7EDF;&#x963B;&#x585E; &#x3002;</p>
+<p>&#x3000;&#x3000;&#x90A3;<code>synchronized</code>&#x5B9E;&#x73B0;&#x4F55;&#x65F6;&#x4F7F;&#x7528;&#x4E86;&#x81EA;&#x65CB;&#x9501;&#xFF1F;&#x7B54;&#x6848;&#x662F;&#x5728;&#x7EBF;&#x7A0B;&#x8FDB;&#x5165;<code>ContentionList</code>&#x65F6;&#xFF0C;&#x4E5F;&#x5373;&#x7B2C;&#x4E00;&#x6B65;&#x64CD;&#x4F5C;&#x524D;&#x3002;</p>
+<h2 id="4-&#x504F;&#x5411;&#x9501;">4. &#x504F;&#x5411;&#x9501;</h2>
+<p>&#x3000;&#x3000;&#x5728;JVM1.6&#x4E2D;&#x5F15;&#x5165;&#x4E86;&#x504F;&#x5411;&#x9501;&#xFF0C;&#x504F;&#x5411;&#x9501;&#x4E3B;&#x8981;&#x89E3;&#x51B3;&#x65E0;&#x7ADE;&#x4E89;&#x4E0B;&#x7684;&#x9501;&#x6027;&#x80FD;&#x95EE;&#x9898;&#xFF0C;&#x9996;&#x5148;&#x770B;&#x4E0B;&#x65E0;&#x7ADE;&#x4E89;&#x4E0B;&#x9501;&#x5B58;&#x5728;&#x4EC0;&#x4E48;&#x95EE;&#x9898;.</p>
+<p>&#x3000;&#x3000;&#x73B0;&#x5728;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x9501;&#x90FD;&#x662F;&#x53EF;&#x91CD;&#x5165;&#x7684;&#xFF0C;&#x4E5F;&#x5373;&#x5DF2;&#x7ECF;&#x83B7;&#x5F97;&#x9501;&#x7684;&#x7EBF;&#x7A0B;&#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x9501;&#x4F4F;/&#x89E3;&#x9501;&#x76D1;&#x89C6;&#x5BF9;&#x8C61;&#x3002;&#x6BCF;&#x6B21;&#x52A0;&#x9501;/&#x89E3;&#x9501;&#x90FD;&#x4F1A;&#x6D89;&#x53CA;&#x5230;&#x4E00;&#x4E9B;CAS&#x64CD;&#x4F5C;&#xFF08;&#x6BD4;&#x5982;&#x5BF9;&#x7B49;&#x5F85;&#x961F;&#x5217;&#x7684;CAS&#x64CD;&#x4F5C;&#xFF09;&#xFF0C;CAS&#x64CD;&#x4F5C;&#x4F1A;&#x5EF6;&#x8FDF;&#x672C;&#x5730;&#x8C03;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#x504F;&#x5411;&#x9501;&#x7684;&#x60F3;&#x6CD5;&#x662F;&#x4E00;&#x65E6;&#x7EBF;&#x7A0B;&#x7B2C;&#x4E00;&#x6B21;&#x83B7;&#x5F97;&#x4E86;&#x76D1;&#x89C6;&#x5BF9;&#x8C61;&#xFF0C;&#x4E4B;&#x540E;&#x8BA9;&#x76D1;&#x89C6;&#x5BF9;&#x8C61;&#x201C;&#x504F;&#x5411;&#x201D;&#x8FD9;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x4E4B;&#x540E;&#x7684;&#x591A;&#x6B21;&#x8C03;&#x7528;&#x5219;&#x53EF;&#x4EE5;&#x907F;&#x514D;CAS&#x64CD;&#x4F5C;&#xFF0C;&#x8BF4;&#x767D;&#x4E86;&#x5C31;&#x662F;&#x7F6E;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x4E3A;true&#x5219;&#x65E0;&#x9700;&#x518D;&#x8D70;&#x5404;&#x79CD;&#x52A0;&#x9501;/&#x89E3;&#x9501;&#x6D41;&#x7A0B;</p>
+<h2 id="5-&#x5F53;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x8FDB;&#x5165;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x4E00;&#x4E2A;synchronized&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x540E;&#xFF0C;&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x662F;&#x5426;&#x53EF;&#x8FDB;&#x5165;&#x6B64;&#x5BF9;&#x8C61;&#x7684;&#x5176;&#x5B83;&#x65B9;&#x6CD5;&#xFF1F;">5. &#x5F53;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x8FDB;&#x5165;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x4E00;&#x4E2A;synchronized&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x540E;&#xFF0C;&#x5176;&#x5B83;&#x7EBF;&#x7A0B;&#x662F;&#x5426;&#x53EF;&#x8FDB;&#x5165;&#x6B64;&#x5BF9;&#x8C61;&#x7684;&#x5176;&#x5B83;&#x65B9;&#x6CD5;&#xFF1F;</h2>
+<ul>
+<li>&#x5982;&#x679C;&#x53E6;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x4E0D;&#x662F;<code>synchronized</code>&#x5219;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x53E6;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x662F;<code>static</code>&#x65B9;&#x6CD5;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#xFF0C;&#x56E0;&#x4E3A;&#x5BF9;&#x4E8E;<code>static</code>&#x65B9;&#x6CD5;&#xFF0C;&#x83B7;&#x53D6;&#x7684;&#x662F;&#x7C7B;&#x7684;<code>class</code>&#x5BF9;&#x8C61;&#xFF08;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#xFF09;&#x7684;&#x9501;&#x800C;&#x975E;&#x540C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;&#x7684;&#x9501;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6B63;&#x5728;&#x8FDB;&#x5165;&#x7684;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<code>wait()</code>&#x91CA;&#x653E;&#x9501;&#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x7EBF;&#x7A0B;&#x8FD8;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x5176;&#x4ED6;<code>synchronized</code>&#x65B9;&#x6CD5;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x53E6;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x4E5F;&#x662F;<code>synchronized</code>&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x5DF2;&#x7ECF;&#x8FDB;&#x5165;&#x7684;&#x65B9;&#x6CD5;&#x4E2D;&#x4E0D;&#x80FD;<code>wait()</code>&#x91CA;&#x653E;&#x9501;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4E0D;&#x80FD;&#x8FDB;&#x5165;&#x90A3;&#x4E2A;&#x65B9;&#x6CD5;&#x3002;</li>
+</ul>
+<h2 id="6-synchronized-vs-reentrantlock">6. synchronized vs ReentrantLock</h2>
+<ul>
+<li>synchronized keyword cannot be used for constructors and variables. </li>
+<li>We should not use any object that is maintained in a constant pool, for example String should not be used for synchronization because if any other code is also locking on same String, it will try to acquire lock on the same reference object from String pool and even though both the codes are unrelated, they will lock each other.</li>
+<li><code>synchronized</code>&#x662F;Java&#x8BED;&#x8A00;&#x7279;&#x6027;&#xFF0C;&#x5F97;&#x5230;&#x865A;&#x62DF;&#x673A;&#x76F4;&#x63A5;&#x652F;&#x6301;&#xFF0C;<code>Lock</code>&#x662F;<code>concurrent</code>&#x5305;&#x4E0B;&#x7684;&#x7C7B;</li>
+<li>synchronized&#x5728;&#x8FDB;&#x5165;&#x9000;&#x51FA;&#x540C;&#x6B65;&#x65B9;&#x6CD5;&#x4EE3;&#x7801;&#x5757;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x83B7;&#x53D6;&#x91CA;&#x653E;&#x9501;&#xFF0C;<code>ReentrantLock</code>&#x987B;&#x663E;&#x5F0F;&#x83B7;&#x53D6;&#x9501;&#xFF0C;&#x4E14;&#x8981;&#x5728;<code>finally</code>&#x4E2D;&#x663E;&#x5F0F;&#x91CA;&#x653E;&#x9501; &#x3002;Synchronization code is much cleaner and easy to maintain.</li>
+<li>&#x5728;&#x8D44;&#x6E90;&#x7ADE;&#x4E89;&#x4E0D;&#x662F;&#x5F88;&#x6FC0;&#x70C8;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;<code>Synchronized</code>&#x6027;&#x80FD;&#x4F18;&#x4E8E;<code>ReetrantLock</code>&#xFF0C;&#x4F46;&#x5728;&#x8D44;&#x6E90;&#x7ADE;&#x4E89;&#x6FC0;&#x70C8;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;<code>Synchronized</code>&#x6027;&#x80FD;&#x4F1A;&#x4E0B;&#x964D;&#x51E0;&#x5341;&#x500D;&#xFF0C;&#x4F46;&#x662F;<code>ReetrantLock</code>&#x7684;&#x6027;&#x80FD;&#x80FD;&#x7EF4;&#x6301;&#x5E38;&#x6001;&#x3002;</li>
+<li>ReentrantLock&#x63D0;&#x4F9B;&#x4E86;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;<ul>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<code>tryLock</code>&#x5B9E;&#x73B0;&#x8F6E;&#x8BE2;&#x6216;&#x5B9A;&#x65F6;&#x83B7;&#x53D6;&#x9501;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x907F;&#x514D;&#x6B7B;&#x9501;&#x7684;&#x53D1;&#x751F;</li>
+<li><code>lockInterruptibly</code>&#x65B9;&#x6CD5;&#x80FD;&#x5728;&#x83B7;&#x53D6;&#x9501;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x4FDD;&#x6301;&#x5BF9;&#x4E2D;&#x65AD;&#x7684;&#x54CD;&#x5E94;</li>
+<li><code>synchronized</code>&#x65B9;&#x6CD5;&#x548C;<code>synchronized</code>&#x5757;&#x90FD;&#x662F;&#x57FA;&#x4E8E;&#x5757;&#x7ED3;&#x6784;&#x7684;&#x52A0;&#x9501;&#xFF0C;<code>ReentrantLock</code>&#x53EF;&#x7528;&#x4E8E;&#x975E;&#x5757;&#x7ED3;&#x6784;&#x52A0;&#x9501;&#xFF08;&#x4F8B;&#x5982;ConcurrentHashMap&#x4E2D;&#x7684;&#x5206;&#x6BB5;&#x9501;&#xFF09;</li>
+<li><code>synchronized</code>&#x4F7F;&#x7528;&#x7684;&#x5185;&#x7F6E;&#x9501;&#x548C;<code>ReentrantLock</code>&#x9ED8;&#x8BA4;&#x90FD;&#x662F;&#x975E;&#x516C;&#x5E73;&#x7684;&#xFF0C;<code>ReentrantLock</code>&#x5728;&#x6784;&#x9020;&#x65F6;&#x53EF;&#x9009;&#x62E9;&#x516C;&#x5E73;&#x9501;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-condition-vs-waitnotify">7. Condition VS wait/notify</h2>
+<p>&#x3000;&#x3000;Lock&#x5BF9;&#x5E94;synchronized&#xFF0C;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x90FD;&#x8981;&#x5148;&#x83B7;&#x53D6;&#x9501; &#xFF1A;</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">Object</th>
+<th style="text-align:center">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#x4F11;&#x7720;</td>
+<td style="text-align:center">wait</td>
+<td style="text-align:center">await</td>
+</tr>
+<tr>
+<td>&#x5524;&#x9192;&#x5355;&#x4E2A;&#x7EBF;&#x7A0B;</td>
+<td style="text-align:center">notify</td>
+<td style="text-align:center">signal</td>
+</tr>
+<tr>
+<td>&#x5524;&#x9192;&#x6240;&#x6709;&#x7EBF;&#x7A0B;</td>
+<td style="text-align:center">notifyAll</td>
+<td style="text-align:center">signalAll</td>
+</tr>
+</tbody>
+</table>
+<p>&#x3000;&#x3000;Condition&#x66F4;&#x5F3A;&#x5927;&#x7684;&#x5730;&#x65B9;&#x5728;&#x4E8E;&#x80FD;&#x591F;&#x66F4;&#x52A0;&#x7CBE;&#x7EC6;&#x7684;&#x63A7;&#x5236;&#x591A;&#x7EBF;&#x7A0B;&#x7684;&#x4F11;&#x7720;&#x4E0E;&#x5524;&#x9192;&#x3002; </p>
+<p>&#x3000;&#x3000;&#x4F8B;&#x5982;&#xFF0C;&#x591A;&#x7EBF;&#x7A0B;&#x8BFB;/&#x5199;&#x7F13;&#x51B2;&#x533A;&#xFF1A;&#x5F53;&#x5411;&#x7F13;&#x51B2;&#x533A;&#x4E2D;&#x5199;&#x5165;&#x6570;&#x636E;&#x4E4B;&#x540E;&#xFF0C;&#x5524;&#x9192;&#x8BFB;&#x7EBF;&#x7A0B;&#xFF1B;&#x5F53;&#x4ECE;&#x7F13;&#x51B2;&#x533A;&#x8BFB;&#x51FA;&#x6570;&#x636E;&#x4E4B;&#x540E;&#xFF0C;&#x5524;&#x9192;&#x5199;&#x7EBF;&#x7A0B;&#x3002; &#x5982;&#x679C;&#x91C7;&#x7528;<code>Object</code>&#x7C7B;&#x4E2D;&#x7684;<code>wait()</code>, <code>notify()</code>, <code>notifyAll()</code>&#x5B9E;&#x73B0;&#x8BE5;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x5F53;&#x5411;&#x7F13;&#x51B2;&#x533A;&#x5199;&#x5165;&#x6570;&#x636E;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x5524;&#x9192;&#x8BFB;&#x7EBF;&#x7A0B;&#x65F6;&#xFF0C;&#x4E0D;&#x53EF;&#x80FD;&#x901A;&#x8FC7;<code>notify()</code>&#x6216;<code>notifyAll()</code>&#x660E;&#x786E;&#x7684;&#x6307;&#x5B9A;&#x5524;&#x9192;&#x8BFB;&#x7EBF;&#x7A0B;&#xFF0C;&#x800C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;<code>notifyAll</code>&#x5524;&#x9192;&#x6240;&#x6709;&#x7EBF;&#x7A0B;(&#x4F46;&#x662F;<code>notifyAll()</code>&#x65E0;&#x6CD5;&#x533A;&#x5206;&#x5524;&#x9192;&#x7684;&#x7EBF;&#x7A0B;&#x662F;&#x8BFB;&#x7EBF;&#x7A0B;&#xFF0C;&#x8FD8;&#x662F;&#x5199;&#x7EBF;&#x7A0B;)&#x3002; &#x901A;&#x8FC7;Condition&#xFF0C;&#x5C31;&#x80FD;&#x660E;&#x786E;&#x7684;&#x6307;&#x5B9A;&#x5524;&#x9192;&#x8BFB;&#x7EBF;&#x7A0B;&#x3002;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">boolean</span> usedData = <span class="hljs-keyword">true</span>;<span class="hljs-comment">//mutex for data</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Lock lock = <span class="hljs-keyword">new</span> ReentrantLock();
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Condition isEmpty = lock.newCondition();
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Condition isFull = lock.newCondition();
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setData</span><span class="hljs-params">(<span class="hljs-keyword">int</span> data)</span> <span class="hljs-keyword">throws</span> InterruptedException </span>{
+    lock.lock();
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">while</span>(!usedData) {<span class="hljs-comment">//wait for data to be used</span>
+            isEmpty.await();
+        }
+        <span class="hljs-keyword">this</span>.data = data;
+        isFull.signal();<span class="hljs-comment">//broadcast that the data is now full.</span>
+        usedData = <span class="hljs-keyword">false</span>;<span class="hljs-comment">//tell others I created new data.          </span>
+    }<span class="hljs-keyword">finally</span> {
+        lock.unlock();<span class="hljs-comment">//interrupt or not, release lock</span>
+    }       
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getData</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException</span>{
+    lock.lock();
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">while</span>(usedData) {<span class="hljs-comment">//usedData is lingo for empty</span>
+            isFull.await();
+        }
+        isEmpty.signal();<span class="hljs-comment">//tell the producers to produce some more.</span>
+        usedData = <span class="hljs-keyword">true</span>;<span class="hljs-comment">//tell others I have used the data.</span>
+    }<span class="hljs-keyword">finally</span> {<span class="hljs-comment">//interrupted or not, always release lock</span>
+        lock.unlock();
+    }       
+}
+</code></pre>
+<p>Condition interface comes with Two extra methods that are:</p>
+<ol>
+<li><code>boolean awaitUntil(Date deadline)throws InterruptedException</code>: causes the current thread to wait until it is signaled or interrupted, or the specified deadline elapses.</li>
+<li><code>awaitUninterruptibly()</code>: causes the current thread to wait until it is signaled.</li>
+</ol>
+<h2 id="8-synchronized&#x4E0E;static-synchronized&#x533A;&#x522B;">8. synchronized&#x4E0E;static synchronized&#x533A;&#x522B;</h2>
+<p>&#x3000;&#x3000;synchronized&#x662F;&#x5BF9;&#x7C7B;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#x52A0;&#x9501;&#xFF0C;&#x9632;&#x6B62;&#x5176;&#x4ED6;&#x7EBF;&#x7A0B;&#x540C;&#x65F6;&#x8BBF;&#x95EE;&#x8BE5;&#x7C7B;&#x7684;&#x8BE5;&#x5B9E;&#x4F8B;&#x7684;synchronized&#x5757;&#xFF0C;&#x6CE8;&#x610F;&#x662F;&#x201C;&#x7C7B;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#x201D;&#xFF0C; &#x7C7B;&#x7684;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x5B9E;&#x4F8B;&#x6CA1;&#x6709;&#x8FD9;&#x79CD;&#x7EA6;&#x675F;&#x3002;</p>
+<p>&#x3000;&#x3000;static synchronized&#x662F;&#x63A7;&#x5236;&#x7C7B;&#x6240;&#x6709;&#x5B9E;&#x4F8B;&#x7684;&#x8BBF;&#x95EE;&#xFF0C;static synchronized&#x662F;&#x9650;&#x5236;&#x7EBF;&#x7A0B;&#x540C;&#x65F6;&#x8BBF;&#x95EE;jvm&#x4E2D;&#x8BE5;&#x7C7B;&#x7684;&#x6240;&#x6709;&#x5B9E;&#x4F8B;&#x540C;&#x65F6;&#x8BBF;&#x95EE;&#x5BF9;&#x5E94;&#x7684;&#x4EE3;&#x7801;&#x5FEB;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ReentrantLock.html" class="navigation navigation-prev " aria-label="Previous page: ReentrantLock">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ConcurrentHashMap.html" class="navigation navigation-next " aria-label="Next page: ConcurrentHashMap">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Synchronized","level":"1.4.5","depth":2,"next":{"title":"ConcurrentHashMap","level":"1.4.6","depth":2,"path":"Concurrent/ConcurrentHashMap.md","ref":"Concurrent/ConcurrentHashMap.md","articles":[]},"previous":{"title":"ReentrantLock","level":"1.4.4","depth":2,"path":"Concurrent/ReentrantLock.md","ref":"Concurrent/ReentrantLock.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Concurrent/Synchronized.md","mtime":"2016-11-12T13:57:50.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2016-11-12T07:21:32.550Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

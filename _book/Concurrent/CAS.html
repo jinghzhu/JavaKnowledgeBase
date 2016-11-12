@@ -1,0 +1,474 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>CAS(Compare and Swap) · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="CLH.html" />
+    
+    
+    <link rel="prev" href="AQS.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Fundamental/Fundamental.html">
+            
+                <a href="../Fundamental/Fundamental.html">
+            
+                    
+                    Fundanmental
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Fundamental/Upcast_Downcast.html">
+            
+                <a href="../Fundamental/Upcast_Downcast.html">
+            
+                    
+                    Upcast & Downcast
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Fundamental/Rewrite_Equals_of_String.html">
+            
+                <a href="../Fundamental/Rewrite_Equals_of_String.html">
+            
+                    
+                    Rewrite Equals() of String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Fundamental/String.html">
+            
+                <a href="../Fundamental/String.html">
+            
+                    
+                    String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../Fundamental/Class.html">
+            
+                <a href="../Fundamental/Class.html">
+            
+                    
+                    Class
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Fundamental/Serializable.html">
+            
+                <a href="../Fundamental/Serializable.html">
+            
+                    
+                    Serializable
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Advanced/Advanced.html">
+            
+                <a href="../Advanced/Advanced.html">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="Concurrent.html">
+            
+                <a href="Concurrent.html">
+            
+                    
+                    Concurrent
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="AQS.html">
+            
+                <a href="AQS.html">
+            
+                    
+                    AQS(AbstractQueuedSynchronizer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.4.2" data-path="CAS.html">
+            
+                <a href="CAS.html">
+            
+                    
+                    CAS(Compare and Swap)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="CLH.html">
+            
+                <a href="CLH.html">
+            
+                    
+                    CLH(Craig, Landin, and Hagersten)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="ReentrantLock.html">
+            
+                <a href="ReentrantLock.html">
+            
+                    
+                    ReentrantLock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="Synchronized.html">
+            
+                <a href="Synchronized.html">
+            
+                    
+                    Synchronized
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="ConcurrentHashMap.html">
+            
+                <a href="ConcurrentHashMap.html">
+            
+                    
+                    ConcurrentHashMap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="ThreadPool.html">
+            
+                <a href="ThreadPool.html">
+            
+                    
+                    ThreadPool
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >CAS(Compare and Swap)</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="cas-compare-and-swap">CAS (Compare and Swap)</h1>
+<h2 id="1-what-is-cas">1. What is CAS?</h2>
+<ul>
+<li>&#x662F;&#x4E00;&#x79CD;&#x975E;&#x963B;&#x585E;&#x7684;&#x4E50;&#x89C2;&#x52A0;&#x9501;&#x7B56;&#x7565;&#x3002; </li>
+<li>CAS&#x901A;&#x8FC7;&#x8C03;&#x7528;JNI&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x7684;&#x3002;</li>
+<li><code>java.util.concurrent.atomic</code>&#x5305;&#x4E0B;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x7C7B;&#x90FD;&#x662F;&#x57FA;&#x4E8E;CAS&#x5B9E;&#x73B0;&#x7684;&#x3002;</li>
+</ul>
+<pre><code class="lang-java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Unsafe unsafe = Unsafe.getUnsafe();
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> valueOffset;
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">int</span> value;
+
+ <span class="hljs-keyword">static</span> {
+  <span class="hljs-keyword">try</span> {
+     valueOffset = unsafe.objectFieldOffset
+         (AtomicInteger.class.getDeclaredField(<span class="hljs-string">&quot;value&quot;</span>));
+   } <span class="hljs-keyword">catch</span> (Exception ex) { <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error(ex); }
+ }
+</code></pre>
+<p>&#x3000;&#x3000;Java&#x65E0;&#x6CD5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x5E95;&#x5C42;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x8FC7;native&#x6765;&#x8BBF;&#x95EE;&#x3002;&#x7C7B;Unsafe&#x63D0;&#x4F9B;&#x4E86;&#x786C;&#x4EF6;&#x7EA7;&#x522B;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#x3002;</p>
+<h2 id="2aba&#x95EE;&#x9898;">2.ABA&#x95EE;&#x9898;</h2>
+<p>&#x3000;&#x3000;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x503C;&#x539F;&#x6765;&#x662F;A&#xFF0C;&#x53D8;&#x6210;&#x4E86;B&#xFF0C;&#x53C8;&#x53D8;&#x6210;&#x4E86;A&#xFF0C;&#x90A3;&#x4E48;&#x4F7F;&#x7528;CAS&#x8FDB;&#x884C;&#x68C0;&#x67E5;&#x65F6;&#x4F1A;&#x53D1;&#x73B0;&#x5B83;&#x7684;&#x503C;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x4F46;&#x662F;&#x5B9E;&#x9645;&#x4E0A;&#x5374;&#x53D8;&#x5316;&#x4E86;&#x3002;
+&#x3000;&#x3000;&#x89E3;&#x51B3;&#x601D;&#x8DEF;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x7248;&#x672C;&#x53F7;&#x3002;&#x5728;&#x53D8;&#x91CF;&#x524D;&#x9762;&#x8FFD;&#x52A0;&#x4E0A;&#x7248;&#x672C;&#x53F7;&#xFF0C;&#x6BCF;&#x6B21;&#x53D8;&#x91CF;&#x66F4;&#x65B0;&#x7684;&#x65F6;&#x5019;&#x628A;&#x7248;&#x672C;&#x53F7;&#x52A0;&#x4E00;&#xFF0C;&#x90A3;&#x4E48;A&#xFF0D;B&#xFF0D;A &#x5C31;&#x4F1A;&#x53D8;&#x6210;1A-2B&#xFF0D;3A&#x3002;
+&#x3000;&#x3000;&#x4ECE;Java1.5&#x5F00;&#x59CB;<code>atomic</code>&#x5305;&#x91CC;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A;&#x7C7B;<code>AtomicStampedReference</code>&#x6765;&#x89E3;&#x51B3;ABA&#x95EE;&#x9898;&#x3002;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;<code>compareAndSet</code>&#x65B9;&#x6CD5;&#x4F5C;&#x7528;&#x662F;&#x9996;&#x5148;&#x68C0;&#x67E5;&#x5F53;&#x524D;&#x5F15;&#x7528;&#x662F;&#x5426;&#x7B49;&#x4E8E;&#x9884;&#x671F;&#x5F15;&#x7528;&#xFF0C;&#x5E76;&#x4E14;&#x5F53;&#x524D;&#x6807;&#x5FD7;&#x662F;&#x5426;&#x7B49;&#x4E8E;&#x9884;&#x671F;&#x6807;&#x5FD7;&#xFF0C;&#x5982;&#x679C;&#x5168;&#x90E8;&#x76F8;&#x7B49;&#xFF0C;&#x5219;&#x4EE5;&#x539F;&#x5B50;&#x65B9;&#x5F0F;&#x5C06;&#x8BE5;&#x5F15;&#x7528;&#x548C;&#x8BE5;&#x6807;&#x5FD7;&#x7684;&#x503C;&#x8BBE;&#x7F6E;&#x4E3A;&#x7ED9;&#x5B9A;&#x7684;&#x66F4;&#x65B0;&#x503C;&#x3002;</p>
+<h2 id="3-&#x5FAA;&#x73AF;&#x65F6;&#x95F4;&#x957F;&#x5F00;&#x9500;&#x5927;">3. &#x5FAA;&#x73AF;&#x65F6;&#x95F4;&#x957F;&#x5F00;&#x9500;&#x5927;</h2>
+<p>&#x3000;&#x3000;&#x81EA;&#x65CB;CAS&#x5982;&#x679C;&#x957F;&#x65F6;&#x95F4;&#x4E0D;&#x6210;&#x529F;&#xFF0C;&#x4F1A;&#x7ED9;CPU&#x5E26;&#x6765;&#x975E;&#x5E38;&#x5927;&#x5F00;&#x9500;&#x3002;&#x5982;&#x679C;JVM&#x80FD;&#x652F;&#x6301;&#x5904;&#x7406;&#x5668;&#x63D0;&#x4F9B;&#x7684;pause&#x6307;&#x4EE4;&#x90A3;&#x4E48;&#x6548;&#x7387;&#x4F1A;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x63D0;&#x5347;.pause&#x6307;&#x4EE4;&#x6709;&#x4E24;&#x4E2A;&#x4F5C;&#x7528;&#xFF0C;&#x7B2C;&#x4E00;&#x5B83;&#x53EF;&#x4EE5;&#x5EF6;&#x8FDF;&#x6D41;&#x6C34;&#x7EBF;&#x6267;&#x884C;&#x6307;&#x4EE4;&#xFF08;de-pipeline&#xFF09;,&#x4F7F;CPU&#x4E0D;&#x4F1A;&#x6D88;&#x8017;&#x8FC7;&#x591A;&#x7684;&#x6267;&#x884C;&#x8D44;&#x6E90;&#xFF0C;&#x5EF6;&#x8FDF;&#x7684;&#x65F6;&#x95F4;&#x53D6;&#x51B3;&#x4E8E;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#x7684;&#x7248;&#x672C; &#x3002;&#x7B2C;&#x4E8C;&#x5B83;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5728;&#x9000;&#x51FA;&#x5FAA;&#x73AF;&#x7684;&#x65F6;&#x56E0;&#x5185;&#x5B58;&#x987A;&#x5E8F;&#x51B2;&#x7A81;&#xFF08;memory order violation&#xFF09;&#x800C;&#x5F15;&#x8D77;CPU&#x6D41;&#x6C34;&#x7EBF;&#x6E05;&#x7A7A;&#xFF08;CPU pipeline flush&#xFF09;&#xFF0C;&#x63D0;&#x9AD8;CPU&#x7684;&#x6267;&#x884C;&#x6548;&#x7387;&#x3002;</p>
+<h2 id="4-&#x53EA;&#x80FD;&#x4FDD;&#x8BC1;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;">4. &#x53EA;&#x80FD;&#x4FDD;&#x8BC1;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x7684;&#x539F;&#x5B50;&#x64CD;&#x4F5C;</h2>
+<p>&#x3000;&#x3000;&#x5F53;&#x5BF9;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x6267;&#x884C;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;&#x5FAA;&#x73AF;CAS&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x4FDD;&#x8BC1;&#x539F;&#x5B50;&#x64CD;&#x4F5C;&#xFF0C;&#x4F46;&#x662F;&#x5BF9;&#x591A;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x5FAA;&#x73AF;CAS&#x5C31;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x64CD;&#x4F5C;&#x7684;&#x539F;&#x5B50;&#x6027;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x53EF;&#x4EE5;&#x7528;&#x9501;&#xFF0C;&#x6216;&#x8005;&#x628A;&#x591A;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x5408;&#x5E76;&#x6210;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;&#x6765;&#x64CD;&#x4F5C;&#x3002;
+&#x3000;&#x3000;&#x6BD4;&#x5982;&#x6709;&#x4E24;&#x4E2A;&#x5171;&#x4EAB;&#x53D8;&#x91CF;i&#xFF1D;2,j=a&#xFF0C;&#x5408;&#x5E76;&#x4E00;&#x4E0B;ij=2a&#xFF0C;&#x7136;&#x540E;&#x7528;CAS&#x6765;&#x64CD;&#x4F5C;ij&#x3002;&#x4ECE;Java1.5&#x5F00;&#x59CB;&#x63D0;&#x4F9B;&#x4E86;<code>AtomicReference</code>&#x7C7B;&#x6765;&#x4FDD;&#x8BC1;&#x5F15;&#x7528;&#x5BF9;&#x8C61;&#x4E4B;&#x95F4;&#x7684;&#x539F;&#x5B50;&#x6027;&#x3002; </p>
+<h2 id="5-&#x672C;&#x5730;&#x5EF6;&#x8FDF;">5. &#x672C;&#x5730;&#x5EF6;&#x8FDF;</h2>
+<p><img src="Images/cpu_bus.png" alt="CPU Bus"></p>
+<p>&#x3000;&#x3000;&#x6240;&#x6709;CPU&#x4F1A;&#x5171;&#x4EAB;&#x4E00;&#x6761;&#x7CFB;&#x7EDF;&#x603B;&#x7EBF;&#xFF08;BUS&#xFF09;&#xFF0C;&#x9760;&#x6B64;&#x603B;&#x7EBF;&#x8FDE;&#x63A5;&#x4E3B;&#x5B58;&#x3002;&#x6BCF;&#x4E2A;&#x6838;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x7EA7;&#x7F13;&#x5B58;&#x3002;</p>
+<p>&#x3000;&#x3000;Core1&#x548C;Core2&#x53EF;&#x80FD;&#x4F1A;&#x540C;&#x65F6;&#x628A;&#x4E3B;&#x5B58;&#x4E2D;&#x67D0;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x503C;Load&#x5230;&#x81EA;&#x5DF1;&#x7684;L1 Cache&#x4E2D;&#xFF0C;&#x5F53;Core1&#x5728;&#x81EA;&#x5DF1;&#x7684;L1 Cache&#x4E2D;&#x4FEE;&#x6539;&#x8FD9;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x503C;&#x65F6;&#xFF0C;&#x4F1A;&#x901A;&#x8FC7;&#x603B;&#x7EBF;&#xFF0C;&#x4F7F;Core2&#x4E2D;L1 Cache&#x5BF9;&#x5E94;&#x7684;&#x503C;&#x201C;&#x5931;&#x6548;&#x201D;&#xFF0C;&#x800C;Core2&#x4E00;&#x65E6;&#x53D1;&#x73B0;&#x81EA;&#x5DF1;L1 Cache&#x4E2D;&#x7684;&#x503C;&#x5931;&#x6548;&#xFF08;&#x79F0;&#x4E3A;Cache&#x547D;&#x4E2D;&#x7F3A;&#x5931;&#xFF09;&#x5219;&#x4F1A;&#x901A;&#x8FC7;&#x603B;&#x7EBF;&#x4ECE;&#x5185;&#x5B58;&#x4E2D;&#x52A0;&#x8F7D;&#x8BE5;&#x5730;&#x5740;&#x6700;&#x65B0;&#x7684;&#x503C;&#xFF0C;&#x5927;&#x5BB6;&#x901A;&#x8FC7;&#x603B;&#x7EBF;&#x7684;&#x6765;&#x56DE;&#x901A;&#x4FE1;&#x79F0;&#x4E3A;&#x201C;Cache&#x4E00;&#x81F4;&#x6027;&#x6D41;&#x91CF;&#x201D;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5982;&#x679C;Cache&#x4E00;&#x81F4;&#x6027;&#x6D41;&#x91CF;&#x8FC7;&#x5927;&#xFF0C;&#x603B;&#x7EBF;&#x5C06;&#x6210;&#x4E3A;&#x74F6;&#x9888;&#x3002;&#x800C;&#x5F53;Core1&#x548C;Core2&#x4E2D;&#x7684;&#x503C;&#x518D;&#x6B21;&#x4E00;&#x81F4;&#x65F6;&#xFF0C;&#x79F0;&#x4E3A;&#x201C;Cache&#x4E00;&#x81F4;&#x6027;&#x201D;&#xFF0C;&#x4ECE;&#x8FD9;&#x4E2A;&#x5C42;&#x9762;&#x6765;&#x8BF4;&#xFF0C;&#x9501;&#x8BBE;&#x8BA1;&#x7684;&#x7EC8;&#x6781;&#x76EE;&#x6807;&#x4FBF;&#x662F;&#x51CF;&#x5C11;Cache&#x4E00;&#x81F4;&#x6027;&#x6D41;&#x91CF;&#x3002; 
+        &#x800C;CAS&#x6070;&#x597D;&#x4F1A;&#x5BFC;&#x81F4;Cache&#x4E00;&#x81F4;&#x6027;&#x6D41;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5F88;&#x591A;&#x7EBF;&#x7A0B;&#x90FD;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x5F53;&#x67D0;&#x4E2A;Core CAS&#x6210;&#x529F;&#x65F6;&#x5FC5;&#x7136;&#x4F1A;&#x5F15;&#x8D77;&#x603B;&#x7EBF;&#x98CE;&#x66B4;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6240;&#x8C13;&#x7684;&#x672C;&#x5730;&#x5EF6;&#x8FDF;&#xFF0C;&#x672C;&#x8D28;&#x4E0A;&#x504F;&#x5411;&#x9501;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x6D88;&#x9664;CAS&#xFF0C;&#x964D;&#x4F4E;Cache&#x4E00;&#x81F4;&#x6027;&#x6D41;&#x91CF;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="AQS.html" class="navigation navigation-prev " aria-label="Previous page: AQS(AbstractQueuedSynchronizer)">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="CLH.html" class="navigation navigation-next " aria-label="Next page: CLH(Craig, Landin, and Hagersten)">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"CAS(Compare and Swap)","level":"1.4.2","depth":2,"next":{"title":"CLH(Craig, Landin, and Hagersten)","level":"1.4.3","depth":2,"path":"Concurrent/CLH.md","ref":"Concurrent/CLH.md","articles":[]},"previous":{"title":"AQS(AbstractQueuedSynchronizer)","level":"1.4.1","depth":2,"path":"Concurrent/AQS.md","ref":"Concurrent/AQS.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Concurrent/CAS.md","mtime":"2016-11-04T06:56:00.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2016-11-12T07:21:32.550Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
