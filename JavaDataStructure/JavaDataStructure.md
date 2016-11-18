@@ -229,3 +229,25 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
 &#12288;&#12288;Iterator接口定义了遍历集合的方法，但它的实现则是集合实现类的责任。每个能够返回用于遍历的Iterator的集合类都有它自己的Iterator实现内部类。
 
 &#12288;&#12288;这就允许集合类去选择迭代器是fail-fast还是fail-safe的。比如，ArrayList迭代器是fail-fast的，而CopyOnWriteArrayList迭代器是fail-safe的
+
+
+
+## 12. Collection Hierarchy
+
+![Collection Hierarchy](./Images/collection_hierarchy.png)
+
+
+
+## 13. What is difference between fail-fast and fail-safe?
+Fail-safe iterators are opposite to fail-fast. They never fail if you modify the underlying collection on which they are iterating, because they work on clone of Collection instead of original collection and that’s why they are called as fail-safe iterator.
+
+Iterator of CopyOnWriteArrayList is an example of fail-safe Iterator also iterator written by ConcurrentHashMap keySet is also fail-safe iterator and never throw ConcurrentModificationException.
+
+
+
+## 14. Why need to override hashCode()?
+As much as is reasonably practical, the hashCode method defined by class Object does return distinct integers for distinct objects. (This is typically implemented by converting the internal address of the object into an integer)
+When an application is executed, the hashcode (an integer) returned for an object should be same till another execution of that application. Now coming to the important point which is the contract between hashCode and equals method, if two objects are equal, that is `obj1.equals(obj2)` is true then, `obj1.hashCode()` and `obj2.hashCode()` must return same integer.
+
+
+
