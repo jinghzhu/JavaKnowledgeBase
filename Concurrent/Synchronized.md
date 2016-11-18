@@ -128,3 +128,7 @@ Condition interface comes with Two extra methods that are:
 &#12288;&#12288;synchronized是对类当前实例加锁，防止其他线程同时访问该类的该实例的synchronized块，注意是“类当前实例”， 类的两个不同实例没有这种约束。
         
 &#12288;&#12288;static synchronized是控制类所有实例的访问，static synchronized是限制线程同时访问jvm中该类的所有实例同时访问对应的代码快。
+
+
+
+## 9. Stack的删除和查找方法是synchronized

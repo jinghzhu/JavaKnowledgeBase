@@ -15,3 +15,4 @@
   * [Synchronized](/Concurrent/Synchronized.md)
   * [ConcurrentHashMap](/Concurrent/ConcurrentHashMap.md)
   * [ThreadPool](/Concurrent/ThreadPool.md)
+* [Java Data Structure](/JavaDataStructure/JavaDataStructure.md)
