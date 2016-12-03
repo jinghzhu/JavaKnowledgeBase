@@ -1,0 +1,577 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Memory Management · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="GarbageCollector.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Fundamental/Fundamental.html">
+            
+                <a href="../Fundamental/Fundamental.html">
+            
+                    
+                    Fundanmental
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Fundamental/Upcast&Downcast.html">
+            
+                <a href="../Fundamental/Upcast&Downcast.html">
+            
+                    
+                    Upcast & Downcast
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Fundamental/EqualsOfString.html">
+            
+                <a href="../Fundamental/EqualsOfString.html">
+            
+                    
+                    Rewrite Equals() of String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Fundamental/String.html">
+            
+                <a href="../Fundamental/String.html">
+            
+                    
+                    String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../Fundamental/Class.html">
+            
+                <a href="../Fundamental/Class.html">
+            
+                    
+                    Class
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Fundamental/Serializable.html">
+            
+                <a href="../Fundamental/Serializable.html">
+            
+                    
+                    Serializable
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Advanced/Advanced.html">
+            
+                <a href="../Advanced/Advanced.html">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../Advanced/ClassLoader.html">
+            
+                <a href="../Advanced/ClassLoader.html">
+            
+                    
+                    Class Loader
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../Concurrent/Concurrent.html">
+            
+                <a href="../Concurrent/Concurrent.html">
+            
+                    
+                    Concurrent
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../Concurrent/AQS.html">
+            
+                <a href="../Concurrent/AQS.html">
+            
+                    
+                    AQS(AbstractQueuedSynchronizer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../Concurrent/CAS.html">
+            
+                <a href="../Concurrent/CAS.html">
+            
+                    
+                    CAS(Compare and Swap)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../Concurrent/CLH.html">
+            
+                <a href="../Concurrent/CLH.html">
+            
+                    
+                    CLH(Craig, Landin, and Hagersten)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../Concurrent/ReentrantLock.html">
+            
+                <a href="../Concurrent/ReentrantLock.html">
+            
+                    
+                    ReentrantLock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../Concurrent/Synchronized.html">
+            
+                <a href="../Concurrent/Synchronized.html">
+            
+                    
+                    Synchronized
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../Concurrent/ConcurrentHashMap.html">
+            
+                <a href="../Concurrent/ConcurrentHashMap.html">
+            
+                    
+                    ConcurrentHashMap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../Concurrent/ThreadPool.html">
+            
+                <a href="../Concurrent/ThreadPool.html">
+            
+                    
+                    ThreadPool
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Java Data Structure/JavaDataStructure.html">
+            
+                <a href="../Java Data Structure/JavaDataStructure.html">
+            
+                    
+                    Java Data Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="JVM.html">
+            
+                <a href="JVM.html">
+            
+                    
+                    JVM
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="GarbageCollector.html">
+            
+                <a href="GarbageCollector.html">
+            
+                    
+                    Garbage Collector
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6.2" data-path="MemoryManagement.html">
+            
+                <a href="MemoryManagement.html">
+            
+                    
+                    Memory Management
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Memory Management</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="memory-management">Memory Management</h1>
+<p>&#x3000;&#x3000; <img src="Images/memory_model.png" alt="Memory Model"></p>
+<h2 id="1-&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;-program-counter-register">1. &#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668; (Program Counter Register)</h2>
+<p>&#x3000;&#x3000;&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;&#x662F;&#x4E00;&#x5757;&#x8F83;&#x5C0F;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;&#x5B83;&#x662F;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x6240;&#x6267;&#x884C;&#x7684;&#x5B57;&#x8282;&#x7801;&#x7684;&#x884C;&#x53F7;&#x6307;&#x793A;&#x5668;&#x3002;&#x5B57;&#x8282;&#x7801;&#x89E3;&#x91CA;&#x5668;&#x5DE5;&#x4F5C;&#x65F6;&#x901A;&#x8FC7;&#x6539;&#x53D8;&#x8FD9;&#x4E2A;&#x8BA1;&#x6570;&#x5668;&#x7684;&#x503C;&#x6765;&#x9009;&#x53D6;&#x4E0B;&#x4E00;&#x6761;&#x9700;&#x8981;&#x6267;&#x884C;&#x7684;&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;&#x3002;&#x5206;&#x652F;&#x3001;&#x5FAA;&#x73AF;&#x3001;&#x8DF3;&#x8F6C;&#x3001;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x3001;&#x7EBF;&#x7A0B;&#x6062;&#x590D;&#x7B49;&#x57FA;&#x7840;&#x529F;&#x80FD;&#x90FD;&#x9700;&#x8981;&#x4F9D;&#x8D56;&#x8FD9;&#x4E2A;&#x8BA1;&#x6570;&#x5668;&#x6765;&#x5B8C;&#x6210;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x7531;&#x4E8E;Java&#x865A;&#x62DF;&#x673A;&#x7684;&#x591A;&#x7EBF;&#x7A0B;&#x662F;&#x901A;&#x8FC7;&#x7EBF;&#x7A0B;&#x8F6E;&#x6D41;&#x5207;&#x6362;&#x5E76;&#x5206;&#x914D;&#x5904;&#x7406;&#x5668;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5728;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x786E;&#x5B9A;&#x7684;&#x65F6;&#x523B;&#xFF0C;&#x4E00;&#x4E2A;&#x5904;&#x7406;&#x5668;&#xFF08;&#x5BF9;&#x4E8E;&#x591A;&#x6838;&#x5904;&#x7406;&#x5668;&#x6765;&#x8BF4;&#x662F;&#x4E00;&#x4E2A;&#x5185;&#x6838;&#xFF09;&#x53EA;&#x4F1A;&#x6267;&#x884C;&#x4E00;&#x6761;&#x7EBF;&#x7A0B;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x4E3A;&#x4E86;&#x7EBF;&#x7A0B;&#x5207;&#x6362;&#x540E;&#x80FD;&#x6062;&#x590D;&#x5230;&#x6B63;&#x786E;&#x7684;&#x6267;&#x884C;&#x4F4D;&#x7F6E;&#xFF0C;&#x6BCF;&#x6761;&#x7EBF;&#x7A0B;&#x90FD;&#x9700;&#x6709;&#x4E00;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;&#xFF0C;&#x5404;&#x6761;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x7684;&#x8BA1;&#x6570;&#x5668;&#x4E92;&#x4E0D;&#x5F71;&#x54CD;&#xFF0C;&#x72EC;&#x7ACB;&#x5B58;&#x50A8;&#xFF0C;&#x6211;&#x4EEC;&#x79F0;&#x8FD9;&#x7C7B;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x4E3A;&#x201C;&#x7EBF;&#x7A0B;&#x79C1;&#x6709;&#x201D;&#x7684;&#x5185;&#x5B58;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5982;&#x679C;&#x7EBF;&#x7A0B;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x662F;&#x4E00;&#x4E2A;Java&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;&#x8BA1;&#x6570;&#x5668;&#x8BB0;&#x5F55;&#x7684;&#x662F;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x865A;&#x62DF;&#x673A;&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;&#x7684;&#x5730;&#x5740;&#xFF1B;&#x5982;&#x679C;&#x6B63;&#x5728;&#x6267;&#x884C;&#x7684;&#x662F;Natvie&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E2A;&#x8BA1;&#x6570;&#x5668;&#x503C;&#x5219;&#x4E3A;Undefined&#x3002;&#x6B64;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x662F;&#x552F;&#x4E00;&#x4E00;&#x4E2A;&#x5728;Java&#x865A;&#x62DF;&#x673A;&#x89C4;&#x8303;&#x4E2D;&#x6CA1;&#x6709;&#x89C4;&#x5B9A;&#x4EFB;&#x4F55;OutOfMemoryError&#x60C5;&#x51B5;&#x7684;&#x533A;&#x57DF;&#x3002;</p>
+<h2 id="2-java&#x865A;&#x62DF;&#x673A;&#x6808;-java-virtual-machine-stacks">2. Java&#x865A;&#x62DF;&#x673A;&#x6808; (Java Virtual Machine Stacks)</h2>
+<p>&#x3000;&#x3000; <img src="Images/stack.png" alt="Stack"></p>
+<p>&#x3000;&#x3000;&#x4E0E;&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;&#x4E00;&#x6837;&#xFF0C;Java&#x865A;&#x62DF;&#x673A;&#x6808;&#x4E5F;&#x662F;&#x7EBF;&#x7A0B;&#x79C1;&#x6709;&#x7684;&#xFF0C;&#x5B83;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x4E0E;&#x7EBF;&#x7A0B;&#x76F8;&#x540C;&#x3002;&#x865A;&#x62DF;&#x673A;&#x6808;&#x63CF;&#x8FF0;&#x7684;&#x662F;Java&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x7684;&#x5185;&#x5B58;&#x6A21;&#x578B;&#xFF1A;&#x6BCF;&#x4E2A;&#x65B9;&#x6CD5;&#x88AB;&#x6267;&#x884C;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x4F1A;&#x540C;&#x65F6;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x6808;&#x5E27;(Stack Frame)&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x8868;&#x3001;&#x64CD;&#x4F5C;&#x6808;&#x3001;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x3001;&#x65B9;&#x6CD5;&#x51FA;&#x53E3;&#x7B49;&#x4FE1;&#x606F;&#x3002;&#x6BCF;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x88AB;&#x8C03;&#x7528;&#x76F4;&#x81F3;&#x6267;&#x884C;&#x5B8C;&#x6210;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5C31;&#x5BF9;&#x5E94;&#x7740;&#x4E00;&#x4E2A;&#x6808;&#x5E27;&#x5728;&#x865A;&#x62DF;&#x673A;&#x6808;&#x4E2D;&#x4ECE;&#x5165;&#x6808;&#x5230;&#x51FA;&#x6808;&#x7684;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5B58;&#x653E;&#x4E86;&#x7F16;&#x8BD1;&#x671F;&#x53EF;&#x77E5;&#x7684;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;(boolean&#x3001;byte&#x3001;char&#x3001;short&#x3001;int, float&#x3001;long&#x3001;double)&#x3001;&#x5BF9;&#x8C61;&#x5F15;&#x7528;(reference &#x7C7B;&#x578B;&#xFF0C;&#x6307;&#x5411;&#x5BF9;&#x8C61;&#x8D77;&#x59CB;&#x5730;&#x5740;&#x7684;&#x5F15;&#x7528;&#x6307;&#x9488;)&#x548C;returnAddress&#x7C7B;&#x578B;(&#x6307;&#x5411;&#x4E86;&#x4E00;&#x6761;&#x5B57;&#x8282;&#x7801;&#x6307;&#x4EE4;&#x7684;&#x5730;&#x5740;)&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5176;&#x4E2D;64&#x4F4D;&#x957F;&#x5EA6;&#x7684;long&#x548C;double&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x5360;&#x7528;2&#x4E2A;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7A7A;&#x95F4;(Slot)&#xFF0C;&#x5176;&#x4F59;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x53EA;&#x5360;&#x7528;1&#x4E2A;&#x3002;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x8868;&#x6240;&#x9700;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#x95F4;&#x5B8C;&#x6210;&#x5206;&#x914D;&#xFF0C;&#x5F53;&#x8FDB;&#x5165;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x9700;&#x8981;&#x5728;&#x5E27;&#x4E2D;&#x5206;&#x914D;&#x591A;&#x5927;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7A7A;&#x95F4;&#x662F;&#x5B8C;&#x5168;&#x786E;&#x5B9A;&#x7684;&#xFF0C;&#x5728;&#x65B9;&#x6CD5;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x8868;&#x7684;&#x5927;&#x5C0F;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5BF9;&#x8FD9;&#x4E2A;&#x533A;&#x57DF;&#x89C4;&#x5B9A;&#x4E86;&#x4E24;&#x79CD;&#x5F02;&#x5E38;&#x72B6;&#x51B5;&#xFF1A;StackOverflow&#x548C;OutOfMemoryError&#x3002;</p>
+<p>A thread can only access its own thread stack. Local variables created by a thread are invisible to all other threads than the thread who created it, even if two threads are executing the exact same code.</p>
+<h2 id="3-&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;-native-method-stacks">3. &#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808; (Native Method Stacks)</h2>
+<p>&#x3000;&#x3000;&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;&#x4E0E;&#x865A;&#x62DF;&#x673A;&#x6808;&#x6240;&#x53D1;&#x6325;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x975E;&#x5E38;&#x76F8;&#x4F3C;&#x7684;&#xFF0C;&#x5176;&#x533A;&#x522B;&#x4E0D;&#x8FC7;&#x662F;&#x865A;&#x62DF;&#x673A;&#x6808;&#x4E3A;&#x865A;&#x62DF;&#x673A;&#x6267;&#x884C;Java &#x65B9;&#x6CD5;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x5B57;&#x8282;&#x7801;&#xFF09;&#x670D;&#x52A1;&#xFF0C;&#x800C;&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;&#x5219;&#x4E3A;&#x865A;&#x62DF;&#x673A;&#x4F7F;&#x7528;&#x5230;&#x7684;Native&#x65B9;&#x6CD5;&#x670D;&#x52A1;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x4E0E;&#x865A;&#x62DF;&#x673A;&#x6808;&#x4E00;&#x6837;&#xFF0C;&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6808;&#x533A;&#x57DF;&#x4E5F;&#x4F1A;&#x629B;&#x51FA;StackOverflowError&#x548C;OutOfMemoryError&#x5F02;&#x5E38;&#x3002;</p>
+<h2 id="4-java&#x5806;">4. Java&#x5806;</h2>
+<p>&#x3000;&#x3000;Java&#x865A;&#x62DF;&#x673A;&#x89C4;&#x8303;&#x4E2D;&#x7684;&#x63CF;&#x8FF0;&#x662F;&#xFF1A;&#x6240;&#x6709;&#x901A;&#x8FC7;new&#x521B;&#x5EFA;&#x7684;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x90FD;&#x5728;&#x5806;&#x4E2D;&#x5206;&#x914D;&#xFF0C;&#x5176;&#x5927;&#x5C0F;&#x901A;&#x8FC7;<code>-Xmx</code>&#x548C;<code>-Xms</code>&#x6765;&#x63A7;&#x5236;&#x3002;Java&#x5806;&#x662F;GC&#x7684;&#x4E3B;&#x8981;&#x533A;&#x57DF;. </p>
+<p>&#x3000;&#x3000;Java&#x5806;&#x53EF;&#x4EE5;&#x5904;&#x4E8E;&#x7269;&#x7406;&#x4E0A;&#x4E0D;&#x8FDE;&#x7EED;&#x7684;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x53EA;&#x8981;&#x903B;&#x8F91;&#x4E0A;&#x662F;&#x8FDE;&#x7EED;&#x7684;&#x5373;&#x53EF;&#x3002;&#x65E2;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x6210;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x53EF;&#x6269;&#x5C55;&#x7684;&#x3002;</p>
+<p>The heap contains all objects created in your Java application, regardless of what thread created the object. This includes the object versions of the primitive types (e.g. Byte, Integer, Long etc.). It does not matter if an object was created and assigned to a local variable, or created as a member variable of another object, the object is still stored on the heap. </p>
+<p>Objects on the heap can be accessed by all threads that have a reference to the object. When a thread has access to an object, it can also get access to that object&apos;s member variables. If two threads call a method on the same object at the same time, they will both have access to the object&apos;s member variables, but each thread will have its own copy of the local variables. </p>
+<h2 id="5-&#x65B9;&#x6CD5;&#x533A;-method-area">5. &#x65B9;&#x6CD5;&#x533A; (Method Area)</h2>
+<p>&#x3000;&#x3000;&#x65B9;&#x6CD5;&#x533A;&#x4E0E;Java&#x5806;&#x4E00;&#x6837;&#xFF0C;&#x662F;&#x5404;&#x4E2A;&#x7EBF;&#x7A0B;&#x5171;&#x4EAB;&#x7684;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x5B83;&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x5DF2;&#x88AB;&#x865A;&#x62DF;&#x673A;&#x52A0;&#x8F7D;&#x7684;&#x7C7B;&#x4FE1;&#x606F;&#x3001;&#x5E38;&#x91CF;&#x3001;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x3001;&#x5373;&#x65F6;&#x7F16;&#x8BD1;&#x5668;&#x7F16;&#x8BD1;&#x540E;&#x7684;&#x4EE3;&#x7801;&#x7B49;&#x6570;&#x636E;&#x3002;JVM&#x7528;&#x6301;&#x4E45;&#x4EE3;(Permanet Generation)&#x5B58;&#x653E;&#x65B9;&#x6CD5;&#x533A;&#xFF0C;&#x53EF;&#x901A;&#x8FC7;<code>-XX:PermSize</code>&#x548C;<code>-XX:MaxPermSize</code>&#x6307;&#x5B9A;&#x6700;&#x5C0F;&#x503C;&#x548C;&#x6700;&#x5927;&#x503C;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x8FD9;&#x4E2A;&#x533A;&#x57DF;&#x7684;&#x9650;&#x5236;&#x975E;&#x5E38;&#x5BBD;&#x677E;&#xFF0C;&#x9664;&#x4E86;&#x548C;Java&#x5806;&#x4E00;&#x6837;&#x4E0D;&#x9700;&#x8981;&#x8FDE;&#x7EED;&#x7684;&#x5185;&#x5B58;&#x548C;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x6216;&#x8005;&#x53EF;&#x6269;&#x5C55;&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4E0D;&#x5B9E;&#x73B0;&#x5783;&#x573E;&#x6536;&#x96C6;&#x3002; &#x8FD9;&#x4E2A;&#x533A;&#x57DF;&#x7684;&#x5185;&#x5B58;&#x56DE;&#x6536;&#x76EE;&#x6807;&#x4E3B;&#x8981;&#x662F;&#x9488;&#x5BF9;&#x5E38;&#x91CF;&#x6C60;&#x7684;&#x56DE;&#x6536;&#x548C;&#x5BF9;&#x7C7B;&#x578B;&#x7684;&#x5378;&#x8F7D;&#x3002;</p>
+<h2 id="6-&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;-runtime-constant-pool">6. &#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60; (Runtime Constant Pool)</h2>
+<p>&#x3000;&#x3000;&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;&#x662F;&#x65B9;&#x6CD5;&#x533A;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;Class &#x6587;&#x4EF6;&#x4E2D;&#x9664;&#x4E86;&#x6709;&#x7C7B;&#x7684;&#x7248;&#x672C;&#x3001;&#x5B57;&#x6BB5;&#x3001;&#x65B9;&#x6CD5;&#x3001;&#x63A5;&#x53E3;&#x7B49;&#x63CF;&#x8FF0;&#x7B49;&#x4FE1;&#x606F;&#x5916;&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x9879;&#x4FE1;&#x606F;&#x662F;&#x5E38;&#x91CF;&#x6C60;(Constant PoolTable)&#xFF0C;&#x7528;&#x4E8E;&#x5B58;&#x653E;&#x7F16;&#x8BD1;&#x671F;&#x751F;&#x6210;&#x7684;&#x5404;&#x79CD;&#x5B57;&#x9762;&#x91CF;&#x548C;&#x7B26;&#x53F7;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x5C06;&#x5728;&#x7C7B;&#x52A0;&#x8F7D;&#x540E;&#x5B58;&#x653E;&#x5230;&#x65B9;&#x6CD5;&#x533A;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;&#x4E2D;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;&#x76F8;&#x5BF9;&#x4E8E;Class&#x6587;&#x4EF6;&#x5E38;&#x91CF;&#x6C60;&#x7684;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7279;&#x5F81;&#x662F;&#x5177;&#x5907;&#x52A8;&#x6001;&#x6027;&#xFF0C;Java&#x4E0D;&#x8981;&#x6C42;&#x5E38;&#x91CF;&#x53EA;&#x80FD;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#x4EA7;&#x751F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5E76;&#x975E;&#x9884;&#x7F6E;&#x5165;Class&#x6587;&#x4EF6;&#x4E2D;&#x5E38;&#x91CF;&#x6C60;&#x7684;&#x5185;&#x5BB9;&#x624D;&#x80FD;&#x8FDB;&#x5165;&#x65B9;&#x6CD5;&#x533A;&#x8FD0;&#x884C;&#x65F6;&#x5E38;&#x91CF;&#x6C60;&#xFF0C;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x4E5F;&#x53EF;&#x80FD;&#x5C06;&#x65B0;&#x7684;&#x5E38;&#x91CF;&#x653E;&#x5165;&#x6C60;&#x4E2D;&#xFF0C;&#x8FD9;&#x79CD;&#x7279;&#x6027;&#x88AB;&#x5229;&#x7528;&#x5F97;&#x6BD4;&#x8F83;&#x591A;&#x7684;&#x662F;String &#x7C7B;&#x7684;intern()&#x3002;</p>
+<h2 id="7-where-to-store-local-variable-object--static-class">7. Where to store local variable, object &amp; static class?</h2>
+<ul>
+<li><p>A local variable may be of a primitive type, in which case it is totally kept on the thread stack. </p>
+</li>
+<li><p>A local variable may also be a reference to an object. In that case the reference (the local variable) is stored on the thread stack, but the object itself if stored on the heap.</p>
+</li>
+<li><p>An object may contain methods and these methods may contain local variables. These local variables are also stored on the thread stack, even if the object the method belongs to is stored on the heap. </p>
+</li>
+<li><p>An object&apos;s member variables are stored on the heap along with the object itself. That is true both when the member variable is of a primitive type, and if it is a reference to an object. </p>
+</li>
+<li><p>Static class variables are also stored on the heap along with the class definition. </p>
+</li>
+</ul>
+<h2 id="8-difference-between-java-heap-space-and-stack-memory">8. Difference between Java Heap Space and Stack Memory</h2>
+<ul>
+<li>Heap memory is used by all the parts of the application whereas stack memory is used only by one thread of execution.</li>
+<li>Whenever an object is created, it&#x2019;s always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primitive variables and reference variables to objects in heap space.</li>
+<li>Objects stored in the heap are globally accessible whereas stack memory can&#x2019;t be accessed by other threads.</li>
+<li>Memory management in stack is done in LIFO manner whereas it&#x2019;s more complex in Heap memory because it&#x2019;s used globally. Heap memory is divided into Young-Generation, Old-Generation etc.</li>
+<li>Stack memory is short-lived whereas heap memory lives from the start till the end of application execution.</li>
+<li>We can use -Xms and -Xmx JVM option to define the startup size and maximum size of heap memory. We can use -Xss to define the stack memory size.</li>
+<li>When stack memory is full, Java runtime throws java.lang.StackOverFlowError whereas if heap memory is full, it throws java.lang.OutOfMemoryError: Java Heap Space error.
+Stack memory size is very less when compared to Heap memory. Because of simplicity in memory allocation (LIFO), stack memory is very fast when compared to heap memory.</li>
+</ul>
+<h2 id="9-the-java-memory-model-and-the-hardware-memory-architecture">9. The Java Memory Model And The Hardware Memory Architecture</h2>
+<p><img src="Images/jvm_hardware.png" alt="JVM &amp; Hardware"></p>
+<h2 id="10-visibility-of-shared-objects">10. Visibility of Shared Objects</h2>
+<p>If two or more threads are sharing an object, without the proper use of either volatile declarations or synchronization, updates to the shared object made by one thread may not be visible to other threads. </p>
+<p>Imagine that the shared object is initially stored in main memory. A thread running on CPU one then reads the shared object into its CPU cache. There it makes a change to the shared object. As long as the CPU cache has not been flushed back to main memory, the changed version of the shared object is not visible to threads running on other CPUs. This way each thread may end up with its own copy of the shared object, each copy sitting in a different CPU cache. </p>
+<p>The following diagram illustrates the sketched situation. One thread running on the left CPU copies the shared object into its CPU cache, and changes its count variable to 2. This change is not visible to other threads running on the right CPU, because the update to count has not been flushed back to main memory yet. </p>
+<p><img src="Images/visibility_problem.png" alt="Visibility Problem"></p>
+<p>To solve this problem you can use Java&apos;s volatile keyword. </p>
+<h2 id="10-race-conditions">10. Race Conditions</h2>
+<p>If two or more threads share an object, and more than one thread updates variables in that shared object, race conditions may occur. </p>
+<p>Imagine if thread A reads the variable count of a shared object into its CPU cache. Imagine too, that thread B does the same, but into a different CPU cache. Now thread A adds one to count, and thread B does the same. Now var1 has been incremented two times, once in each CPU cache. </p>
+<p>If these increments had been carried out sequentially, the variable count would be been incremented twice and had the original value + 2 written back to main memory. </p>
+<p>However, the two increments have been carried out concurrently without proper synchronization. Regardless of which of thread A and B that writes its updated version of count back to main memory, the updated value will only be 1 higher than the original value, despite the two increments. </p>
+<p><img src="Images/race_problem.png" alt="Race Problem"></p>
+<p>To solve this problem you can use a Java synchronized block. A synchronized block guarantees that only one thread can enter a given critical section of the code at any given time. Synchronized blocks also guarantee that all variables accessed inside the synchronized block will be read in from main memory, and when the thread exits the synchronized block, all updated variables will be flushed back to main memory again, regardless of whether the variable is declared volatile or not. </p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="GarbageCollector.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Garbage Collector">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Memory Management","level":"1.6.2","depth":2,"previous":{"title":"Garbage Collector","level":"1.6.1","depth":2,"path":"JVM/GarbageCollector.md","ref":"JVM/GarbageCollector.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"JVM/MemoryManagement.md","mtime":"2016-12-03T11:09:09.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2016-12-03T11:01:22.920Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

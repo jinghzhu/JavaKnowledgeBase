@@ -1,0 +1,647 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Garbage Collector · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="MemoryManagement.html" />
+    
+    
+    <link rel="prev" href="JVM.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Fundamental/Fundamental.html">
+            
+                <a href="../Fundamental/Fundamental.html">
+            
+                    
+                    Fundanmental
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Fundamental/Upcast&Downcast.html">
+            
+                <a href="../Fundamental/Upcast&Downcast.html">
+            
+                    
+                    Upcast & Downcast
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Fundamental/EqualsOfString.html">
+            
+                <a href="../Fundamental/EqualsOfString.html">
+            
+                    
+                    Rewrite Equals() of String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Fundamental/String.html">
+            
+                <a href="../Fundamental/String.html">
+            
+                    
+                    String
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../Fundamental/Class.html">
+            
+                <a href="../Fundamental/Class.html">
+            
+                    
+                    Class
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Fundamental/Serializable.html">
+            
+                <a href="../Fundamental/Serializable.html">
+            
+                    
+                    Serializable
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../Advanced/Advanced.html">
+            
+                <a href="../Advanced/Advanced.html">
+            
+                    
+                    Advanced
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../Advanced/ClassLoader.html">
+            
+                <a href="../Advanced/ClassLoader.html">
+            
+                    
+                    Class Loader
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../Concurrent/Concurrent.html">
+            
+                <a href="../Concurrent/Concurrent.html">
+            
+                    
+                    Concurrent
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../Concurrent/AQS.html">
+            
+                <a href="../Concurrent/AQS.html">
+            
+                    
+                    AQS(AbstractQueuedSynchronizer)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../Concurrent/CAS.html">
+            
+                <a href="../Concurrent/CAS.html">
+            
+                    
+                    CAS(Compare and Swap)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../Concurrent/CLH.html">
+            
+                <a href="../Concurrent/CLH.html">
+            
+                    
+                    CLH(Craig, Landin, and Hagersten)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../Concurrent/ReentrantLock.html">
+            
+                <a href="../Concurrent/ReentrantLock.html">
+            
+                    
+                    ReentrantLock
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../Concurrent/Synchronized.html">
+            
+                <a href="../Concurrent/Synchronized.html">
+            
+                    
+                    Synchronized
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../Concurrent/ConcurrentHashMap.html">
+            
+                <a href="../Concurrent/ConcurrentHashMap.html">
+            
+                    
+                    ConcurrentHashMap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../Concurrent/ThreadPool.html">
+            
+                <a href="../Concurrent/ThreadPool.html">
+            
+                    
+                    ThreadPool
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../Java Data Structure/JavaDataStructure.html">
+            
+                <a href="../Java Data Structure/JavaDataStructure.html">
+            
+                    
+                    Java Data Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="JVM.html">
+            
+                <a href="JVM.html">
+            
+                    
+                    JVM
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.6.1" data-path="GarbageCollector.html">
+            
+                <a href="GarbageCollector.html">
+            
+                    
+                    Garbage Collector
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="MemoryManagement.html">
+            
+                <a href="MemoryManagement.html">
+            
+                    
+                    Memory Management
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Garbage Collector</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="garbage-collector">Garbage Collector</h1>
+<h2 id="1-gc&#x6536;&#x96C6;&#x7B97;&#x6CD5;">1. GC&#x6536;&#x96C6;&#x7B97;&#x6CD5;</h2>
+<h3 id="11-&#x6807;&#x8BB0;-&#x6E05;&#x9664;mark-sweep">1.1 &#x6807;&#x8BB0;-&#x6E05;&#x9664;(Mark-Sweep)</h3>
+<p>&#x3000;&#x3000;&#x6536;&#x96C6;&#x5668;&#x5148;&#x4ECE;&#x6839;&#x5F00;&#x59CB;&#x8BBF;&#x95EE;&#x6240;&#x6709;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#xFF0C;&#x6807;&#x8BB0;&#x4E3A;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#x3002;&#x7136;&#x540E;&#x518D;&#x904D;&#x5386;&#x4E00;&#x6B21;&#x6574;&#x4E2A;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x628A;&#x6240;&#x6709;&#x6CA1;&#x6709;&#x6807;&#x8BB0;&#x6D3B;&#x8DC3;&#x7684;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x56DE;&#x6536;&#x5904;&#x7406;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x6807;&#x8BB0;-&#x6E05;&#x9664;&#x7B97;&#x6CD5;&#x5B9E;&#x73B0;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x5BB9;&#x6613;&#xFF0C;&#x4F46;&#x5BB9;&#x6613;&#x4EA7;&#x751F;&#x5185;&#x5B58;&#x788E;&#x7247;&#xFF0C;&#x788E;&#x7247;&#x592A;&#x591A;&#x4F1A;&#x5BFC;&#x81F4;&#x540E;&#x7EED;&#x8FC7;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x4E3A;&#x5927;&#x5BF9;&#x8C61;&#x5206;&#x914D;&#x7A7A;&#x95F4;&#x65F6;&#x65E0;&#x6CD5;&#x627E;&#x5230;&#x8DB3;&#x591F;&#x7684;&#x7A7A;&#x95F4;&#x800C;&#x63D0;&#x524D;&#x89E6;&#x53D1;&#x65B0;&#x7684;&#x4E00;&#x6B21;GC&#x3002;</p>
+<p>&#x3000;&#x3000; <img src="Images/mark_sweep.png" alt="Mark-Sweep"></p>
+<p><br><br></p>
+<h3 id="12-&#x590D;&#x5236;copying">1.2 &#x590D;&#x5236;(Copying)</h3>
+<p>&#x3000;&#x3000;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;Mark-Sweep&#x7B97;&#x6CD5;&#x7684;&#x7F3A;&#x9677;&#xFF0C;Copying&#x7B97;&#x6CD5;&#x5C31;&#x88AB;&#x63D0;&#x4E86;&#x51FA;&#x6765;&#x3002;&#x5C06;&#x5806;&#x5185;&#x5206;&#x6210;&#x4E24;&#x4E2A;&#x76F8;&#x540C;&#x7A7A;&#x95F4;&#xFF0C;&#x4ECE;&#x6839;(ThreadLocal&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x9759;&#x6001;&#x5BF9;&#x8C61;)&#x5F00;&#x59CB;&#x8BBF;&#x95EE;&#x6BCF;&#x4E00;&#x4E2A;&#x5173;&#x8054;&#x7684;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#xFF0C;&#x5C06;&#x7A7A;&#x95F4;A&#x7684;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#x5168;&#x90E8;&#x590D;&#x5236;&#x5230;&#x7A7A;&#x95F4;B&#xFF0C;&#x7136;&#x540E;&#x4E00;&#x6B21;&#x6027;&#x56DE;&#x6536;&#x6574;&#x4E2A;&#x7A7A;&#x95F4;A&#x3002; &#x56E0;&#x4E3A;&#x53EA;&#x8BBF;&#x95EE;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#xFF0C;&#x5C06;&#x6240;&#x6709;&#x6D3B;&#x52A8;&#x5BF9;&#x8C61;&#x590D;&#x5236;&#x8D70;&#x4E4B;&#x540E;&#x5C31;&#x6E05;&#x7A7A;&#x6574;&#x4E2A;&#x7A7A;&#x95F4;&#xFF0C;&#x4E0D;&#x7528;&#x53BB;&#x8BBF;&#x95EE;&#x6B7B;&#x5BF9;&#x8C61;&#xFF0C;&#x6240;&#x4EE5;&#x5B9E;&#x73B0;&#x7B80;&#x5355;&#xFF0C;&#x8FD0;&#x884C;&#x9AD8;&#x6548;&#x4E14;&#x4E0D;&#x5BB9;&#x6613;&#x4EA7;&#x751F;&#x5185;&#x5B58;&#x788E;&#x7247;&#xFF0C;&#x4F46;&#x5BF9;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#x7684;&#x4F7F;&#x7528;&#x505A;&#x51FA;&#x4E86;&#x9AD8;&#x6602;&#x7684;&#x4EE3;&#x4EF7;&#xFF0C;&#x56E0;&#x4E3A;&#x80FD;&#x591F;&#x4F7F;&#x7528;&#x7684;&#x5185;&#x5B58;&#x7F29;&#x51CF;&#x5230;&#x539F;&#x6765;&#x7684;&#x4E00;&#x534A;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x663E;&#x7136;&#xFF0C;Copying&#x7B97;&#x6CD5;&#x7684;&#x6548;&#x7387;&#x8DDF;&#x5B58;&#x6D3B;&#x5BF9;&#x8C61;&#x7684;&#x6570;&#x76EE;&#x591A;&#x5C11;&#x6709;&#x5F88;&#x5927;&#x7684;&#x5173;&#x7CFB;&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x6D3B;&#x5BF9;&#x8C61;&#x5F88;&#x591A;&#xFF0C;&#x90A3;&#x4E48;Copying&#x7B97;&#x6CD5;&#x7684;&#x6548;&#x7387;&#x5C06;&#x4F1A;&#x5927;&#x5927;&#x964D;&#x4F4E;&#x3002;</p>
+<p>&#x3000;&#x3000; <img src="Images/copying.png" alt="Copying"></p>
+<p><br><br></p>
+<h3 id="13-&#x6807;&#x8BB0;-&#x6574;&#x7406;mark-sweep-compact">1.3 &#x6807;&#x8BB0;-&#x6574;&#x7406;(Mark-Sweep-Compact)</h3>
+<p>&#x3000;&#x3000;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;Copying&#x7B97;&#x6CD5;&#x7F3A;&#x9677;&#xFF0C;&#x63D0;&#x51FA;&#x4E86;Mark-Sweep-Compact&#x7B97;&#x6CD5;&#x3002;&#x7EFC;&#x5408;&#x4E86;&#x4E0A;&#x8FF0;&#x4E24;&#x8005;&#x7684;&#x505A;&#x6CD5;&#x548C;&#x4F18;&#x70B9;&#xFF0C;&#x5148;&#x6807;&#x8BB0;&#x6D3B;&#x8DC3;&#x5BF9;&#x8C61;&#xFF0C;&#x5728;&#x5B8C;&#x6210;&#x6807;&#x8BB0;&#x4E4B;&#x540E;&#xFF0C;&#x4E0D;&#x76F4;&#x63A5;&#x6E05;&#x7406;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#xFF0C;&#x800C;&#x662F;&#x5C06;&#x5B58;&#x6D3B;&#x5BF9;&#x8C61;&#x5411;&#x4E00;&#x7AEF;&#x79FB;&#x52A8;&#xFF0C;&#x7136;&#x540E;&#x6E05;&#x7406;&#x6389;&#x7AEF;&#x8FB9;&#x754C;&#x4EE5;&#x5916;&#x7684;&#x5185;&#xFF0C;&#x5C06;&#x5176;&#x5408;&#x5E76;&#x6210;&#x8F83;&#x5927;&#x7684;&#x5185;&#x5B58;&#x5757;.</p>
+<p>&#x3000;&#x3000; <img src="Images/mark_sweep_compact.png" alt="Mark-Sweep-Compact"></p>
+<p><br><br></p>
+<h3 id="14-&#x5206;&#x4EE3;&#x6536;&#x96C6;generational-collection">1.4 &#x5206;&#x4EE3;&#x6536;&#x96C6;(Generational Collection)</h3>
+<p> <img src="Images/generation.png" alt="Generation"></p>
+<h4 id="141-&#x65B0;&#x751F;&#x4EE3;young">1.4.1 &#x65B0;&#x751F;&#x4EE3;(Young)</h4>
+<p> <img src="Images/young_gen.png" alt="Young Generation"></p>
+<p>&#x3000;&#x3000;&#x65B0;&#x5EFA;&#x7684;&#x5BF9;&#x8C61;&#x90FD;&#x662F;&#x7528;&#x65B0;&#x751F;&#x4EE3;&#x5206;&#x914D;&#x5185;&#x5B58;&#xFF0C;&#x65B0;&#x751F;&#x4EE3;&#x53C8;&#x8FDB;&#x4E00;&#x6B65;&#x5206;&#x4E3A;Eden&#x548C;Survivor&#x533A;&#xFF0C;Survivor&#x7531;FromSpace&#x548C;ToSpace&#x7EC4;&#x6210;&#x3002;</p>
+<p>&#x3000;&#x3000;Eden&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x628A;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x8F6C;&#x79FB;&#x5230;Survivor&#x4E2D;&#x3002;&#x65B0;&#x751F;&#x4EE3;&#x901A;&#x5E38;&#x5B58;&#x6D3B;&#x65F6;&#x95F4;&#x8F83;&#x77ED;&#xFF0C;&#x56E0;&#x6B64;&#x57FA;&#x4E8E;&#x590D;&#x5236;&#x6536;&#x96C6;&#x7B97;&#x6CD5;&#x6765;&#x8FDB;&#x884C;&#x56DE;&#x6536;&#xFF0C;&#x5C31;&#x662F;&#x5728;Eden&#x548C;FromSpace&#x6216;ToSpace&#x4E4B;&#x95F4;copy&#x3002;<code>-XX:NewRatio=</code>&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;Young&#x4E0E;Old&#x7684;&#x5927;&#x5C0F;&#x6BD4;&#x4F8B;&#xFF0C;<code>-XX:SurvivorRatio=</code>&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;Eden&#x4E0E;Survivor&#x7684;&#x6BD4;&#x4F8B;.</p>
+<p>&#x3000;&#x3000;&#x65B0;&#x751F;&#x4EE3;&#x53C8;&#x88AB;&#x8FDB;&#x4E00;&#x6B65;&#x5212;&#x5206;&#x4E3A;Eden&#x548C;Survivor&#x533A;&#xFF0C;&#x6700;&#x540E;Survivor&#x7531;FromSpace&#x548C;ToSpace&#x7EC4;&#x6210;.</p>
+<p>&#x3000;&#x3000;&#x4E24;&#x4E2A;&#x5B58;&#x6D3B;&#x533A;&#x4E2D;&#x59CB;&#x7EC8;&#x6709;&#x4E00;&#x4E2A;&#x662F;&#x7A7A;&#x767D;&#x7684;&#x3002;&#x5728;&#x8FDB;&#x884C;GC&#x65F6;&#xFF0C;Eden&#x548C;&#x5176;&#x4E2D;&#x4E00;&#x4E2A;&#x975E;&#x7A7A;&#x5B58;&#x6D3B;&#x533A;&#x4E2D;&#x8FD8;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x6839;&#x636E;&#x5176;&#x5B58;&#x6D3B;&#x65F6;&#x95F4;&#x88AB;&#x590D;&#x5236;&#x5230;&#x5F53;&#x524D;&#x7A7A;&#x767D;&#x7684;&#x5B58;&#x6D3B;&#x533A;&#x6216;&#x5E74;&#x8001;&#x4E16;&#x4EE3;&#x4E2D;&#x3002;&#x7ECF;&#x8FC7;&#x8FD9;&#x4E00;&#x6B21;&#x7684;&#x590D;&#x5236;&#x4E4B;&#x540E;&#xFF0C;&#x4E4B;&#x524D;&#x975E;&#x7A7A;&#x7684;&#x5B58;&#x6D3B;&#x533A;&#x4E2D;&#x5305;&#x542B;&#x4E86;&#x5F53;&#x524D;&#x8FD8;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x800C;Eden&#x548C;&#x53E6;&#x4E00;&#x4E2A;&#x5B58;&#x6D3B;&#x533A;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5DF2;&#x7ECF;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x4E86;&#xFF0C;&#x53EA;&#x9700;&#x628A;&#x8FD9;&#x4E24;&#x4E2A;&#x533A;&#x57DF;&#x6E05;&#x7A7A;&#x5373;&#x53EF;&#x3002;&#x4E0B;&#x4E00;&#x6B21;GC&#x65F6;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x5B58;&#x6D3B;&#x533A;&#x7684;&#x89D2;&#x8272;&#x5C31;&#x53D1;&#x751F;&#x4E86;&#x4EA4;&#x6362;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x65B0;&#x751F;&#x4EE3;&#x91C7;&#x7528;&#x7A7A;&#x95F2;&#x6307;&#x9488;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x63A7;&#x5236;GC&#x89E6;&#x53D1;&#xFF0C;&#x6307;&#x9488;&#x4FDD;&#x6301;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5206;&#x914D;&#x7684;&#x5BF9;&#x8C61;&#x5728;&#x65B0;&#x751F;&#x4EE3;&#x533A;&#x95F4;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5F53;&#x6709;&#x65B0;&#x7684;&#x5BF9;&#x8C61;&#x8981;&#x5206;&#x914D;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x7528;&#x4E8E;&#x68C0;&#x67E5;&#x7A7A;&#x95F4;&#x662F;&#x5426;&#x8DB3;&#x591F;&#xFF0C;&#x4E0D;&#x591F;&#x5C31;&#x89E6;&#x53D1;GC(minor GC)&#x3002;&#x5F53;&#x8FDE;&#x7EED;&#x5206;&#x914D;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x5BF9;&#x8C61;&#x4F1A;&#x9010;&#x6E10;&#x4ECE;Eden&#x5230;Survivor&#xFF0C;&#x6700;&#x540E;&#x5230;&#x65E7;&#x751F;&#x4EE3;. </p>
+<p>&#x3000;&#x3000;&#x5BF9;&#x4E8E;&#x65B0;&#x751F;&#x4EE3;&#x90FD;&#x91C7;&#x53D6;Copying&#x7B97;&#x6CD5;&#xFF0C;&#x56E0;&#x4E3A;&#x65B0;&#x751F;&#x4EE3;&#x4E2D;&#x6BCF;&#x6B21;&#x5783;&#x573E;&#x56DE;&#x6536;&#x90FD;&#x8981;&#x56DE;&#x6536;&#x5927;&#x90E8;&#x5206;&#x5BF9;&#x8C61;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x9700;&#x8981;&#x590D;&#x5236;&#x7684;&#x64CD;&#x4F5C;&#x6B21;&#x6570;&#x8F83;&#x5C11;&#xFF0C;&#x4F46;&#x662F;&#x5B9E;&#x9645;&#x4E2D;&#x5E76;&#x4E0D;&#x662F;&#x6309;&#x7167;1&#xFF1A;1&#x7684;&#x6BD4;&#x4F8B;&#x6765;&#x5212;&#x5206;&#x65B0;&#x751F;&#x4EE3;&#x7684;&#x7A7A;&#x95F4;&#x7684;&#x3002;&#x4E00;&#x822C;&#x662F;&#x5C06;&#x65B0;&#x751F;&#x4EE3;&#x5212;&#x5206;&#x4E3A;&#x4E00;&#x5757;&#x8F83;&#x5927;&#x7684;Eden&#x7A7A;&#x95F4;&#x548C;&#x4E24;&#x5757;&#x8F83;&#x5C0F;&#x7684;Survivor&#x7A7A;&#x95F4;&#xFF0C;&#x6BCF;&#x6B21;&#x4F7F;&#x7528;Eden&#x7A7A;&#x95F4;&#x548C;&#x5176;&#x4E2D;&#x7684;&#x4E00;&#x5757;Survivor&#x7A7A;&#x95F4;&#xFF0C;&#x5F53;&#x8FDB;&#x884C;&#x56DE;&#x6536;&#x65F6;&#xFF0C;&#x5C06;Eden&#x548C;Survivor&#x4E2D;&#x8FD8;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#x590D;&#x5236;&#x5230;&#x53E6;&#x4E00;&#x5757;Survivor&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x6E05;&#x7406;&#x6389;Eden&#x548C;&#x521A;&#x624D;&#x4F7F;&#x7528;&#x8FC7;&#x7684;Survivor&#x7A7A;&#x95F4;&#x3002;</p>
+<blockquote>
+<p>&#x5E74;&#x8F7B;&#x4EE3;&#x7684;&#x75DB;&#xFF1A;&#x7531;&#x4E8E;&#x5BF9;&#x5E74;&#x8F7B;&#x4EE3;&#x7684;&#x590D;&#x5236;&#x6536;&#x96C6;&#xFF0C;&#x987B;&#x505C;&#x6B62;&#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x3002;&#x53EA;&#x80FD;&#x9760;&#x591A;CPU&#xFF0C;&#x591A;&#x7EBF;&#x7A0B;&#x5E76;&#x53D1;&#x6765;&#x63D0;&#x9AD8;&#x6536;&#x96C6;&#x901F;&#x5EA6;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x6682;&#x505C;&#x65F6;&#x95F4;&#x7684;&#x74F6;&#x9888;&#x5C31;&#x843D;&#x5728;&#x4E86;&#x5E74;&#x8F7B;&#x4EE3;&#x7684;&#x590D;&#x5236;&#x7B97;&#x6CD5;&#x4E0A;&#x3002;  </p>
+<p>Minor GC does trigger stop-the-world pauses, suspending the application threads. For most applications, the length of the pauses is negligible latency-wise. Major GC will clean the old gen and full GC will clean whole heap.</p>
+</blockquote>
+<p><br><br></p>
+<h4 id="142-&#x5E74;&#x8001;&#x4EE3;tenured">1.4.2 &#x5E74;&#x8001;&#x4EE3;(Tenured)</h4>
+<p>&#x3000;&#x3000;<code>-XX:MaxTenuringThreshold=</code>&#x8BBE;&#x7F6E;&#x71AC;&#x8FC7;&#x5E74;&#x8F7B;&#x4EE3;&#x591A;&#x5C11;&#x6B21;GC&#x540E;&#x79FB;&#x5165;&#x8001;&#x4EBA;&#x533A;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;0&#xFF0C;&#x71AC;&#x8FC7;&#x4E00;&#x6B21;GC&#x5C31;&#x8F6C;&#x5165;.</p>
+<p>&#x3000;&#x3000;&#x7531;&#x4E8E;&#x8001;&#x5E74;&#x4EE3;&#x6BCF;&#x6B21;&#x56DE;&#x6536;&#x90FD;&#x53EA;&#x56DE;&#x6536;&#x5C11;&#x91CF;&#x5BF9;&#x8C61;&#xFF0C;&#x4F7F;&#x7528;&#x201C;&#x6807;&#x8BB0;-&#x6E05;&#x9664;-&#x538B;&#x7F29;&#xFF08;Mark-Sweep-Compact&#xFF09;&#x201D;&#x3002;&#x6807;&#x8BB0;&#x7684;&#x8FC7;&#x7A0B;&#x662F;&#x627E;&#x51FA;&#x5F53;&#x524D;&#x8FD8;&#x5B58;&#x6D3B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x6807;&#x8BB0;&#xFF1B;&#x6E05;&#x9664;&#x5219;&#x904D;&#x5386;&#x6574;&#x4E2A;&#x5185;&#x5B58;&#x533A;&#x57DF;&#xFF0C;&#x627E;&#x51FA;&#x5176;&#x4E2D;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x56DE;&#x6536;&#x7684;&#x533A;&#x57DF;&#xFF1B;&#x800C;&#x538B;&#x7F29;&#x5219;&#x628A;&#x5B58;&#x6D3B;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5B58;&#x79FB;&#x52A8;&#x5230;&#x6574;&#x4E2A;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x7684;&#x4E00;&#x7AEF;&#xFF0C;&#x4F7F;&#x5F97;&#x53E6;&#x4E00;&#x7AEF;&#x662F;&#x4E00;&#x5757;&#x8FDE;&#x7EED;&#x7684;&#x7A7A;&#x95F2;&#x533A;&#x57DF;&#xFF0C;&#x65B9;&#x4FBF;&#x8FDB;&#x884C;&#x5185;&#x5B58;&#x5206;&#x914D;&#x548C;&#x590D;&#x5236;&#x3002;</p>
+<p><br><br></p>
+<h4 id="143-&#x6C38;&#x4E45;&#x4EE3;permanent">1.4.3 &#x6C38;&#x4E45;&#x4EE3;(Permanent)</h4>
+<p>&#x3000;&#x3000;&#x88C5;&#x8F7D;Class&#x4FE1;&#x606F;&#x7B49;&#x57FA;&#x7840;&#x6570;&#x636E;&#xFF0C;&#x9ED8;&#x8BA4;64M&#xFF0C;&#x5982;&#x679C;&#x662F;&#x7C7B;&#x5F88;&#x591A;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x9700;&#x52A0;&#x5927;&#x5176;&#x8BBE;&#x7F6E;<code>-XX:MaxPermSize=</code>&#xFF0C;&#x5426;&#x5219;&#x6EE1;&#x4E86;&#x540E;&#x4F1A;&#x5F15;&#x8D77;Major GC&#x3002;Spring&#xFF0C;Hibernate&#x8FD9;&#x7C7B;&#x559C;&#x6B22;AOP&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x7684;&#x6846;&#x67B6;&#x9700;&#x8981;&#x66F4;&#x591A;&#x7684;&#x6301;&#x4E45;&#x4EE3;&#x5185;&#x5B58;&#x3002;</p>
+<h2 id="2-java-garbage-collection-types">2. Java Garbage Collection Types</h2>
+<ol>
+<li><p>Serial GC (<code>-XX:+UseSerialGC</code>): <strong>uses mark-sweep-compact approach for young and old generations gc</strong> i.e Minor and Major GC. Serial GC is useful in client-machines such as our simple stand alone applications and machines with smaller CPU. It is good for small applications with low memory footprint.</p>
+</li>
+<li><p>Parallel GC (<code>-XX:+UseParallelGC</code>): <strong>Parallel GC is same as Serial GC except that is spawns N threads for young generation gc where N is the number of CPU cores in the system</strong>. We can control the number of threads using <code>-XX:ParallelGCThreads = n</code>. Parallel Garbage Collector is also called throughput collector because it uses multiple CPUs to speed up the GC performance. Parallel GC uses single thread for Old Generation garbage collection.</p>
+</li>
+<li><p>Parallel Old GC (<code>-XX:+UseParallelOldGC</code>): <em>same as Parallel GC except that it uses multiple threads for both Young Generation and Old Generation garbage collection</em>.</p>
+</li>
+<li><p>Concurrent Mark Sweep (CMS) Collector (<code>-XX:+UseConcMarkSweepGC</code>): CMS Collector is also referred as concurrent low pause collector. <strong>It does gc for Old generation. CMS collector tries to minimize the pauses due to gc by doing most of the gc work concurrently with the application threads. CMS collector on young generation uses the same algorithm as that of the parallel collector. This gc is suitable for responsive applications where we can&#x2019;t afford longer pause times</strong>. We can limit the number of threads in CMS collector using <code>-XX:ParallelCMSThreads = n</code>.</p>
+</li>
+<li><p>G1 Garbage Collector (<code>-XX:+UseG1GC</code>): The Garbage First or G1 garbage collector is <strong>available from Java 7</strong> and it&#x2019;s long term goal is to <strong>replace CMS collector</strong>. The G1 collector is a parallel, concurrent, and incrementally compacting low-pause garbage collector. <strong>G1 doesn&#x2019;t work like other collectors and there is no concept of Young and Old generation space. It divides the heap space into multiple equal-sized heap regions. When gc is invoked, it first collects the region with lesser live data, hence &#x201C;Garbage First&#x201D;</strong>.</p>
+</li>
+</ol>
+<h2 id="3-systemgc-finalize">3. System.gc(), finalize()</h2>
+<p>&#x3000;&#x3000;&#x4F7F;&#x7528;<code>System.gc()</code>&#x53EF;&#x4EE5;&#x8BF7;&#x6C42;Java&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x3002;&#x8C03;&#x7528;<code>System.gc()</code>&#x4EC5;&#x662F;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x3002;JVM&#x5E76;&#x4E0D;&#x662F;&#x7ACB;&#x5373;&#x505A;gc&#xFF0C;&#x800C;&#x53EA;&#x662F;&#x5BF9;&#x51E0;&#x4E2A;gc&#x7B97;&#x6CD5;&#x505A;&#x4E86;&#x52A0;&#x6743;&#xFF0C;&#x4F7F;gc&#x5BB9;&#x6613;&#x53D1;&#x751F;&#xFF0C;&#x6216;&#x56DE;&#x6536;&#x8F83;&#x591A;&#x800C;&#x5DF2;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x4E4B;&#x6240;&#x4EE5;&#x7528;<code>finalize()</code>&#x662F;&#x5B58;&#x5728;&#x7740;gc&#x4E0D;&#x80FD;&#x5904;&#x7406;&#x7684;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<ul>
+<li><p>&#x7531;&#x4E8E;&#x5728;&#x5206;&#x914D;&#x5185;&#x5B58;&#x7684;&#x65F6;&#x5019;&#x91C7;&#x7528;&#x4E86;C&#x8BED;&#x8A00;&#x7684;&#x505A;&#x6CD5;&#xFF0C;&#x800C;&#x975E;JAVA&#x7684;new&#x505A;&#x6CD5;&#x3002;&#x4E3B;&#x8981;&#x53D1;&#x751F;&#x5728;native method&#x4E2D;&#x3002;&#x6B64;&#x65F6;&#x9664;&#x975E;&#x8C03;&#x7528;<code>free()</code>&#x5426;&#x5219;&#x8FD9;&#x4E9B;&#x5185;&#x5B58;&#x5C06;&#x4E0D;&#x4F1A;&#x91CA;&#x653E;&#xFF0C;&#x9020;&#x6210;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;&#x3002;&#x4F46;&#x7531;&#x4E8E;<code>free()</code>&#x5728;C/C++&#x4E2D;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x6240;&#x4EE5;<code>finalize()</code>&#x4E2D;&#x53EF;&#x4EE5;&#x7528;&#x672C;&#x5730;&#x65B9;&#x6CD5;&#x6765;&#x8C03;&#x7528;&#x5B83;&#x3002;</p>
+</li>
+<li><p>&#x6253;&#x5F00;&#x7684;&#x6587;&#x4EF6;&#x8D44;&#x6E90;&#xFF0C;&#x8FD9;&#x4E9B;&#x8D44;&#x6E90;&#x4E0D;&#x5C5E;&#x4E8E;&#x5783;&#x573E;&#x56DE;&#x6536;&#x5668;&#x7684;&#x56DE;&#x6536;&#x8303;&#x56F4;&#x3002;</p>
+</li>
+</ul>
+<p>&#x3000;&#x3000;&#x6BCF;&#x4E2A;&#x5BF9;&#x8C61;&#x53EA;&#x80FD;&#x8C03;&#x7528;<code>finalize()</code>&#x4E00;&#x6B21;&#x3002;&#x5982;&#x679C;&#x5728;`finalize()``&#x6267;&#x884C;&#x65F6;&#x4EA7;&#x751F;&#x5F02;&#x5E38;&#xFF0C;&#x5219;&#x8BE5;&#x5BF9;&#x8C61;&#x4ECD;&#x53EF;&#x4EE5;&#x88AB;&#x5783;&#x573E;&#x6536;&#x96C6;&#x5668;&#x6536;&#x96C6;&#x3002;</p>
+<h2 id="4-&#x5982;&#x4F55;&#x786E;&#x5B9A;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x5783;&#x573E;&#xFF1F;">4. &#x5982;&#x4F55;&#x786E;&#x5B9A;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x201C;&#x5783;&#x573E;&#x201D;&#xFF1F;</h2>
+<h3 id="41-&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;">4.1 &#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;</h3>
+<p>&#x3000;&#x3000;Java&#x4E2D;&#x662F;&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x6765;&#x548C;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x5173;&#x8054;&#x7684;&#x3002;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x529E;&#x6CD5;&#x662F;&#x901A;&#x8FC7;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6765;&#x5224;&#x65AD;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x88AB;&#x56DE;&#x6536;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5F15;&#x7528;&#x4E0E;&#x4E4B;&#x5173;&#x8054;&#xFF0C;&#x5219;&#x8BF4;&#x660E;&#x8BE5;&#x5BF9;&#x8C61;&#x4E0D;&#x53EF;&#x80FD;&#x5728;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x88AB;&#x4F7F;&#x7528;&#x5230;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x5C31;&#x6210;&#x4E3A;&#x53EF;&#x88AB;&#x56DE;&#x6536;&#x7684;&#x5BF9;&#x8C61;&#x4E86;&#x3002;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x6210;&#x4E3A;<strong>&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x6CD5;</strong>&#x3002;</p>
+<p>&#x3000;&#x3000;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x7B80;&#x5355;&#x4E14;&#x6548;&#x7387;&#x9AD8;&#xFF0C;&#x4F46;&#x65E0;&#x6CD5;&#x89E3;&#x51B3;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#x7684;&#x95EE;&#x9898;&#xFF1A;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        MyObject object1 = <span class="hljs-keyword">new</span> MyObject();
+        MyObject object2 = <span class="hljs-keyword">new</span> MyObject();
+
+        object1.object = object2;
+        object2.object = object1;
+
+        object1 = <span class="hljs-keyword">null</span>;
+        object2 = <span class="hljs-keyword">null</span>;
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyObject</span></span>{
+    <span class="hljs-keyword">public</span> Object object = <span class="hljs-keyword">null</span>;
+}
+</code></pre>
+<p>&#x3000;&#x3000;&#x6700;&#x540E;&#x4E24;&#x53E5;&#x5C06;<code>object1</code>&#x548C;<code>object2</code>&#x8D4B;&#x4E3A;<code>null</code>&#xFF0C;&#x5373;<code>object1</code>&#x548C;<code>object2</code>&#x6307;&#x5411;&#x7684;&#x5BF9;&#x8C61;&#x4E0D;&#x53EF;&#x80FD;&#x518D;&#x88AB;&#x8BBF;&#x95EE;&#x3002;&#x4F46;&#x7531;&#x4E8E;&#x5B83;&#x4EEC;&#x4E92;&#x76F8;&#x5F15;&#x7528;&#x5BF9;&#x65B9;&#xFF0C;&#x5BFC;&#x81F4;&#x5B83;&#x4EEC;&#x7684;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#x90FD;&#x4E0D;&#x4E3A;0&#xFF0C;&#x90A3;&#x4E48;GC&#x6C38;&#x8FDC;&#x4E0D;&#x4F1A;&#x56DE;&#x6536;&#x5B83;&#x4EEC;&#x3002;</p>
+<h3 id="42-&#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x6CD5;">4.2 &#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x6CD5;</h3>
+<p>&#x3000;&#x3000;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x5FAA;&#x73AF;&#x5F15;&#x7528;&#xFF0C;Java&#x91C7;&#x53D6;&#x4E86;<strong>&#x53EF;&#x8FBE;&#x6027;&#x5206;&#x6790;&#x6CD5;</strong>&#x3002;&#x901A;&#x8FC7;GC Roots&#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x8D77;&#x70B9;&#x8FDB;&#x884C;&#x641C;&#x7D22;&#xFF0C;&#x5982;&#x679C;&#x5728;GC Roots&#x548C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x4E4B;&#x95F4;&#x6CA1;&#x6709;&#x53EF;&#x8FBE;&#x8DEF;&#x5F84;&#xFF0C;&#x5219;&#x79F0;&#x8BE5;&#x5BF9;&#x8C61;&#x662F;&#x4E0D;&#x53EF;&#x8FBE;&#x7684;&#x3002;&#x88AB;&#x5224;&#x5B9A;&#x4E3A;&#x4E0D;&#x53EF;&#x8FBE;&#x7684;&#x5BF9;&#x8C61;&#x4E0D;&#x4E00;&#x5B9A;&#x5C31;&#x4F1A;&#x6210;&#x4E3A;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#xFF0C;&#x9664;&#x975E;&#x81F3;&#x5C11;&#x7ECF;&#x5386;&#x4E24;&#x6B21;&#x6807;&#x8BB0;&#x8FC7;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x8FD9;&#x4E24;&#x6B21;&#x6807;&#x8BB0;&#x8FC7;&#x7A0B;&#x4E2D;&#x4ECD;&#x7136;&#x6CA1;&#x6709;&#x9003;&#x8131;&#x6210;&#x4E3A;&#x53EF;&#x56DE;&#x6536;&#x5BF9;&#x8C61;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x3002;</p>
+<p>There are four kinds of GC roots in Java:</p>
+<ol>
+<li><p>Stack Local - Java&#x65B9;&#x6CD5;&#x7684;local&#x53D8;&#x91CF;&#x6216;&#x53C2;&#x6570;&#x3002;Local variables are kept alive by the stack of a thread. This is not a real object virtual reference and thus is not visible. For all intents and purposes, local variables are GC roots.</p>
+</li>
+<li><p>Thread - &#x6D3B;&#x7740;&#x7684;&#x7EBF;&#x7A0B;&#x3002;Active Java threads are always considered live objects and are therefore GC roots. This is especially important for thread local variables.</p>
+</li>
+<li><p>Static variables are referenced by their classes. This fact makes them de facto GC roots. Classes themselves can be garbage-collected, which would remove all referenced static variables. This is of special importance when we use application servers, OSGi containers or class loaders in general. We will discuss the related problems in the Problem Patterns section.</p>
+</li>
+<li><p>JNI Local - JNI&#x65B9;&#x6CD5;&#x7684;local&#x53D8;&#x91CF;&#x6216;&#x53C2;&#x6570;</p>
+</li>
+<li><p>JNI Global - &#x5168;&#x5C40;JNI&#x5F15;&#x7528;</p>
+</li>
+<li><p>Monitor Used - &#x7528;&#x4E8E;&#x540C;&#x6B65;&#x7684;&#x76D1;&#x63A7;&#x5BF9;&#x8C61;</p>
+</li>
+<li><p>Class - &#x7531;&#x7CFB;&#x7EDF;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;(system class loader)&#x52A0;&#x8F7D;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x4E9B;&#x7C7B;&#x662F;&#x4E0D;&#x80FD;&#x591F;&#x88AB;&#x56DE;&#x6536;&#x7684;&#xFF0C;&#x4ED6;&#x4EEC;&#x53EF;&#x4EE5;&#x4EE5;&#x9759;&#x6001;&#x5B57;&#x6BB5;&#x7684;&#x65B9;&#x5F0F;&#x4FDD;&#x5B58;&#x6301;&#x6709;&#x5176;&#x5B83;&#x5BF9;&#x8C61;&#x3002;&#x901A;&#x8FC7;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x52A0;&#x8F7D;&#x7684;&#x7C7B;&#xFF0C;&#x9664;&#x975E;&#x76F8;&#x5E94;&#x7684;java.lang.Class&#x5B9E;&#x4F8B;&#x4EE5;&#x5176;&#x5B83;&#x7684;&#x67D0;&#x79CD;&#xFF08;&#x6216;&#x591A;&#x79CD;&#xFF09;&#x65B9;&#x5F0F;&#x6210;&#x4E3A;roots&#xFF0C;&#x5426;&#x5219;&#x5B83;&#x4EEC;&#x5E76;&#x4E0D;&#x662F;roots&#xFF0C;.</p>
+</li>
+</ol>
+<h2 id="5-&#x51CF;&#x5C11;gc&#x5F00;&#x9500;&#x7684;&#x63AA;&#x65BD;">5. &#x51CF;&#x5C11;GC&#x5F00;&#x9500;&#x7684;&#x63AA;&#x65BD;</h2>
+<ul>
+<li><p>&#x4E0D;&#x8981;&#x663E;&#x5F0F;&#x8C03;&#x7528;<code>System.gc()</code>
+&#x3000;&#x3000;&#x6B64;&#x51FD;&#x6570;&#x5EFA;&#x8BAE;JVM&#x8FDB;&#x884C;Major GC,&#x4ECE;&#x800C;&#x589E;&#x52A0;&#x4E3B;GC&#x7684;&#x9891;&#x7387;,&#x4E5F;&#x5373;&#x589E;&#x52A0;&#x4E86;&#x95F4;&#x6B47;&#x6027;&#x505C;&#x987F;&#x7684;&#x6B21;&#x6570;&#x3002;</p>
+</li>
+<li><p>&#x5C3D;&#x91CF;&#x51CF;&#x5C11;&#x4E34;&#x65F6;&#x5BF9;&#x8C61;&#x7684;&#x4F7F;&#x7528;
+&#x3000;&#x3000;&#x4E34;&#x65F6;&#x5BF9;&#x8C61;&#x5728;&#x8DF3;&#x51FA;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x540E;,&#x4F1A;&#x6210;&#x4E3A;&#x5783;&#x573E;,&#x5C11;&#x7528;&#x4E34;&#x65F6;&#x53D8;&#x91CF;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;&#x51CF;&#x5C11;&#x4E86;&#x5783;&#x573E;&#x7684;&#x4EA7;&#x751F;,&#x4ECE;&#x800C;&#x5EF6;&#x957F;&#x4E86;&#x51FA;&#x73B0;&#x4E0A;&#x8FF0;&#x7B2C;&#x4E8C;&#x4E2A;&#x89E6;&#x53D1;&#x6761;&#x4EF6;&#x51FA;&#x73B0;&#x7684;&#x65F6;&#x95F4;,&#x51CF;&#x5C11;&#x4E86;Major GC&#x7684;&#x673A;&#x4F1A;&#x3002;</p>
+</li>
+<li><p>&#x5BF9;&#x8C61;&#x4E0D;&#x7528;&#x65F6;&#x6700;&#x597D;&#x663E;&#x5F0F;&#x7F6E;&#x4E3A;Null</p>
+</li>
+</ul>
+<p>&#x3000;&#x3000;&#x4E3A;Null&#x7684;&#x5BF9;&#x8C61;&#x90FD;&#x4F1A;&#x88AB;&#x4F5C;&#x4E3A;&#x5783;&#x573E;&#x5904;&#x7406;,&#x6709;&#x5229;&#x4E8E;GC&#x6536;&#x96C6;&#x5668;&#x5224;&#x5B9A;&#x5783;&#x573E;,&#x4ECE;&#x800C;&#x63D0;&#x9AD8;&#x4E86;GC&#x7684;&#x6548;&#x7387;&#x3002;</p>
+<ul>
+<li>&#x5C3D;&#x91CF;&#x4F7F;&#x7528;StringBuffer,&#x800C;&#x4E0D;&#x7528;String&#x6765;&#x7D2F;&#x52A0;&#x5B57;&#x7B26;&#x4E32;</li>
+</ul>
+<p>&#x3000;&#x3000;&#x7531;&#x4E8E;String&#x662F;final&#x5BF9;&#x8C61;,&#x7D2F;&#x52A0;String&#x5BF9;&#x8C61;&#x65F6;,&#x5E76;&#x975E;&#x5728;&#x4E00;&#x4E2A;String&#x5BF9;&#x8C61;&#x4E2D;&#x6269;&#x589E;,&#x800C;&#x662F;&#x91CD;&#x65B0;&#x521B;&#x5EFA;&#x65B0;&#x7684;String&#x5BF9;&#x8C61;&#x3002;</p>
+<ul>
+<li>&#x80FD;&#x7528;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5982;Int,Long,&#x5C31;&#x4E0D;&#x7528;Integer,Long&#x5BF9;&#x8C61;</li>
+</ul>
+<p>&#x3000;&#x3000;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x53D8;&#x91CF;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x8D44;&#x6E90;&#x6BD4;&#x76F8;&#x5E94;&#x5BF9;&#x8C61;&#x5C11;&#x5F97;&#x591A;,&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5FC5;&#x8981;,&#x6700;&#x597D;&#x4F7F;&#x7528;&#x57FA;&#x672C;&#x53D8;&#x91CF;&#x3002;</p>
+<ul>
+<li>&#x5C3D;&#x91CF;&#x5C11;&#x7528;&#x9759;&#x6001;&#x5BF9;&#x8C61;&#x53D8;&#x91CF;</li>
+</ul>
+<p>&#x3000;&#x3000;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x5C5E;&#x4E8E;&#x5168;&#x5C40;&#x53D8;&#x91CF;,&#x4E0D;&#x4F1A;&#x88AB;GC&#x56DE;&#x6536;,&#x5B83;&#x4EEC;&#x4F1A;&#x4E00;&#x76F4;&#x5360;&#x7528;&#x5185;&#x5B58;&#x3002;</p>
+<ul>
+<li>&#x5206;&#x6563;&#x5BF9;&#x8C61;&#x521B;&#x5EFA;&#x6216;&#x5220;&#x9664;&#x7684;&#x65F6;&#x95F4;</li>
+</ul>
+<p>&#x3000;&#x3000;&#x96C6;&#x4E2D;&#x5728;&#x77ED;&#x65F6;&#x95F4;&#x5185;&#x5927;&#x91CF;&#x521B;&#x5EFA;&#x65B0;&#x5BF9;&#x8C61;,&#x4F1A;&#x5BFC;&#x81F4;&#x7A81;&#x7136;&#x9700;&#x8981;&#x5927;&#x91CF;&#x5185;&#x5B58;&#x3002;JVM&#x5728;&#x9762;&#x4E34;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x65F6;,&#x53EA;&#x80FD;&#x8FDB;&#x884C;Major GC,&#x4EE5;&#x56DE;&#x6536;&#x5185;&#x5B58;&#x6216;&#x6574;&#x5408;&#x5185;&#x5B58;&#x788E;&#x7247;,&#x4ECE;&#x800C;&#x589E;&#x52A0;&#x4E3B;GC&#x7684;&#x9891;&#x7387;&#x3002;&#x96C6;&#x4E2D;&#x5220;&#x9664;&#x5BF9;&#x8C61;,&#x9053;&#x7406;&#x4E5F;&#x662F;&#x4E00;&#x6837;&#x7684;&#x3002;&#x5B83;&#x4F7F;&#x5F97;&#x7A81;&#x7136;&#x51FA;&#x73B0;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x5783;&#x573E;&#x5BF9;&#x8C61;,&#x7A7A;&#x95F2;&#x7A7A;&#x95F4;&#x5FC5;&#x7136;&#x51CF;&#x5C11;,&#x4ECE;&#x800C;&#x5927;&#x5927;&#x589E;&#x52A0;&#x4E86;&#x4E0B;&#x4E00;&#x6B21;&#x521B;&#x5EFA;&#x65B0;&#x5BF9;&#x8C61;&#x65F6;&#x5F3A;&#x5236;&#x4E3B;GC&#x7684;&#x673A;&#x4F1A;&#x3002;</p>
+<h2 id="6">6.</h2>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="JVM.html" class="navigation navigation-prev " aria-label="Previous page: JVM">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="MemoryManagement.html" class="navigation navigation-next " aria-label="Next page: Memory Management">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Garbage Collector","level":"1.6.1","depth":2,"next":{"title":"Memory Management","level":"1.6.2","depth":2,"path":"JVM/MemoryManagement.md","ref":"JVM/MemoryManagement.md","articles":[]},"previous":{"title":"JVM","level":"1.6","depth":1,"path":"JVM/JVM.md","ref":"JVM/JVM.md","articles":[{"title":"Garbage Collector","level":"1.6.1","depth":2,"path":"JVM/GarbageCollector.md","ref":"JVM/GarbageCollector.md","articles":[]},{"title":"Memory Management","level":"1.6.2","depth":2,"path":"JVM/MemoryManagement.md","ref":"JVM/MemoryManagement.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"JVM/GarbageCollector.md","mtime":"2016-12-03T11:34:38.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2016-12-03T11:01:22.920Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

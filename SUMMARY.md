@@ -1,12 +1,13 @@
 # Summary
 
 * [Fundanmental](/Fundamental/Fundamental.md)
-  * [Upcast & Downcast](/Fundamental/Upcast_Downcast.md)
-  * [Rewrite Equals() of String](/Fundamental/Rewrite_Equals_of_String.md)
+  * [Upcast & Downcast](/Fundamental/Upcast&Downcast.md)
+  * [Rewrite Equals() of String](/Fundamental/EqualsOfString.md)
   * [String](/Fundamental/String.md)
   * [Class](/Fundamental/Class.md)
   * [Serializable](/Fundamental/Serializable.md)
 * [Advanced](/Advanced/Advanced.md)
+  * [Class Loader](/Advanced/ClassLoader.md)
 * [Concurrent](/Concurrent/Concurrent.md)
   * [AQS(AbstractQueuedSynchronizer)](/Concurrent/AQS.md)
   * [CAS(Compare and Swap)](/Concurrent/CAS.md)
@@ -15,4 +16,8 @@
   * [Synchronized](/Concurrent/Synchronized.md)
   * [ConcurrentHashMap](/Concurrent/ConcurrentHashMap.md)
   * [ThreadPool](/Concurrent/ThreadPool.md)
-* [Java Data Structure](/JavaDataStructure/JavaDataStructure.md)
+* [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
+* [JVM](/JVM/JVM.md)
+  * [Garbage Collector](/JVM/GarbageCollector.md)
+  * [Memory Management](/JVM/MemoryManagement.md)
+
