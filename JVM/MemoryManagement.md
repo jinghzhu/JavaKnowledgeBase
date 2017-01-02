@@ -1,4 +1,4 @@
-# Memory Management
+# <center>Memory Management</center>
 
 &#12288;&#12288; ![Memory Model](./Images/memory_model.png)
 

@@ -1,4 +1,4 @@
-# JVM 
+# <center>JVM</center>
 
 
 ## 1. JVM初始化内存分配

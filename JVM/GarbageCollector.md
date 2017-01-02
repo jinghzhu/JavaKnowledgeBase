@@ -1,4 +1,4 @@
-# Garbage Collector
+# <center>Garbage Collector</center>
 
 ## 1. GC收集算法 
 ### 1.1 标记-清除(Mark-Sweep)

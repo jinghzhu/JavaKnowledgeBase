@@ -1,4 +1,4 @@
-# Java Data Structure
+# <center>Java Data Structure</center>
 
 ## 1. PriorityQueue
 * introduced in Java 1.5 and part of Collections Framework.

@@ -1,4 +1,4 @@
-# AQS(AbstractQueuedSynchronizer)
+# <center>AQS(AbstractQueuedSynchronizer)</center>
 
 ## 1.  基于FIFO的CLH变种队列，内部有个静态类Node
 

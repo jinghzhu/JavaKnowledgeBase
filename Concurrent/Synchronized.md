@@ -1,4 +1,4 @@
-# Synchronized
+# <center>Synchronized</center>
 
 
 

@@ -1,4 +1,4 @@
-# Concurrent
+# <center>Concurrent</center>
 
 ![Overall](./Images/overall.png)
 

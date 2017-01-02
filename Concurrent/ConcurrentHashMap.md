@@ -1,4 +1,4 @@
-# ConcurrentHashMap
+# <center>ConcurrentHashMap</center>
 
 ## 1. before JDK 1.8
 &#12288;&#12288;采用分段锁实现并发操作，底层采用数组+链表+红黑树的存储结构。包含两个核心静态内部类 `Segment`和`HashEntry`:

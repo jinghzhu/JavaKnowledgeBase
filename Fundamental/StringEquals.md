@@ -1,4 +1,4 @@
-# String的equals()
+# <center>String的equals()</center>
 
 ## 1. Solution
 

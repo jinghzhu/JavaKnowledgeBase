@@ -1,4 +1,4 @@
-# CAS (Compare and Swap)
+# <center>CAS (Compare and Swap)</center>
 
 ## 1. What is CAS?
 

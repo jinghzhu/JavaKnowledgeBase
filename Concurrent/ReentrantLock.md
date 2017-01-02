@@ -1,4 +1,4 @@
-# ReentrantLock
+# <center>ReentrantLock</center>
 
 ![ReentrantLock](./Images/lock_uml.png)
 

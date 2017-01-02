@@ -1,4 +1,4 @@
-# Class
+# <center>Class</center>
 
 ## 1. Can we declare a class as static? 
 We can’t declare a top-level class as static however an inner class can be declared as static. If inner class is declared as static, it’s called static nested class. Static nested class is same as any other top-level class and is nested for only packaging convenience.

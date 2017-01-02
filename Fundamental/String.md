@@ -1,4 +1,4 @@
-# String
+# <center>String</center>
 
 ## 1. What is java string pool?
 We know that String is special class in java and we can create String object using new operator as well as providing values in double quotes.

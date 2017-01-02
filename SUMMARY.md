@@ -2,7 +2,7 @@
 
 * [Fundanmental](/Fundamental/Fundamental.md)
   * [Upcast & Downcast](/Fundamental/Upcast&Downcast.md)
-  * [Rewrite Equals() of String](/Fundamental/EqualsOfString.md)
+  * [Rewrite Equals() of String](/Fundamental/StringEquals.md)
   * [String](/Fundamental/String.md)
   * [Class](/Fundamental/Class.md)
   * [Serializable](/Fundamental/Serializable.md)

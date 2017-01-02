@@ -1,4 +1,4 @@
-# CLH(Craig, Landin, and Hagersten)队列
+# <center>CLH(Craig, Landin, and Hagersten)队列</center>
 
 
 ![CLH1](./Images/clh_process.png) ![CLH2](./Images/clh_uml.png)

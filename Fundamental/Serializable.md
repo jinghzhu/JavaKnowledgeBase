@@ -1,4 +1,4 @@
-# Serializable
+# <center>Serializable</center>
 
 ## 1. Serializable Example
 
