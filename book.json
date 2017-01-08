@@ -1,0 +1,20 @@
+{
+    "plugins": [
+    	"image-captions",
+    	"mathjax", 
+    	"anchors",
+    	"splitter",
+    	"prism", 
+    	"-highlight",
+    	"book-summary-scroll-position-saver"
+    ],
+
+    "pluginsConfig": {
+    	"pluginsConfig": {
+        	"expandable-chapters":{}
+    	},
+    	"mathjax":{
+            "forceSVG": true
+        }
+  	}
+}
