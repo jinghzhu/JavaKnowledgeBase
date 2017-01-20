@@ -17,7 +17,8 @@
   * [ConcurrentHashMap](/Concurrent/ConcurrentHashMap.md)
   * [ThreadPool](/Concurrent/ThreadPool.md)
 * [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
-* [JVM](/JVM/JVM.md)
+* [JVM]()
+  * [About JVM](/JVM/JVM.md)
   * [Garbage Collector](/JVM/GarbageCollector.md)
-  * [Memory Management](/JVM/MemoryManagement.md)
+  * [Memory Model](/JVM/MemoryModel.md)
 

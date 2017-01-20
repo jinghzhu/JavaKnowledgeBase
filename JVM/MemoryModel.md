@@ -1,6 +1,7 @@
-# <center>Memory Management</center>
+# <center>Memory Model</center>
 
 &#12288;&#12288; ![Memory Model](./Images/memory_model.png)
+&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;  ![JVM Architecture](./Images/JVM_arch.png)
 
 
 

@@ -1,20 +1,38 @@
 {
+    "author": "Jinghua ZHU",
     "plugins": [
-    	"image-captions",
-    	"mathjax", 
-    	"anchors",
-    	"splitter",
-    	"prism", 
-    	"-highlight",
-    	"book-summary-scroll-position-saver"
+        "image-captions",
+        "mathjax", 
+        "anchors",
+        "splitter",
+        "prism", 
+        "-highlight",
+        "book-summary-scroll-position-saver",
+        "tbfed-pagefooter",
+        "expandable-chapters"
     ],
 
     "pluginsConfig": {
-    	"pluginsConfig": {
-        	"expandable-chapters":{}
-    	},
-    	"mathjax":{
+        "mathjax":{
             "forceSVG": true
+        },
+        "tbfed-pagefooter": {
+            "Contact":"jhzhu@outlook.com",
+            "modify_label": "Last Modified:",
+            "modify_format": "DD-MM-YYYY"
         }
-  	}
+    },
+
+    "pdf": {
+        "toc": true,
+        "pageNumbers": false,
+        "fontSize": 12,
+        "paperSize": "a4",
+        "margin": {
+            "right": 62,
+            "left": 62,
+            "top": 36,
+            "bottom": 36
+        }
+    }
 }
