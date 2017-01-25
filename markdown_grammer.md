@@ -48,7 +48,7 @@ You can force the use of svg pre-processed by adding to your book.json:
 <br></br>
 
 ### 图片置中
-```html
+``` html
 <p align="center">
   <img src="./Images/sprites.gif" alt="des"/>
 </p>

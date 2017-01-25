@@ -40,14 +40,9 @@ public class ChildClass extends SuperClass {
 ```
 
 
-### 3. What are different types of classloaders?
-* Bootstrap Class Loader – It loads JDK internal classes, typically loads rt.jar and other core classes. 
-* Extensions Class Loader – It loads classes from the JDK extensions directory, usually $JAVA_HOME/lib/ext directory. 
-* System Class Loader – It loads classes from the current classpath that can be set while invoking a program using -cp or -classpath command line options. 
-
-
-## 4. Can we overload main method? 
+## 3. Can we overload main method? 
 Yes, we can have multiple methods with name “main” in a single class. However if we run the class, java runtime environment will look for main method with syntax as `public static void main(String args[])`.
+
 
 
 ## 5. newInstance与new区别
@@ -55,6 +50,7 @@ Yes, we can have multiple methods with name “main” in a single class. Howeve
 * 创建对象的方式不一样，前者是使用类加载机制，后者是创建一个新类。 
 * 从JVM的角度看，使用关键字new创建一个类的时候，这个类可以没有被加载。但是使用newInstance()方法就须保证：1、这个类已经加载；2、这个类已经连接了。而完成上面两个步骤的正是Class的静态方法forName()所完成的，这个静态方法调用了启动类加载器，即加载java API的那个加载器。 
 * newInstance()实际上是把new分解为两步，即首先调用Class加载方法加载某个类，然后实例化。这样分步的好处是显而易见的。我们可以在调用class的静态加载方法forName时获得更好的灵活性，提供给了一种降耦的手段。 
+
 
 
 ## 6. JAVA范型
