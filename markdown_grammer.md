@@ -1,7 +1,7 @@
 Math integration with GitBook
 ==============
 
-This plugin uses MathJax to display Math/TeX formula. This is an official plugin. Versions `>=0.1.0` require GitBook `>=2.0.0`.
+&#12288;&#12288;
 
 ### How to use it?
 
@@ -34,11 +34,12 @@ When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they ar
 <br></br>
 
 ### 图片置中
+![ReentrantLock类图](./Images/lock_uml.png)
 ``` html
 <p align="center">
   <img src="./Images/sprites.gif" alt="des"/>
 </p>
-<center>des</center>
+<center><i>des</i></center>
 ```
 
 

@@ -1,6 +1,6 @@
 # Summary
 
-* [Fundanmental](
+* [Fundanmental]()
   * [Must To Know](/Fundamental/Fundamental.md))
   * [QA](/Fundamental/QA.md)
   * [Upcast & Downcast](/Fundamental/Upcast&Downcast.md)
@@ -18,9 +18,10 @@
   * [Synchronized](/Concurrent/Synchronized.md)
   * [ConcurrentHashMap](/Concurrent/ConcurrentHashMap.md)
   * [ThreadPool](/Concurrent/ThreadPool.md)
+  * [final](/Concurrent/final.md)
 * [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
 * [JVM]()
   * [About JVM](/JVM/JVM.md)
   * [Garbage Collector](/JVM/GarbageCollector.md)
-  * [Memory Model](/JVM/MemoryModel.md)
-
+  * [JMM](/JVM/JMM.md)
+  * [Deeoly Understanding JMM](/JVM/JMM++.md)

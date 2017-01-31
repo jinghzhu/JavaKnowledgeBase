@@ -1,6 +1,8 @@
 # <center>Concurrent</center>
 
-![Overall](./Images/overall.png)
+![concurrent包的实现示意图](./Images/overall.png)
+
+
 
 ## 1. 线程的五个状态wait和sleep区别：
 ![Thread Lifecycle](./Images/thread_lifecycle.jpg)
@@ -13,7 +15,6 @@
     3. 其他阻塞：运行的线程执行`Thread.sleep(long ms)`或`t.join()`，或者发出I/O请求时，JVM会把该线程置为阻塞状态。当`sleep()`状态超时、`join()`等待线程终止或者超时、或者I/O处理完毕时，线程重新转入可运行(runnable)状态。
 5. 死亡(dead)：线程`run()`、`main() `方法执行结束，或者因异常退出了`run()`，则该线程结束生命周期。
 
-<br></br>
 &#12288;&#12288;另外，关于`wait()`与`sleep()`区别：
 * `wait()是`Object`方法，而`sleep()`是`Thread`类的静态方法
 *  `sleep()`使线程阻塞指定时间，这段时间当前线程让出CPU时间，时间结束后继续执行，该过程不释放线程持有的对象锁；`wait()`调用后线程释放持有的锁并进入该锁等待队列，当收到持有锁的其它线程`notify()`或`notifyAll()`信号后，`wait()`方法返回。
@@ -635,19 +636,7 @@ public synchronized void unlock() throws InterruptedException{
 
 
 
-## 21. What is happens-before?
-&#12288;&#12288;程序都要经过编译器和处理器优化后才会被运行，优化分为很多种，其中有一种优化叫做重排序，重排序需要遵守happens-before规则:
-* 程序次序法则，如果A一定在B之前发生，则happen before,
-* 监视器法则,对一个监视器的解锁一定发生在后续对同一监视器加锁之前 
-* volatie变量法则：写volatile变量一定发生在后续对它的读之前 
-* 线程启动法则：Thread.start一定发生在线程中的动作 
-* 中断法则：一个线程调用另一线程的interrupt一定发生在另一线程发现中断。
-* 终结法则：一个对象的构造函数结束一定发生在对象的finalizer之前 
-* 传递性：A发生在B之前，B发生在C之前，A一定发生在C之前。
-
-
-
-## 22. 什么是线程安全
+## 21. 什么是线程安全
 &#12288;&#12288;如果代码在多线程和在单线程下执行永远获得一样的结果，那么就是线程安全。线程安全也有几个级别：
 * 不可变：像`String`、`Integer`、`Long`都是`final`类型的类，任何一个线程都改变不了它们的值，因此这些不可变对象不需要任何同步手段就可以直接在多线程环境下使用。
 * 绝对线程安全：不管运行时环境如何，调用者都不需要额外的同步措施。要做到这一点需付出额外代价，比方说`CopyOnWriteArrayList`、`CopyOnWriteArraySet`。
@@ -655,7 +644,7 @@ public synchronized void unlock() throws InterruptedException{
 
 
 
-## 23. Java如何获取线程dump文件
+## 22. Java如何获取线程dump文件
 &#12288;&#12288;线程dump就是线程堆栈，获取到线程堆栈有两步：
 1. 获取到线程的`pid`, 在Linux环境下还可以使用ps -ef | grep java
 2. 打印线程堆栈, 在Linux环境下还可以使用kill -3 pid

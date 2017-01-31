@@ -1,5 +1,7 @@
 # <center>ConcurrentHashMap</center>
 
+
+
 ## 1. before JDK 1.8
 &#12288;&#12288;采用分段锁实现并发操作，底层采用数组+链表+红黑树的存储结构。包含两个核心静态内部类 `Segment`和`HashEntry`:
 1. `Segment`继承`ReentrantLock`充当锁，每个`Segment`对象守护每个散列映射表的若干个桶。
@@ -22,7 +24,7 @@
 * Node：保存key，value及key的hash值的数据结构。其中value和next都用`volatile`修饰，保证并发的可见性。Node类没有提供修改入口，只能用于只读遍历。
 * ForwardingNode：特殊的Node节点，hash值为_-1_，存储nextTable的引用。只有table扩容时，ForwardingNode才会发挥作用，作为一个占位符放在table中表示当前节点为`null`或则已经被移动。
 
-```java
+``` java
 final class ForwardingNode<K, V> extends Node<K, V> {
     final Node<K, V>[] nextTable;
     ForwardingNode(Node<K, V>[] tab) {
@@ -34,7 +36,7 @@ final class ForwardingNode<K, V> extends Node<K, V> {
 
 * TreeBins: 用于封装维护TreeNode，包含`putTreeVal`、`lookRoot`、`remove`、`balanceInsetion`、`balanceDeletion`等方法。当链表转树时，用于封装TreeNode，即ConcurrentHashMap的红黑树存放的是TreeBin，而不是treeNode。
 * 一系列标示：
-```java
+``` java
  static final int MOVED     = -1; // hash for forwarding nodes
  static final int TREEBIN   = -2; // hash for roots of trees
 private transient volatile int transferIndex; // 扩容另一个表索引
@@ -42,10 +44,11 @@ private transient volatile int cellsBusy; // 旋转锁
 ```
 
 
+
 ## 3. table初始化：
 &#12288;&#12288;table初始化操作会延缓到第一次`put`行为。`sizeCtl`默认为_0_。如果ConcurrentHashMap实例化时有传参数，`sizeCtl`会是一个_2_的幂次方的值。所以执行第一次`put`操作的线程会执行`Unsafe.compareAndSwapInt`方法修改`sizeCtl`为_-1_。有且只有一个线程能够修改成功，其它线程通过`Thread.yield()`让出CPU时间片等待table初始化完成。
 
-```java
+``` java
 private final Node<K, V>[] initTable() {
     Node<K, V>[] tab; int sc;
     while((tab = table) == null || tab.length == 0) {

@@ -1,5 +1,7 @@
 # <center>Java Data Structure</center>
 
+
+
 ## 1. PriorityQueue
 * introduced in Java 1.5 and part of Collections Framework.
 * it is an unbounded queue based on a priority heap and we can specify the initial capacity.
