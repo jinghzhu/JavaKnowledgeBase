@@ -3,7 +3,7 @@
 
 
 ## 1. 原理
-&#12288;&#12288;底层也是基于CAS操作的等待队列，把等待队列分为`ContentionList`和`EntryList`。但由JVM实现，不像ReentrantLock由上层类实现。是非公平悲观锁。
+&#12288;&#12288;底层是基于CAS操作的等待队列，把等待队列分为`ContentionList`和`EntryList`。但由JVM实现，不像ReentrantLock由上层类实现。是非公平悲观锁。
 
 
 
@@ -131,4 +131,3 @@ Condition interface comes with Two extra methods that are:
 
 
 
-## 9. Stack的删除和查找方法是synchronized

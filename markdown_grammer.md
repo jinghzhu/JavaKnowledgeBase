@@ -37,7 +37,7 @@ When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they ar
 ![ReentrantLock类图](./Images/lock_uml.png)
 ``` html
 <p align="center">
-  <img src="./Images/sprites.gif" alt="des"/>
+  <img src="./Images/sprites.png" alt="des"/>
 </p>
 <center><i>des</i></center>
 ```
