@@ -264,9 +264,9 @@ double area = pi * r * r; //C
 ```
 
 &#12288;&#12288;happens- before关系：
-1. A happens- before B；
-2. B happens- before C；
-3. A happens- before C；
+1. A happens- before B
+2. B happens- before C
+3. A happens- before C
 
 &#12288;&#12288;由于A happens-before B，happens-before的定义要求：A操作执行的结果要对B可见，且A操作的执行顺序排在B操作之前。但从程序语义角度来说，对A和B做重排序不会改变执行结果，还能提高性能（允许这种重排序减少了对编译器和处理器优化的束缚）。也就是说，虽然2和3是必需要的，但1是不必要的。
 
