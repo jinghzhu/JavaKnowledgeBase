@@ -2,18 +2,7 @@
 
 
 
-## 1. 非阻塞算法
-&#12288;&#12288;基于锁的算法会带来一些活跃度失败的风险。如果线程在持有锁的时候因为阻塞I/O，页面错误，或其他原因发生延迟，很可能所有的线程都不能前进了。 
-
-&#12288;&#12288;一个线程的失败或挂起不应该影响其他线程的失败或挂起，这样的算法为非阻塞（nonblocking）算法；如果算法的每一个步骤中都有一些线程能够继续执行，那么这样的算法称为锁自由（lock-free）算法。在线程间使用CAS进行协调，这样的算法如果能构建正确的话，它既是非阻塞的，又是锁自由的。非竞争的CAS总是能够成功，如果多个线程以一个CAS竞争，总会有一个胜出并前进。
-
-&#12288;&#12288;非阻塞算法通过使用低层次的并发原语，比如比较交换，取代了锁。 
-
-<br></br>
-
-
-
-## 2. 如何让一段程序并发执行，并最终汇总结果？
+## 1. 如何让一段程序并发执行，并最终汇总结果？
 * CountDownLatch：允许一个或者多个线程等待前面的一个或多个线程完成，构造一个CountDownLatch时指定需要CountDown的点的数量，每完成一点就count down一下，当所有点都完成，latch.wait就解除阻塞。
 * CyclicBarrier：可循环使用的Barrier，它的作用是让一组线程到达一个Barrier后阻塞，直到所有线程都到达 Barrier后才能继续执行。CountDownLatch的计数值只能使用一次，CyclicBarrier可以通过使用reset重置；还可以指定 到达栅栏后优先执行的任务。
 fork/join框架，fork把大任务分解成多个小任务，然后汇总小任务的结果得到最终结果。使用一个双端队列，当线程空闲时从双端队列的另一端领取任务。
@@ -22,7 +11,7 @@ fork/join框架，fork把大任务分解成多个小任务，然后汇总小任�
 
 
 
-## 3. 为什么wait(), notify()和notifyAll()须在同步方法或同步块中被调用？
+## 2. 为什么wait(), notify()和notifyAll()须在同步方法或同步块中被调用？
 &#12288;&#12288;当一个线程需要调用对象的`wait()`时，这个线程必须拥有该对象的锁，接着它就会释放这个对象锁并进入等待状态直到其他线程调用这个对象上的`notify()`。
 
 &#12288;&#12288;同样的，当一个线程需要调用对象的`notify()`时，它会释放这个对象的锁，以便其他在等待的线程就可以得到这个对象锁。由 于所有的这些方法都需要线程持有对象的锁，就只能通过同步来实现，所以他们只能在同步方法或者同步块中被调用。
@@ -31,7 +20,7 @@ fork/join框架，fork把大任务分解成多个小任务，然后汇总小任�
 
 
 
-## 4. 确定CPU密集型／IO密集型线程数
+## 3. 确定CPU密集型／IO密集型线程数
 &#12288;&#12288;首先考虑可用的处理器核心数：`Runtime.getRuntime().availableProcessors()`。应用程序最小线程数等于可用的处理器核数。
 
 &#12288;&#12288;如果所有任务是计算密集型的，则创建处理器可用核心数这么多个线程就可以 。创建更多的线程对于程序性能是不利的，因为多个线程间频繁进行上下文切换对于程序性能损耗较大。
@@ -39,7 +28,7 @@ fork/join框架，fork把大任务分解成多个小任务，然后汇总小任�
 &#12288;&#12288;如果任务都是IO密集型的，需要创建比处理器核心数大几倍的线程。当一个任务执行IO操作时，线程将被阻塞，处理器可以立即进行上下文切换以便处理其他就绪线程。如果只有处理器核心数那么多个线程，即使有待执行的任务也无法调度处理。
 
 &#12288;&#12288;因此，线程数与任务处于阻塞状态的时间比例相关。任务有50%时间处于阻塞状态，那程序所需线程数是处理器核心数的两倍。计算程序所需的线程数公式如下：
-<center><i>线程数=CPU可用核心数/（1 - 阻塞系数），阻塞系数在0到1内（CPU密集型阻塞系数为0，IO密集型程阻塞系数接近1）</i></center>
+<i>线程数=CPU可用核心数/（1 - 阻塞系数），阻塞系数在0到1内（CPU密集型阻塞系数为0，IO密集型程阻塞系数接近1）</i>
 
 You really can't improve on having one thread reading the file sequentially. With one thread, you do one seek and then one long sequential read; with multiple threads you're going to have the threads causing multiple seeks as each gains control of the disk head.
 
@@ -130,7 +119,7 @@ class CPUTask implements Runnable {
 
 
 
-## 5. daemon线程
+## 4. daemon线程
 A daemon thread runs in background and doesn’t prevent JVM from terminating. When there are no user threads running, JVM shutdown the program and quits.
 
 &#12288;&#12288;必须在Thread启动前调用`setDaemon()`将线程设置为Daemon线程：
@@ -141,7 +130,7 @@ A daemon thread runs in background and doesn’t prevent JVM from terminating. W
 
 
 
-## 6. 针对外星方法的保护性锁
+## 5. 针对外星方法的保护性锁
 &#12288;&#12288;例: 构造一个类从一个URL进行下载，并用`ProgressListeners`监听下载的进度：
 
 ``` java
@@ -204,7 +193,7 @@ private void updatePrgress(int n) {
 
 
 
-## 7. What will happen if don’t override Thread.run() method?
+## 6. What will happen if don’t override Thread.run() method?
 Thread class `run()` method code is as shown below:
 
 ``` java
@@ -221,7 +210,7 @@ Above target is set in the `init()` method of Thread class and if we create an i
 
 
 
-## 8. 线程类的构造方法、静态块是被哪个线程调用的
+## 7. 线程类的构造方法、静态块是被哪个线程调用的
 &#12288;&#12288;线程类的构造方法、静态块是被new这个线程类所在的线程所调用的，而`run()`里面的代码才是被线程自身所调用的。
 
 &#12288;&#12288;举个例子，假设`Thread2`中new了`Thread1`，`main()`中new了`Thread2`，那么：
@@ -232,7 +221,7 @@ Above target is set in the `init()` method of Thread class and if we create an i
 
 
 
-## 9. Java如何获取线程dump文件
+## 8. Java如何获取线程dump文件
 &#12288;&#12288;线程dump就是线程堆栈，获取到线程堆栈有两步：
 1. 获取到线程的`pid`, 在Linux环境下还可以使用ps -ef | grep java
 2. 打印线程堆栈, 在Linux环境下还可以使用kill -3 pid
