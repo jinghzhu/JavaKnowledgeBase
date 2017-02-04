@@ -24,6 +24,7 @@
   * [Atomic](/Concurrent/Atomic.md)
   * [BlockingQueue](/Concurrent/BlockingQueue.md)
   * [(Non-)Blocking Algorithm](/Concurrent/NonBlockingAlgorithm.md)
+  * [Concurrent Programming Model](/Concurrent/ConPgmMdl.md)
   * [Concurrent Conclusion](/Concurrent/ConcurrentConclusion.md)
 * [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
 * [JVM]()

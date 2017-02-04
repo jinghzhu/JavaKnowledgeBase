@@ -39,6 +39,7 @@ When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they ar
 <p align="center">
   <img src="./Images/sprites.png" alt="des"/>
 </p>
+
 <center><i>des</i></center>
 ```
 
