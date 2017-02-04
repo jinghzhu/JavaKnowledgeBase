@@ -4,7 +4,111 @@
 
 
 
-## 1. ReentrantLock中有一个抽象类Sync
+## 1. 锁的可重入性
+&#12288;&#12288;synchronized同步块是可重入的，这意味着如果一个线程进入synchronized同步块，并因此获得了该同步块使用的同步对象对应的管程上的锁，那么这个线程可以进入由同一个管程对象所同步的另一个代码块：
+
+``` java
+public class Reentrant{
+    public synchronized outer(){
+        inner();
+    }
+
+    public synchronized inner(){
+        //do something
+    }
+}
+```
+
+&#12288;&#12288;`outer()`和`inner()`都被声明为synchronized，这和`synchronized(this)`块等效。如果一个线程调用`outer()`，在`outer()`里调用`inner()`就没有问题，因为这两个方法（代码块）都由同一个管程对象（”this”)所同步。如果一个线程已拥有一个管程对象上的锁，那么它就有权访问被这个管程对象同步的所有代码块。这就是可重入。
+
+&#12288;&#12288;下面的锁实现不是可重入的。当线程调用`outer()`时，会在`inner()`方法的`lock.lock()`处阻塞住。
+
+``` java
+public class Reentrant2{
+    Lock lock = new Lock();
+
+    public outer(){
+        lock.lock();
+        inner();
+        lock.unlock();
+    }
+
+    public synchronized inner(){
+        lock.lock();
+        //do something
+        lock.unlock();
+    }
+}
+```
+
+&#12288;&#12288;调用`outer()`的线程首先会锁住Lock实例，然后继续调用`inner()`。`inner()`方法中该线程将再一次尝试锁住Lock实例，结果该动作会失败，因为这个Lock实例已在`outer()`方法中被锁住了。
+
+&#12288;&#12288;两次`lock()`间没有调用`unlock()`，第二次调用lock就会阻塞。看过 lock()实现后，会发现原因：
+
+``` java
+public class Lock{
+    boolean isLocked = false;
+
+    public synchronized void lock()
+        throws InterruptedException{
+        while(isLocked){
+            wait();
+        }
+        isLocked = true;
+    }
+
+    ...
+}
+```
+
+&#12288;&#12288;一个线程是否被允许退出`lock()`方法是由while循环（自旋锁）中的条件决定。当前的判断条件是只有当`isLocked`为`false`时lock操作才被允许，而没有考虑是哪个线程锁住了它。
+
+&#12288;&#12288;为了让这个Lock类具有可重入性，需做一点改动：
+
+``` java
+public class Lock{
+    boolean isLocked = false;
+    Thread  lockedBy = null;
+    int lockedCount = 0;
+
+    public synchronized void lock()
+        throws InterruptedException{
+        Thread callingThread =
+            Thread.currentThread();
+        while(isLocked && lockedBy != callingThread){
+            wait();
+        }
+        isLocked = true;
+        lockedCount++;
+        lockedBy = callingThread;
+    }
+
+    public synchronized void unlock(){
+        if(Thread.curentThread() == this.lockedBy){
+            lockedCount--;
+
+            if(lockedCount == 0){
+                isLocked = false;
+                notify();
+            }
+        }
+    }
+
+    ...
+}
+```
+
+&#12288;&#12288;现在的while循环考虑到了已锁住该Lock实例的线程。如果当前的锁对象没有被加锁(`isLocked = false`)，或当前调用线程已经对该Lock实例加锁，那么while循环不会被执行，调用`lock()`的线程就可以退出该方法（。
+
+&#12288;&#12288;除此之外，需记录同一个线程重复对一个锁对象加锁的次数。否则，一次`unblock()`调用会解除整个锁，即使当前锁已经被加锁过多次。
+
+&#12288;&#12288;现在这个 Lock 类就是可重入的了。
+
+<br></br>
+
+
+
+## 2. ReentrantLock中有一个抽象类Sync
 ``` java
 private final Sync sync;
 
@@ -18,7 +122,7 @@ abstract static class Sync extends AbstractQueuedSynchronizer{
 
 
 
-## 2. Nonfair获取锁 （ReentrantLock是悲观锁）
+## 3. Nonfair获取锁 （ReentrantLock是悲观锁）
 ```java
         final boolean nonfairTryAcquire(int acquires) {
             final Thread current = Thread.currentThread();
@@ -49,7 +153,7 @@ abstract static class Sync extends AbstractQueuedSynchronizer{
 
 
 
-## 3. synchronized造成死锁并用ReentrantLock解决
+## 4. synchronized造成死锁并用ReentrantLock解决
 &#12288;&#12288;synchronized产生死锁：
 
 ```java
@@ -137,7 +241,7 @@ public class Interruptible {
 
 
 
-## 4. 交替锁
+## 5. 交替锁
 &#12288;&#12288;链表需要插入一个节点，一种做法是锁整个链表，显然效率太低。交替锁可以只锁住链表的一部分。在链表中交替加锁的过程如下，即不断的加锁和解锁，直到找到要插入的位置对两边的节点加锁。
 
 <p align="center">
@@ -202,7 +306,7 @@ class ConcurrentSortedList {
 
 
 
-## 5. 公平锁分析（`tryAcquire` & `tryRelease`）
+## 6. 公平锁分析（`tryAcquire` & `tryRelease`）
 &#12288;&#12288;使用公平锁时，加锁方法`lock()`调用轨迹如下：
 1. ReentrantLock : `lock()`
 2. FairSync : `lock()`
@@ -266,7 +370,7 @@ protected final boolean tryAcquire(int acquires) {
 
 
 
-## 6. 非公平锁分析
+## 7. 非公平锁分析
 &#12288;&#12288;非公平锁的释放和公平锁一样，所以仅分析非公平锁的获取。加锁方法`lock()`调用轨迹如下：
 1. ReentrantLock : `lock()`
 2. NonfairSync : `ock()`
