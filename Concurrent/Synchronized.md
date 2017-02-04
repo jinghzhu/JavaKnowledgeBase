@@ -1,9 +1,105 @@
 # <center>Synchronized</center>
 
+> 底层是基于CAS操作的等待队列，把等待队列分为`ContentionList`和`EntryList`。由JVM实现，不像ReentrantLock由上层类实现。是**非公平悲观锁**。
 
 
-## 1. 原理
-&#12288;&#12288;底层是基于CAS操作的等待队列，把等待队列分为`ContentionList`和`EntryList`。但由JVM实现，不像ReentrantLock由上层类实现。是非公平悲观锁。
+
+## 1. Java同步快应用场景
+&#12288;&#12288;有四种不同的同步块：
+
+1. 实例方法
+2. 静态方法
+3. 实例方法中的同步块
+4. 静态方法中的同步块
+
+
+### 1.1 实例方法同步
+
+``` java
+public synchronized void add(int value){
+    this.count += value;
+}
+```
+
+&#12288;&#12288;实例方法同步是同步在拥有该方法的对象上。每个实例其方法同步都同步在不同的对象上，即该方法所属的实例。只有一个线程能够在实例方法同步块中运行。如果有多个实例存在，那么一个线程一次可以在一个实例同步块中执行操作。一个实例一个线程。
+
+<br>
+
+
+### 1.2 静态方法同步
+
+``` java
+public static synchronized void add(int value){
+    count += value;
+}
+```
+
+&#12288;&#12288;静态方法同步是指同步在该方法所在的类对象上。一个类只能对应一个类对象，所以同时只允许一个线程执行同一个类中的静态同步方法。
+
+&#12288;&#12288;对于不同类中的静态同步方法，一个线程可以执行每个类中的静态同步方法而无需等待。不管类中的那个静态同步方法被调用，一个类只能由一个线程同时执行。
+
+<br>
+
+
+### 1.3 实例方法中的同步块
+
+``` java
+public void add(int value){
+    synchronized(this){
+       this.count += value;
+    }
+}
+```
+
+&#12288;&#12288;Java 同步块构造器用括号将对象括起来。在上例中，使用了“this”，即为调用`add()`方法的实例本身。在同步构造器中用括号括起来的对象叫做监视器对象。上述代码使用监视器对象同步，同步实例方法使用调用方法本身的实例作为监视器对象。
+
+> 一次只有一个线程能够在同步于同一个监视器对象的 Java 方法内执行。
+
+&#12288;&#12288;下面两个例子都同步他们所调用的实例对象上，因此他们在同步的执行效果上是等效的。
+
+``` java
+public class MyClass {
+    public synchronized void log1(String msg1, String msg2){
+       log.writeln(msg1);
+       log.writeln(msg2);
+    }
+
+    public void log2(String msg1, String msg2){
+       synchronized(this){
+          log.writeln(msg1);
+          log.writeln(msg2);
+       }
+    }
+}
+```
+
+&#12288;&#12288;上例中，每次只有一个线程能够在两个同步块中任意一个方法内执行。如果第二个同步块不是同步`this`实例对象上，那么两个方法可以被线程同时执行。
+
+<br>
+
+
+### 1.4 静态方法中的同步块
+&#12288;&#12288;下面是两个静态方法同步的例子。这些方法同步在该方法所属的类对象上。这两个方法不允许同时被线程访问。
+
+``` java
+public class MyClass {
+    public static synchronized void log1(String msg1, String msg2){
+       log.writeln(msg1);
+       log.writeln(msg2);
+    }
+
+    public static void log2(String msg1, String msg2){
+       synchronized(MyClass.class){
+          log.writeln(msg1);
+          log.writeln(msg2);
+       }
+    }
+}
+```
+
+&#12288;&#12288;如果第二个同步块不是同步在`MyClass.class`对象上。那么这两个方法可以同时被线程访问。
+
+<br></br>
 
 
 
@@ -17,6 +113,8 @@
 * !Owner：释放锁的线程
 
 ![Synchronized](./Images/synchronized.png)
+
+<br></br>
 
 
 
@@ -40,39 +138,36 @@
 
 &#12288;&#12288;那`synchronized`实现何时使用了自旋锁？答案是在线程进入`ContentionList`时，也即第一步操作前。
  
-
-
-## 4. 偏向锁
-&#12288;&#12288;在JVM1.6中引入了偏向锁，偏向锁主要解决无竞争下的锁性能问题，首先看下无竞争下锁存在什么问题.
-
-&#12288;&#12288;现在几乎所有的锁都是可重入的，也即已经获得锁的线程可以多次锁住/解锁监视对象。每次加锁/解锁都会涉及到一些CAS操作（比如对等待队列的CAS操作），CAS操作会延迟本地调用，因此偏向锁的想法是一旦线程第一次获得了监视对象，之后让监视对象“偏向”这个线程，之后的多次调用则可以避免CAS操作，说白了就是置个变量，如果发现为true则无需再走各种加锁/解锁流程
+<br></br>
 
 
 
-## 5. 当一个线程进入某个对象的一个synchronized的实例方法后，其它线程是否可进入此对象的其它方法？
+## 4. 当一个线程进入某个对象的一个synchronized的实例方法后，其它线程是否可进入此对象的其它方法？
 * 如果另一个方法不是`synchronized`则可以进入。
 * 如果另一个方法是`static`方法，则可以进入，因为对于`static`方法，获取的是类的`class`对象（字节码文件）的锁而非同一个实例对象的锁。
 * 如果正在进入的对象可以通过`wait()`释放锁，那么该线程还可以进入这个对象的其他`synchronized`方法。
 * 如果另一个方法也是`synchronized`的，并且已经进入的方法中不能`wait()`释放锁，那么就不能进入那个方法。
 
+<br></br>
+
 
 
 ## 6. synchronized vs ReentrantLock
-* synchronized keyword cannot be used for constructors and variables. 
-* We should not use any object that is maintained in a constant pool, for example String should not be used for synchronization because if any other code is also locking on same String, it will try to acquire lock on the same reference object from String pool and even though both the codes are unrelated, they will lock each other.
 * `synchronized`是Java语言特性，得到虚拟机直接支持，`Lock`是`concurrent`包下的类
 * synchronized在进入退出同步方法代码块时会自动获取释放锁，`ReentrantLock`须显式获取锁，且要在`finally`中显式释放锁 。Synchronization code is much cleaner and easy to maintain.
 * 在资源竞争不是很激烈的情况下，`Synchronized`性能优于`ReetrantLock`，但在资源竞争激烈情况下，`Synchronized`性能会下降几十倍，但是`ReetrantLock`的性能能维持常态。
-* ReentrantLock提供了更大的灵活性
+* ReentrantLock提供了更大的灵活性：
     * 可以通过`tryLock`实现轮询或定时获取锁，可用于避免死锁的发生
     * `lockInterruptibly`方法能在获取锁的过程中保持对中断的响应
     * `synchronized`方法和`synchronized`块都是基于块结构的加锁，`ReentrantLock`可用于非块结构加锁（例如ConcurrentHashMap中的分段锁）
     * `synchronized`使用的内置锁和`ReentrantLock`默认都是非公平的，`ReentrantLock`在构造时可选择公平锁。
 
+<br></br>
+
 
 
 ## 7. Condition VS wait/notify
-&#12288;&#12288;Lock对应synchronized，使用之前都要先获取锁 ：
+&#12288;&#12288;Lock对应synchronized，使用之前都要先获取锁：
 
 |            |    Object  | Condition  |
 | ---------- | :--------: | :--------: |
@@ -84,43 +179,7 @@
 
 &#12288;&#12288;例如，多线程读/写缓冲区：当向缓冲区中写入数据之后，唤醒读线程；当从缓冲区读出数据之后，唤醒写线程。 如果采用`Object`类中的`wait()`, `notify()`, `notifyAll()`实现该缓冲区，当向缓冲区写入数据之后需要唤醒读线程时，不可能通过`notify()`或`notifyAll()`明确的指定唤醒读线程，而只能通过`notifyAll`唤醒所有线程(但是`notifyAll()`无法区分唤醒的线程是读线程，还是写线程)。 通过Condition，就能明确的指定唤醒读线程。
 
-```java
-private volatile boolean usedData = true;//mutex for data
-private final Lock lock = new ReentrantLock();
-private final Condition isEmpty = lock.newCondition();
-private final Condition isFull = lock.newCondition();
-
-public void setData(int data) throws InterruptedException {
-    lock.lock();
-    try {
-        while(!usedData) {//wait for data to be used
-            isEmpty.await();
-        }
-        this.data = data;
-        isFull.signal();//broadcast that the data is now full.
-        usedData = false;//tell others I created new data.          
-    }finally {
-        lock.unlock();//interrupt or not, release lock
-    }       
-}
-
-public void getData() throws InterruptedException{
-    lock.lock();
-    try {
-        while(usedData) {//usedData is lingo for empty
-            isFull.await();
-        }
-        isEmpty.signal();//tell the producers to produce some more.
-        usedData = true;//tell others I have used the data.
-    }finally {//interrupted or not, always release lock
-        lock.unlock();
-    }       
-}
-```
-
-Condition interface comes with Two extra methods that are:
-1. `boolean awaitUntil(Date deadline)throws InterruptedException`: causes the current thread to wait until it is signaled or interrupted, or the specified deadline elapses.
-2. `awaitUninterruptibly()`: causes the current thread to wait until it is signaled.
+<br></br>
 
 
 

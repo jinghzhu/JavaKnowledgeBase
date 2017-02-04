@@ -1,6 +1,5 @@
 # <center>Memory Model</center>
 
-&#12288;&#12288; ![Memory Model](./Images/memory_model.png)
 &#12288;&#12288;&#12288;&#12288;&#12288;&#12288;  ![JVM Architecture](./Images/JVM_arch.png)
 
 
@@ -65,64 +64,4 @@ Objects on the heap can be accessed by all threads that have a reference to the 
 &#12288;&#12288;运行时常量池相对于Class文件常量池的另外一个重要特征是具备动态性，Java不要求常量只能在编译期产生，也就是并非预置入Class文件中常量池的内容才能进入方法区运行时常量池，运行期间也可能将新的常量放入池中，这种特性被利用得比较多的是String 类的intern()。
 
 
-
-## 7. Where to store local variable, object & static class?
-
-* A local variable may be of a primitive type, in which case it is totally kept on the thread stack. 
-
-* A local variable may also be a reference to an object. In that case the reference (the local variable) is stored on the thread stack, but the object itself if stored on the heap.
-
-* An object may contain methods and these methods may contain local variables. These local variables are also stored on the thread stack, even if the object the method belongs to is stored on the heap. 
-
-* An object's member variables are stored on the heap along with the object itself. That is true both when the member variable is of a primitive type, and if it is a reference to an object. 
-
-* Static class variables are also stored on the heap along with the class definition. 
-
-
-
-## 8. Difference between Java Heap Space and Stack Memory
-* Heap memory is used by all the parts of the application whereas stack memory is used only by one thread of execution.
-* Whenever an object is created, it’s always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primitive variables and reference variables to objects in heap space.
-* Objects stored in the heap are globally accessible whereas stack memory can’t be accessed by other threads.
-* Memory management in stack is done in LIFO manner whereas it’s more complex in Heap memory because it’s used globally. Heap memory is divided into Young-Generation, Old-Generation etc.
-* Stack memory is short-lived whereas heap memory lives from the start till the end of application execution.
-* We can use -Xms and -Xmx JVM option to define the startup size and maximum size of heap memory. We can use -Xss to define the stack memory size.
-* When stack memory is full, Java runtime throws java.lang.StackOverFlowError whereas if heap memory is full, it throws java.lang.OutOfMemoryError: Java Heap Space error.
-Stack memory size is very less when compared to Heap memory. Because of simplicity in memory allocation (LIFO), stack memory is very fast when compared to heap memory.
-
-
-
-## 9. The Java Memory Model And The Hardware Memory Architecture
-
-![JVM & Hardware](./Images/jvm_hardware.png)
-
-
-
-## 10. Visibility of Shared Objects
-
-If two or more threads are sharing an object, without the proper use of either volatile declarations or synchronization, updates to the shared object made by one thread may not be visible to other threads. 
-
-Imagine that the shared object is initially stored in main memory. A thread running on CPU one then reads the shared object into its CPU cache. There it makes a change to the shared object. As long as the CPU cache has not been flushed back to main memory, the changed version of the shared object is not visible to threads running on other CPUs. This way each thread may end up with its own copy of the shared object, each copy sitting in a different CPU cache. 
-
-The following diagram illustrates the sketched situation. One thread running on the left CPU copies the shared object into its CPU cache, and changes its count variable to 2. This change is not visible to other threads running on the right CPU, because the update to count has not been flushed back to main memory yet. 
-
-![Visibility Problem](./Images/visibility_problem.png)
-
-To solve this problem you can use Java's volatile keyword. 
-
-
-
-## 10. Race Conditions
-
-If two or more threads share an object, and more than one thread updates variables in that shared object, race conditions may occur. 
-
-Imagine if thread A reads the variable count of a shared object into its CPU cache. Imagine too, that thread B does the same, but into a different CPU cache. Now thread A adds one to count, and thread B does the same. Now var1 has been incremented two times, once in each CPU cache. 
-
-If these increments had been carried out sequentially, the variable count would be been incremented twice and had the original value + 2 written back to main memory. 
-
-However, the two increments have been carried out concurrently without proper synchronization. Regardless of which of thread A and B that writes its updated version of count back to main memory, the updated value will only be 1 higher than the original value, despite the two increments. 
-
-![Race Problem](./Images/race_problem.png)
-
-To solve this problem you can use a Java synchronized block. A synchronized block guarantees that only one thread can enter a given critical section of the code at any given time. Synchronized blocks also guarantee that all variables accessed inside the synchronized block will be read in from main memory, and when the thread exits the synchronized block, all updated variables will be flushed back to main memory again, regardless of whether the variable is declared volatile or not. 
 

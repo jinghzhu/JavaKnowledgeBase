@@ -6,7 +6,7 @@
 &#12288;&#12288;第一种并发模型是并行工作者模型。传入的作业会被分配到不同的工作者上：
 
 <p align="center">
-  <img src="./Images/model1.png"/>
+  <img src="./Images/pgm_model1.png"/>
 </p>
 
 &#12288;&#12288;在并行工作者模型中，委派者（Delegator）将作业分配给不同的工作者。工作者们并行运作在不同的线程上，甚至可能在不同CPU上。在Java中，并行工作者模型是最常见的并发模型。java.util.concurrent包中的许多是设计用于这个模型的。
@@ -29,7 +29,7 @@
 
 ### 2.1 流水线系统
 <p align="center">
-  <img src="./Images/model2.png"/>
+  <img src="./Images/pgm_model2.png"/>
 </p>
 
 <center><i>一个流水线并发模型</i></center>
@@ -41,7 +41,7 @@
 &#12288;&#12288;有了非阻塞 O，就可以使用IO操作确定工作者之间边界。工作者会尽可能多运行直到遇到并启动一个IO操作，然后交出作业控制权。
 
 <p align="center">
-  <img src="./Images/model3.png"/>
+  <img src="./Images/pgm_model3.png"/>
 </p>
 
 <br>
