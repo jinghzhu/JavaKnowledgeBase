@@ -25,7 +25,7 @@ BlockingQueue doesn’t accept `null` values and throw `NullPointerException` if
 > LinkedBlcokingQueue和ArrayBlockingQueue用ReentrantLock，默认非公平锁，即阻塞式队列。其中LinkedBlockingQueue使用了2个lock，takelock和putlock，读和写用不同的lock来控制，这样并发效率更高。
 
 ``` java
-/** Main lock guarding all access */
+/** Main lock guarding all access **/
     final ReentrantLock lock;
 
     public void put(E e) throws InterruptedException {

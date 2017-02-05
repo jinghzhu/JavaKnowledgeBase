@@ -14,7 +14,7 @@
 
     "pluginsConfig": {
         "mathjax":{
-            "forceSVG": true
+            "forceSVG": false
         },
         "tbfed-pagefooter": {
             "Contact":"jhzhu@outlook.com",

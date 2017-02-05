@@ -32,6 +32,7 @@
     * [Dead Lock](/Concurrent/Theory/DeadLock.md)
     * [Read-Write Lock](/Concurrent/Theory/RWLock.md)
     * [CLH](/Concurrent/Theory/CLH.md)
+    * [Amdahl Law](/Concurrent/Theory/Amdahl.md)
 * [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
 * [JVM]()
   * [About JVM](/JVM/JVM.md)

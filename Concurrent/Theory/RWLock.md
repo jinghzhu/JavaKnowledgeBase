@@ -1,10 +1,12 @@
 # <center>Read-Write Lock</center>
 
+<br>
 
 
-## 1. 信号量实现的写进程优先
 
-``` cpp
+#### 信号量实现的写进程优先
+--------------
+``` java
 int readcount, writecount;
 semaphore x = 1, y = 1, z = 1, wsem = 1, rsem = 1;
 
@@ -57,12 +59,13 @@ void main()
 }
 ```
 
-<br></br>
+<br>
 
 
 
-## 2. 读写锁可重入的Java代码
-### 2.1 最简单的读写锁（写锁高优先级）
+#### 读写锁可重入的Java代码
+-------------------
+##### 最简单的读写锁（写锁高优先级）
 &#12288;&#12288;如果读操作较频繁，又没有提升写操作优先级就会产生“饥饿”。写线程一直阻塞，直到所有读线程都从ReadWriteLock上解锁。因此，只有当没有线程正锁住ReadWriteLock进行写操作，且没有线程请求锁准备写操作时，才保证读操作继续。
 
 ``` java
@@ -111,7 +114,7 @@ public class ReadWriteLock{
 <br>
 
 
-### 2.2 读锁重入
+##### 读锁重入
 &#12288;&#12288;要保证某个读锁可重入，要么没有写或写请求，要么已持有读锁（不管是否有写请求）。 可以用一个map存储已持有读锁的线程以及对应线程获取读锁的次数。当需要判断某个线程能否获得读锁时，就用map中数据进行判断。
 
 ``` java
@@ -167,7 +170,7 @@ public class ReadWriteLock{
 <br>
 
 
-### 2.3 写锁重入
+##### 写锁重入
 &#12288;&#12288;仅当一个线程已持有写锁，才允许写锁重入（再次获得写锁）。
 
 ``` java
@@ -218,7 +221,7 @@ public class ReadWriteLock{
 <br>
 
 
-## 2.4 读锁升级到写锁
+##### 读锁升级到写锁
 &#12288;&#12288;有时希望拥有读锁的线程也能获得写锁。要允许这操作，要求这个线程是唯一一个拥有读锁的线程。`writeLock()`做点改动：
 
 ``` java
@@ -274,7 +277,7 @@ public class ReadWriteLock{
 <br>
 
 
-## 2.5 写锁降级到读锁
+##### 写锁降级到读锁
 &#12288;&#12288;有时拥有写锁的线程希望得到读锁。如果线程拥有写锁，那么其它线程不可能拥有读锁或写锁。所以对于拥有写锁的线程，再获得读锁，不会有什么危险。仅需对`canGrantReadAccess()`方法修改：
 
 ``` java
@@ -292,8 +295,8 @@ public class ReadWriteLock{
 <br>
 
 
-## 2.6 可重入ReadWriteLock完整实现
-
+#### 可重入ReadWriteLock完整实现
+------------------------
 ``` java
 public class ReadWriteLock{
     private Map<Thread, Integer> readingThreads =
