@@ -34,7 +34,9 @@
     * [Read-Write Lock](/Concurrent/Theory/RWLock.md)
     * [CLH](/Concurrent/Theory/CLH.md)
     * [Amdahl Law](/Concurrent/Theory/Amdahl.md)
-* [Java Data Structure](/Java Data Structure/JavaDataStructure.md)
+
+* [Java Data Structure](/Java_Data_Structure/JavaDataStructure.md)
+
 * [JVM]()
   * [About JVM](/JVM/JVM.md)
   * [Garbage Collector](/JVM/GarbageCollector.md)
