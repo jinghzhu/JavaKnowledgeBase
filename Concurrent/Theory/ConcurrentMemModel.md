@@ -1,10 +1,10 @@
 # <center>Concurrent Memory Model</center>
 
-<br>
+<br></br>
 
 
 
-#### 内存模型内部原理
+### 内存模型内部原理
 ----------------
 &#12288;&#12288;JVM中存在一个主内存（Main Memory），所有的变量、所有实例和实例的字段都存储在主内存中，对于所有的线程是共享的（相当于黑板，其他人都可以看到的）。每个线程都有自己的工作内存（Working Memory），工作内存中保存的是主存中变量的拷贝（相当于自己笔记本，只能自己看到），工作内存由缓存和堆栈组成，其中缓存保存的是主存中的变量的copy，堆栈保存的是线程局部变量。
 
@@ -38,11 +38,11 @@
 * 线程退出`synchronized`块时，会把工作内存中的值映射到主内存，此时并不会清空工作内存。强制其按照上面的顺序运行，以保证线程在执行完代码块后，工作内存中的值和主内存中的值是一致的，保证了数据的一致性。 
 * `volatile`负责线程中的变量与主存储区同步.但不负责每个线程之间的同步. 
 
-<br>
+<br></br>
 
 
 
-#### 各种类型变量存放位置
+### 各种类型变量存放位置
 -------------
 * 原始类型（primitive type），它总是“呆在”线程栈上。
 
@@ -54,11 +54,11 @@
 
 * 静态成员变量跟随着类一起也存放在堆上。（Static class variables are also stored on the heap along with the class definition. ）
 
-<br>
+<br></br>
 
 
 
-#### Java Memory Model And Hardware Memory Architecture
+### Java Memory Model And Hardware Memory Architecture
 ----------------
 &#12288;&#12288;Java内存模型与硬件内存架构之间存在差异。硬件内存架构没有区分线程栈和堆。对于硬件，所有的线程栈和堆都分布在主内中。部分线程栈和堆可能有时候会出现在CPU缓存中和CPU内部的寄存器中。
 
@@ -72,8 +72,8 @@
 <br>
 
 
-##### Visibility of Shared Objects
 
+#### Visibility of Shared Objects
 The shared object is initially stored in main memory. A thread running on CPU one then reads the shared object into its CPU cache. There it makes a change to the shared object. As long as the CPU cache has not been flushed back to main memory, the changed version of the shared object is not visible to threads running on other CPUs. This way each thread may end up with its own copy of the shared object, each copy sitting in a different CPU cache. 
 
 &#12288;&#12288;跑在左边CPU的线程拷贝这个共享对象到它的CPU缓存中，然后将`count`变量的值改为2。这个修改对跑在右边CPU上的其它线程是不可见的，因为修改后的`count`的值还没有被刷新回主存中去。
@@ -84,8 +84,8 @@ To solve this problem you can use Java's volatile keyword.
 
 <br>
 
-##### Race Conditions
 
+#### Race Conditions
 > 如果两个或者更多的线程共享一个对象，多个线程在这个共享对象上更新变量，就可能发生race conditions。
 
 If thread A reads the variable count of a shared object into its CPU cache. Thread B does the same, but into a different CPU cache. Now thread A adds one to count, and thread B does the same. Now value has been incremented two times, once in each CPU cache. 
@@ -98,11 +98,11 @@ However, the two increments have been carried out concurrently without proper sy
 
 To solve this problem you can use Java synchronized block. 
 
-<br>
+<br></br>
 
 
 
-#### ThreadLocal
+### ThreadLocal
 ------------
 ThreadLocal is used to create thread-local variables. We know that all threads of an `Object` share its variables, so if the variable is not thread safe, we can use synchronization but if we want to avoid synchronization, we can use ThreadLocal variables.
 
@@ -110,11 +110,11 @@ Every thread has its own ThreadLocal variable and they can use its `get()` and `
         
 &#12288;&#12288;ThreadLocal是一种以空间换时间的做法，在每个Thread里面维护了一个以开地址法实现的`ThreadLocal.ThreadLocalMap`，把数据进行隔离，数据不共享。
 
-<br>
+<br></br>
 
 
 
-#### Difference between Java Heap Space and Stack Memory
+### Difference between Java Heap Space and Stack Memory
 ------------
 * Whenever an object is created, it’s always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primitive variables and reference variables to objects in heap space.
 * Memory management in stack is done in LIFO manner whereas it’s more complex in Heap memory because it’s used globally. Heap memory is divided into Young-Generation, Old-Generation etc.
