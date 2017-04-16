@@ -1,5 +1,25 @@
 # <center>Advanced Java Knowledge</center>
 
+<br></br>
+
+
+
+## Using Reflection in Frameworks
+----
+Why use reflection in JUNIT, Spring, Tomcat, Struts and Hibernate? but not for normal programming?
+
+Because frameworks have no knowledge and access of user defined classes, interfaces, their methods etc. Using reflection we can inspect a class, interface and enum get their structure, methods and fields information at runtime even though class is not accessible at compile time. We can also use reflection to instantiate an object, invoke it’s methods, change field values.
+
+We should not use reflection in normal programming interfaces because:
+* Poor Performance – Since reflection resolve the types dynamically, it involves processing like scanning the classpath to find the class to load, causing slow performance.反射包括了一些动态类型，所以JVM无法对这些代码进行优化。
+* Security Restrictions – Reflection requires runtime permissions that might not be available for system running under security manager. This can cause you application to fail at runtime because of security manager.
+* Security Issues – Using reflection we can access part of code that we are not supposed to access, for example we can access private fields of a class and change its value. This can be a serious security threat and cause your application to behave abnormally.
+* High Maintenance – Reflection code is hard to understand and debug, also any issues with the code can’t be found at compile time because the classes might not be available, making it less flexible and hard to maintain.
+
+<br></br>
+
+
+
 ## 1. List中的迭代器
 ```java
 private class Itr implements Iterator<E> {
@@ -68,10 +88,7 @@ public class Bb extends Aa {
 
 &#12288;&#12288;子类的构造方法如果没明确调用父类构造方法,会默认调用父类不带参数的构造方法。如果父类有定义带参数构造方法但没定义不带参数的构造方法,则不会默认创建不带参数的构造方法。这样子类调用就出错。
 
-
-## 3. 反射缺点 
-* 反射包括了一些动态类型，所以JVM无法对这些代码进行优化。因此，反射操作的效率要比那些非反射操作低得多。应避免在经常被 执行的代码或对性能要求很高的程序中使用反射。
-* 安全限制(Security Restrictions): reflection requires a runtime permission which may not be present when running under a security manager. This is in an important consideration for code which has to run in a restricted security context, such as in an Applet. 
+<br></br>
 
 
 
