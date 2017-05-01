@@ -3,35 +3,6 @@ Math integration with GitBook
 
 &#12288;&#12288;
 
-### How to use it?
-
-Add it to your `book.json` configuration:
-
-```
-{
-    "plugins": ["mathjax"]
-}
-```
-
-Install your plugins using:
-
-```
-$ gitbook install ./
-```
-
-You can now add TeX formula to your book using the `{% math %}` block:
-
-```
-When {% math %}a \ne 0{% endmath %}, there are two solutions to {% math %}(ax^2 + bx + c = 0){% endmath %} and they are {% math %}x = {-b \pm \sqrt{b^2-4ac} \over 2a}.{% endmath %}
-```
-
-You can also use the shortcut `$$`:
-
-```
-When $$a \ne 0$$, there are two solutions to $$(ax^2 + bx + c = 0)$$ and they are $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-```
-
-<br></br>
 
 ### 图片置中
 ![ReentrantLock类图](./Images/lock_uml.png)
@@ -60,28 +31,6 @@ $$  x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 | Pipe      |    1 USD | 234  |
 
 
-
-### 流程图
-```flow
-st=>start: Start
-e=>end
-op=>operation: My Operation
-cond=>condition: Yes or No?
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
-
-以及时序图:
-
-```sequence
-Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-```
-
-> **提示：**想了解更多，请查看**流程图**[语法][3]以及**时序图**[语法][4]。
 
 ### 复选框
 

@@ -1,16 +1,14 @@
 # Summary
 
 * [Fundanmental]()
-  * [Must To Know](/Fundamental/Fundamental.md))
-  * [FAQ](/Fundamental/FAQ.md)
+  * [Practice](/Fundamental/practice.md))
+  * [Fundanmental](/Fundamental/fundanmental.md)
   * [Upcast & Downcast](/Fundamental/Upcast_Downcast.md)
   * [Rewrite Equals() of String](/Fundamental/StringEquals.md)
   * [String](/Fundamental/String.md)
   * [Class](/Fundamental/Class.md)
   * [Serializable](/Fundamental/Serializable.md)
-
-* [Advanced](/Advanced/Advanced.md)
-  * [Class Loader](/Advanced/ClassLoader.md)
+  * [Class Loader](/Fundamental/ClassLoader.md)
 
 * [Concurrent]()
   * [About Concurrent](/Concurrent/AboutConcurrent.md)
@@ -27,6 +25,7 @@
   * [BlockingQueue](/Concurrent/BlockingQueue.md)
   * [ThreadLocal](/Concurrent/threadlocal.md)
   * [Concurrent Conclusion](/Concurrent/ConcurrentConclusion.md)
+  * [JVM Lock Type](/Concurrent/lock.md)
   * [Concurrent Theory]()
     * [Basic Theory](/Concurrent/Theory/theory.md)
     * [Concurrent Memory Model](/Concurrent/Theory/ConcurrentMemModel.md)
@@ -45,4 +44,4 @@
   * [Garbage Collector](/JVM/GarbageCollector.md)
   * [JMM](/JVM/JMM.md)
   * [Deeoly Understanding JMM](/JVM/JMM++.md)
-  * [Lock in JVM](/JVM/LockJVM.md)
+  

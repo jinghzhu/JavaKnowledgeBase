@@ -1,21 +1,25 @@
 # <center>String的equals()</center>
 
-## 1. Solution
+<br></br>
 
+
+
+## Solution
+----
 ```java
 public class Test {
     private int num;
     private String data;
 
     public boolean equals(Object obj) {
-        if(this == obj) {
+        if(this == obj)
             return true;
-        }        
-        if((obj == null) || (obj.getClass() != this.getClass())) {
+        else if((obj == null) || (obj.getClass() != this.getClass())) 
             return false;
-        }     
+        
         // object must be Test at this point
         Test test = (Test)obj;
+
         return num == test.num &&
          (data == test.data || (data != null && data.equals(test.data)));
      }
@@ -24,16 +28,18 @@ public class Test {
          int hash = 7;
          hash = 31 * hash + num;
          hash = 31 * hash + (null == data ? 0 : data.hashCode());
+
          return hash;
      }
-
-     // other methods
  }
 ```
 
+<br></br>
 
-## 2. getClass() vs instanceof
 
+
+## getClass() vs instanceof
+----
 ```java
 if((obj == null) || (obj.getClass() != this.getClass())) {
     return false;
@@ -48,9 +54,8 @@ if(!(obj instanceof Test)) {
 }
 ```
 
-Because the first condition ensures that it will return false if the argument is a subclass of the class Test. However, in case of the second condition it fails. Thus, it might violate the symmetry requirement of the contract. The instanceof check is correct only if the class is final, so that no subclass would exist. The first condition will work for both, final and non-final classes. 
+Because the first condition ensures that it will return false if the argument is a subclass of the class Test. However, in case of the second condition it fails. Thus, it might violate the symmetry requirement of the contract. **The `instanceof` check is correct only if the class is final, so that no subclass would exist. The first condition will work for both, final and non-final classes.** 
 
-Key points:
 * `instanceof` tests whether the object reference on the left-hand side (LHS) is an instance of the type on the right-hand side (RHS) or some subtype.
 * `getClass() == ...` tests whether the types are identical.
 
@@ -72,20 +77,33 @@ o2.getClass().equals(A.class) => false // <===============HERE
 o2.getClass().equals(B.class) => true
 ```
 
+<br></br>
 
-## 3. Guidelines
-1. Use `==` to check if the argument is the reference to this object. This saves time when actual comparison is costly. 
+
+
+## Guidelines
+----
+1. Use `==` to check if the argument is the reference to this object. 
+
 2. Cast the method argument to the correct type. Again, the correct type may not be the same class. Also, since this step is done after the above type-check condition, it will not result in a _ClassCastException_. 
-3. Compare significant variables of both, the argument object and this object and check if they are equal. If all of them are equal then return true, otherwise return false. Again, as mentioned earlier, while comparing these class members/variables; *primitive variables* can be compared directly with `==` after performing any necessary conversions (Such as float to Float.floatToIntBits or double to Double.doubleToLongBits). Whereas, *object references* can be compared by invoking their equals method recursively. You also need to ensure that invoking equals method on these object references does not result in a `NullPointerException`, as shown in Line 15.
-4. Do not change the type of the argument of the equals method. It takes a `java.lang.Object` as an argument, do not use your own class instead. If you do that, you will not be overriding the equals method, but you will be overloading it instead; which would cause problems. 
-5. Lastly, do not forget to override the hashCode method whenever you override the equals method.
+
+3. Compare significant variables of both, the argument object and this object and check if they are equal. If all of them are equal then return true, otherwise return false. Again, as mentioned earlier, while comparing these class members/variables; *primitive variables* can be compared directly with `==` after performing any necessary conversions (such as float to Float.floatToIntBits or double to Double.doubleToLongBits). Whereas, *object references* can be compared by invoking their equals method recursively. Also need to ensure that invoking equals method on these object references does not result in a `NullPointerException`.
+
+4. Do not change the type of the argument of the equals method. It takes a `java.lang.Object` as an argument, do not use your own class instead. If do that, you will not be overriding the equals method, but you will be overloading it instead; which would cause problems. 
+
+5. Do not forget to override the hashCode method whenever you override the equals method.
+
 6. The class `java.lang.StringBuffer` does not override the equals method, and hence it inherits the implementation from `java.lang.Object` class.
-7. If `null` is passed as an argument to the equals method, it will return false. 
-8. If a class field is not used in `equals()`, you should not use it in `hashCode()` method.
+
+7. If a class field is not used in `equals()`, you should not use it in `hashCode()` method.
+
+<br></br>
 
 
-## 4. How to write immutable classes
-* All of its fields are final and the class is declared final
+
+## Write Immutable Class
+----
+* All of its fields are `final` and the class is declared `final`
 * Any fields that contain references to mutable objects, such as arrays, collections, or mutable classes like Date: 
     * Are private
     * Are never returned or otherwise exposed to callers
@@ -94,7 +112,6 @@ o2.getClass().equals(B.class) => true
 
 ```java
 class ImmutableArrayHolder {
-
   private final int[] theArray;
 
   // Right way to write a constructor -- copy the array
