@@ -4,8 +4,6 @@
   * [Practice](/Fundamental/practice.md))
   * [Fundanmental](/Fundamental/fundanmental.md)
   * [Upcast & Downcast](/Fundamental/Upcast_Downcast.md)
-  * [Rewrite Equals() of String](/Fundamental/StringEquals.md)
-  * [String](/Fundamental/String.md)
   * [Class](/Fundamental/Class.md)
   * [Serializable](/Fundamental/Serializable.md)
   * [Class Loader](/Fundamental/ClassLoader.md)
@@ -37,7 +35,10 @@
     * [CLH](/Concurrent/Theory/CLH.md)
     * [Amdahl Law](/Concurrent/Theory/Amdahl.md)
 
-* [Java Data Structure](/Java_Data_Structure/JavaDataStructure.md)
+* [Java Data Structure]()
+  * [List, Hash](/Java_Data_Structure/JavaDataStructure.md)
+  * [String](/Java_Data_Structure/String.md)
+  * [String.equals](/Java_Data_Structure/string_equals.md)
 
 * [JVM]()
   * [About JVM](/JVM/JVM.md)
