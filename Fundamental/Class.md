@@ -161,3 +161,65 @@ We should not use reflection in normal programming interfaces because:
 * High Maintenance – Reflection code is hard to understand and debug, also any issues with the code can’t be found at compile time because the classes might not be available, making it less flexible and hard to maintain.
 
 <br></br>
+
+
+
+## FAQ
+----
+### 局部内部类是否可以访问非final变量 
+不能访问局部的，可以访问成员变量（全局的）。 
+```java
+class Out { 
+    private String name = "out.name"; 
+    void print() { 
+        // 若不是final的则不能被Animal使用。 
+        final String work = "out.local.work";
+        int age=10; 
+        
+        // 定义一个局部内部类，只能在print()方法中使用。
+        // 局部类中不能使用外部的非final的局部变量，全局的可以。
+        class Animal { 
+            public void eat() { 
+                System.out.println(work);//ok 
+                //age=20;error not final 
+                System.out.println(name);//ok. 
+            } 
+        } 
+        Animal local = new Animal(); 
+        local.eat(); 
+    } 
+} 
+```
+
+<br>
+
+
+### Anonymous Inner Class是否可继承其它类，实现接口？
+匿名的内部类是没有名字的内部类。不能extends(继承) 其它类，但一个内部类可以作为一个接口，由另一个内部类实现
+
+<br>
+
+
+### Wrapper Classes
+Java wrapper classes are the Object representation of eight primitive types in java. All the wrapper classes in java are immutable and final. Java 5 autoboxing and unboxing allows easy conversion between primitive types and their corresponding wrapper classes.
+
+<br>
+
+
+### 抽象类是否可继承实体类 (concrete class)
+可以继承，但实体类须有明确的构造函数。其实Object就是个实体类，每个抽象类都直接或间接继承自Object。
+
+<br>
+
+
+### Which class is the superclass of all classes?
+`java.lang.Object` is the root class for all the java classes and we don’t need to extend it.
+
+<br>
+
+
+### Can we declare a class as static?
+We can’t declare a top-level class as static however an inner class can be declared as static. If inner class is declared as static, it’s called static nested class. Static nested class is same as any other top-level class and is nested for only packaging convenience.
+The reason why the top-level class can’t be added keyword static is all top-level classes are, by definition, static. What the static boils down to is that an instance of the class can stand on its own. Or, the other way around: a non-static inner class (= instance inner class) can’t exist without an instance of the outer class. Since a top-level class does not have an outer class, it can’t be anything but static.
+
+<br>

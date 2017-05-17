@@ -419,25 +419,6 @@ public class DeepCopy {
 
 ## FAQ 
 ---- 
-### Which class is the superclass of all classes?
-`java.lang.Object` is the root class for all the java classes and we don’t need to extend it.
-
-<br>
-
-
-### Can we declare a class as static?
-We can’t declare a top-level class as static however an inner class can be declared as static. If inner class is declared as static, it’s called static nested class. Static nested class is same as any other top-level class and is nested for only packaging convenience.
-The reason why the top-level class can’t be added keyword static is all top-level classes are, by definition, static. What the static boils down to is that an instance of the class can stand on its own. Or, the other way around: a non-static inner class (= instance inner class) can’t exist without an instance of the outer class. Since a top-level class does not have an outer class, it can’t be anything but static.
-
-<br>
-
-
-### 抽象类是否可继承实体类 (concrete class)
-可以继承，但实体类须有明确的构造函数。其实Object就是个实体类，每个抽象类都直接或间接继承自Object。
-
-<br>
-
-
 ### final vs finally vs finalize
 * `final` and `finally` are keywords in java whereas `finalize` is a method. 
 * `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed, it’s to make sure all the global resources are closed.
@@ -460,12 +441,6 @@ The reason why the top-level class can’t be added keyword static is all top-le
 
 ### Marker Interface
 A marker interface is an empty interface without any method but used to force some functionality in implementing classes by Java. Some of the well known marker interfaces are Serializable and Cloneable.
-
-<br>
-
-
-### Wrapper Classes
-Java wrapper classes are the Object representation of eight primitive types in java. All the wrapper classes in java are immutable and final. Java 5 autoboxing and unboxing allows easy conversion between primitive types and their corresponding wrapper classes.
 
 <br>
 
@@ -525,4 +500,22 @@ The task of java compiler is to convert java program into bytecode, we have java
 * Document the Exceptions Thrown by a method using `@throws` in javadoc.
 * Exceptions are costly, so throw it only when it makes sense. Else you can catch them and provide null or empty response.
 
+<br>
+
+
+### Collection和Collections
+* Collection是集合类的上级接口，继承与他的接口主要有Set和List。
+* Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+
+<br>
+
+
+### abstract的method是否可同时是static,native，synchronized？
+都不能 
+
+<br>
+
+
+### 当对象当作参数传递到方法后，方法可改变对象属性，那么是值传递还是引用传递
+值传递。当一个对象实例作为一个参数被传递到方法中时，参数的值就是对该对象的引用。对象的内容可以在被调用的方法中改变，但对象的引用是永远不会改变的
 <br></br>

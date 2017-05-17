@@ -360,7 +360,10 @@ If you try to serialize an object of a class which implements Serializable, but 
 ## 为何ArrayList中数组是transient修饰？
 假如实际有_5_个元素，而`elementData`大小是_10_，那么序列化时只需要储存_5_个元素。所以设计为`transient`，在`writeObject`中手动序列化，且只序列化了实际存储的那些元素，而不是整个数组。
 
+<br>
 
 
+### 若通过ObjectOutputStream向一个文件中多次以追加方式写入object，为什么用ObjectInputStream读取这些object时会产生StreamCorruptedException？ 
+使用缺省的serializetion的实现时，一个ObjectOutputStream的构造和一个ObjectInputStream的构造必须一一对应。ObjectOutputStream的构造函数会向输出流中写入一个标识头，而ObjectInputStream会首先读入这个标识头。因此，多次以追加方式向一个文件中写入object时，该文件将会包含多个标识头。所以用ObjectInputStream来deserialize这个ObjectOutputStream时，将产生StreamCorruptedException。 
 
-
+一种解决方法是构造一个ObjectOutputStream子类，并覆盖`writeStreamHeader()`方法。被覆盖后的`writeStreamHeader()`方法应判断是否为首次向文件中写入object。若是，则调用`super.writeStreamHeader()`；若否，即以追加方式写入object时，则应调用`ObjectOutputStream.reset()`方法。
