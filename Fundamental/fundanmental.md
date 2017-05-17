@@ -85,15 +85,6 @@ public class ASCII {
 
 
 
-## final vs finally vs finalize
-----
-* `final` and `finally` are keywords in java whereas `finalize` is a method. 
-* `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed, it’s to make sure all the global resources are closed.
-
-<br></br>
-
-
-
 ## JDK and JRE
 ----
 * Java Development Kit (JDK) is for development purpose and JVM is a part of it to execute the java programs. 
@@ -183,6 +174,20 @@ Java没有空字符`’’`，只有`(Character) null`
 
 
 
+## Composition
+----
+Composition is the design technique to implement has-a relationship in classes. We can use Object composition for code reuse.
+Java composition is achieved by using instance variables that refers to other objects. Benefit of using composition is that we can control the visibility of other object to client classes and reuse only what we need.
+
+One of the best practices is to “favor composition over inheritance”:
+1. Any change in the superclass might affect subclass even though we might not be using the superclass methods. For example, if we have a method test() in subclass and suddenly somebody introduces a method test() in superclass, we will get compilation errors in subclass. Composition will never face this issue because we are using only what methods we need.
+2. Inheritance exposes all the super class methods and variables to client and if we have no control in designing superclass, it can lead to security holes. Composition allows us to provide restricted access to the methods and hence more secure.
+3. We can get runtime binding in composition where inheritance binds the classes at compile time. So composition provides flexibility in invocation of methods.
+
+<br></br>
+
+
+
 ## Java vs C++
 ----
 * JVM虚拟机内部自己管理指针
@@ -219,27 +224,6 @@ Correct, the output is `i = 0`. Because `i` is instant variable which has defaul
 ```
 
 Wrong, because the instant variable with keyword `final` has no default value which means we must set a value for it.
-
-<br></br>
-
-
-
-## final
----- 
-* Class: no other class can extend it, for example we can’t extend String class. 
-* Method: child classes can’t override it.
-* Variable: 如果是基本数据类型，则数值在初始化后不能更改；如果是引用类型，则初始化之后不能指向另一个对象。
-
-<br></br>
-
-
-
-## static
-----
-方便在未创建对象情况下调用方法／变量：
-* 变量: static keyword can be used with class level variables to make it global i.e. all the objects will share the same variable. 
-* 方法: static修饰的方法只能访问类的static变量和static方法，但反过来是可以的，而且可以在没创建任何对象的前提下，仅通过类本身来调用static方法。static方法就是没有this的方法。即使没有声明为static，类的构造器也是静态方法。
-* Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader. It is used to initialize static variables of the class. 
 
 <br></br>
 
@@ -435,6 +419,12 @@ public class DeepCopy {
 
 ## FAQ 
 ---- 
+### Which class is the superclass of all classes?
+`java.lang.Object` is the root class for all the java classes and we don’t need to extend it.
+
+<br>
+
+
 ### Can we declare a class as static?
 We can’t declare a top-level class as static however an inner class can be declared as static. If inner class is declared as static, it’s called static nested class. Static nested class is same as any other top-level class and is nested for only packaging convenience.
 The reason why the top-level class can’t be added keyword static is all top-level classes are, by definition, static. What the static boils down to is that an instance of the class can stand on its own. Or, the other way around: a non-static inner class (= instance inner class) can’t exist without an instance of the outer class. Since a top-level class does not have an outer class, it can’t be anything but static.
@@ -444,6 +434,38 @@ The reason why the top-level class can’t be added keyword static is all top-le
 
 ### 抽象类是否可继承实体类 (concrete class)
 可以继承，但实体类须有明确的构造函数。其实Object就是个实体类，每个抽象类都直接或间接继承自Object。
+
+<br>
+
+
+### final vs finally vs finalize
+* `final` and `finally` are keywords in java whereas `finalize` is a method. 
+* `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed, it’s to make sure all the global resources are closed.
+* Class: no other class can extend it, for example we can’t extend String class. 
+* Method: child classes can’t override it.
+* Variable: 如果是基本数据类型，则数值在初始化后不能更改；如果是引用类型，则初始化之后不能指向另一个对象。
+* Java interface variables are by default final and static.
+
+<br>
+
+
+### static
+方便在未创建对象情况下调用方法／变量：
+* 变量: static keyword can be used with class level variables to make it global i.e. all the objects will share the same variable. 
+* 方法: static修饰的方法只能访问类的static变量和static方法，但反过来是可以的，而且可以在没创建任何对象的前提下，仅通过类本身来调用static方法。static方法就是没有this的方法。即使没有声明为static，类的构造器也是静态方法。
+* Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader. It is used to initialize static variables of the class. 
+
+<br>
+
+
+### Marker Interface
+A marker interface is an empty interface without any method but used to force some functionality in implementing classes by Java. Some of the well known marker interfaces are Serializable and Cloneable.
+
+<br>
+
+
+### Wrapper Classes
+Java wrapper classes are the Object representation of eight primitive types in java. All the wrapper classes in java are immutable and final. Java 5 autoboxing and unboxing allows easy conversion between primitive types and their corresponding wrapper classes.
 
 <br>
 
@@ -475,5 +497,32 @@ The reason why the top-level class can’t be added keyword static is all top-le
 返回类型 |   可以修改 |  不能修改 
 异常      |    可以修改 | 可以减少，但不能抛出新的或更广的异常  
 访问      |    可以修改 | 可以降低限制，但不能做更严格限制  
+
+<br>
+
+
+### Java Compiler is stored in JDK, JRE or JVM?
+The task of java compiler is to convert java program into bytecode, we have javac executable for that. So it must be stored in JDK, we don’t need it in JRE and JVM is just the specs.
+
+<br>
+
+
+### Iterator vs ListIterator
+1. We can use Iterator to traverse Set and List collections whereas ListIterator can be used with Lists only.
+2. Iterator can traverse in forward direction only whereas ListIterator can be used to traverse in both the directions.
+3. ListIterator inherits from Iterator interface and comes with extra functionalities like adding an element, replacing an element, getting index position for previous and next elements.
+
+<br>
+
+
+### Exception Handling Best Practices
+* Use Specific Exceptions for ease of debugging.
+* Throw Exceptions Early (Fail-Fast) in the program.
+* Catch Exceptions late in the program, let the caller handle the exception.
+* Always log exception messages for debugging purposes.
+* Use custom exceptions to throw single type of exception from your application API.
+* Follow naming convention, always end with Exception.
+* Document the Exceptions Thrown by a method using `@throws` in javadoc.
+* Exceptions are costly, so throw it only when it makes sense. Else you can catch them and provide null or empty response.
 
 <br></br>

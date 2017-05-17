@@ -596,3 +596,69 @@ private class Itr implements Iterator<E> {
 ```
 
 <br></br>
+
+
+
+## Static Import
+----
+If we have to use any static variable or method from other class, usually we import the class and then use the method/variable with class name.
+```java
+import java.lang.Math;
+//inside class
+double test = Math.PI * 5;
+```
+
+We can do the same thing by importing the static method or variable only and then use it in the class as if it belongs to it.
+```java
+import static java.lang.Math.PI;
+//no need to refer class now
+double test = PI * 5;
+```
+Use of static import can cause confusion, so it’s better to avoid it. 
+
+<br></br>
+
+
+
+## Java Annotations
+----
+Java Annotations provide information about the code and they have no direct effect on the code they annotate. Annotations are introduced in Java 5. Annotation is metadata about the program embedded in the program itself. It can be parsed by the annotation parsing tool or by compiler. We can also specify annotation availability to either compile time only or till runtime also. Java Built-in annotations are `@Override`, `@Deprecated` and `@SuppressWarnings`.
+
+<br></br>
+
+
+
+## Why can’t we create generic array? 
+----
+We are not allowed to create generic arrays because array carry type information of it’s elements at runtime. This information is used at runtime to throw ArrayStoreException if elements type doesn’t match to the defined type. Since generics type information gets erased at runtime by Type Erasure, the array store check would have been passed where it should have failed. 
+
+```java
+List<Integer>[] intList = new List<Integer>[5]; // compile error
+Object[] objArray = intList;
+List<Double> doubleList = new ArrayList<Double>();
+doubleList.add(Double.valueOf(1.23));
+// this should fail but it would pass because at runtime intList and doubleList both are just List
+objArray[0] = doubleList; 
+```
+Arrays are covariant by nature i.e `S[]` is a subtype of `T[]` whenever S is a subtype of T but generics doesn’t support covariance or sub-typing as we saw in last question. So if we would have been allowed to create generic arrays, because of type erasure we would not get array store exception even though both types are not related.
+
+<br></br>
+
+
+
+## Daemon Thread
+----
+Thread class `setDaemon(true)` can be used to create daemon thread in java. We need to call this method before calling `start()` method else it will throw IllegalThreadStateException.
+
+<br></br>
+
+
+
+## Important Methods of Exception Class
+----
+Exception and all of its subclasses doesn’t provide any specific methods and all of the methods are defined in the base class Throwable.
+1. `String getMessage()` – returns the message String of Throwable and the message can be provided while creating the exception through it’s constructor.
+2. `String getLocalizedMessage()` – is provided so that subclasses can override it to provide locale specific message to the calling program. Throwable class implementation of this method simply use getMessage() method to return the exception message.
+3. `synchronized Throwable getCause()` – returns the cause of the exception or null id the cause is unknown.
+4. `String toString()` – returns the information about Throwable in String format, the returned String contains the name of Throwable class and localized message.
+5. `void printStackTrace()` – prints the stack trace information to the standard error stream, this method is overloaded and we can pass PrintStream or PrintWriter as argument to write the stack trace information to the file or stream.

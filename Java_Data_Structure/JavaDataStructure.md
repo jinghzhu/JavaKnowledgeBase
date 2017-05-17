@@ -255,6 +255,7 @@ Iterator of CopyOnWriteArrayList is an example of fail-safe.
 
 
 ## Collection Hierarchy
+----
 
 ![Collection Hierarchy](./Images/collection_hierarchy.png)
 
@@ -262,3 +263,7 @@ Iterator of CopyOnWriteArrayList is an example of fail-safe.
 
 
 
+## FAQ
+----
+### While passing a Collection as argument to a function, how can we make sure the function will not be able to modify it?
+We can create a read-only collection using `Collections.unmodifiableCollection(Collection c)` method before passing it as argument, this will make sure that any operation to change the collection will throw UnsupportedOperationException.

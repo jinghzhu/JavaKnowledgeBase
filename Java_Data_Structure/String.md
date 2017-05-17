@@ -189,3 +189,11 @@ System.out.println(a == c); // true
 ```
 
 虽然`b`用`final`修饰，但由于其赋值是通过方法调用返回的，那么它的值只能在运行期间确定，因此`a`和`c`指向的不是同一个对象。
+
+<br></br>
+
+
+
+## Why Char array is preferred over String for storing password?
+----
+String is immutable in java and stored in String pool. Once it’s created it stays in the pool until unless garbage collected, so even though we are done with password it’s available in memory for longer duration and there is no way to avoid it. It’s a security risk because anyone having access to memory dump can find the password as clear text. If we use char array to store password, we can set it to blank once we are done with it. So we can control for how long it’s available in memory that avoids the security threat with String.
