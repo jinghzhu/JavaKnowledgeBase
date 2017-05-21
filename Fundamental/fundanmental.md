@@ -511,11 +511,65 @@ The task of java compiler is to convert java program into bytecode, we have java
 
 
 ### abstract的method是否可同时是static,native，synchronized？
-都不能 
+都不能。
 
 <br>
 
 
 ### 当对象当作参数传递到方法后，方法可改变对象属性，那么是值传递还是引用传递
-值传递。当一个对象实例作为一个参数被传递到方法中时，参数的值就是对该对象的引用。对象的内容可以在被调用的方法中改变，但对象的引用是永远不会改变的
+值传递。当一个对象实例作为一个参数被传递到方法中时，参数的值就是对该对象的引用。对象的内容可以在被调用的方法中改变，但对象的引用是永远不会改变的。
+
+### Statement, PreparedStatement and CallableStatement
+* Statement用于执行静态SQL语句并返回它所生成结果的对象，在执行时确定sql。
+* PreparedStatement表示预编译的SQL语句对象。
+* CallableStatement用于执行SQL存储过程的接口。如果有输出参数要注册说明是输出参数。
+
+<br>
+
+
+### 访问数据库步骤
+连接Oracle数据库：
+```java
+Class.forName(“oracle.jdbc.driver.OracleDriver”);
+Connection con=DriverManager.openConnection(“jdbc:oracle:thin:@localhost:1521:DataBase ”,” UserName”,”Password ”)
+```
+利用JDBC检索出表中的数据：
+```java
+Class.forName(“”);
+Connection con=DriverManager.openConnection(“ ”,” ”,” ”)
+preparedStatment  ps=Con.preparedStatment(“select * from ［table］”);
+ResultSet rs=ps.executeQuery();
+while(rs.next){
+	Rs.getString(1) 或rs.getString(“字段名”)
+}
+```
+
+<br>
+
+
+### Servlet生命周期
+Init 
+多次执行doGet或doPost  
+destroy
+
+<br>
+
+
+### JSP doGet vs doPost
+转发: 保留上次的request
+		<jsp:forward>
+		actionMapping.findForWard(“”);
+		pageContext.forward();
+		request.getRequestDispacher(“a.jsp”).forward(request,response)
+跳转:不保留上次的request
+		Response.setRedirect(“”)
+
+<br>
+
+
+### JSP vs Servlet
+Jsp主要在于页面的显示动态生成页面，可以与html标记一起使用，其还是要生成为一个servlet。
+Servlet主要是控制的处理，如调用业务层，跳转不同的jsp页面。
+Mvc: Jsp - v, Servlet - c
+
 <br></br>
