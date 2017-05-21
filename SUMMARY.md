@@ -6,7 +6,6 @@
   * [Upcast & Downcast](/Fundamental/Upcast_Downcast.md)
   * [Class](/Fundamental/Class.md)
   * [Serializable](/Fundamental/Serializable.md)
-  * [Class Loader](/Fundamental/ClassLoader.md)
 
 * [Concurrent]()
   * [About Concurrent](/Concurrent/AboutConcurrent.md)
@@ -35,7 +34,7 @@
     * [CLH](/Concurrent/Theory/CLH.md)
     * [Amdahl Law](/Concurrent/Theory/Amdahl.md)
 
-* [Java Data Structure]()
+* [Data Structure]()
   * [List, Hash](/Java_Data_Structure/JavaDataStructure.md)
   * [String](/Java_Data_Structure/String.md)
   * [String.equals](/Java_Data_Structure/string_equals.md)
@@ -46,3 +45,6 @@
   * [JMM](/JVM/JMM.md)
   * [Deeoly Understanding JMM](/JVM/JMM++.md)
   
+* [Advanced]()
+  * [Class Loader](/Advanced/class_loader.md)
+  * [Type Erasure](/Advanced/type_erasure.md)
