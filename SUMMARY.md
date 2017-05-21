@@ -6,6 +6,7 @@
   * [Upcast & Downcast](/Fundamental/upcast_downcast.md)
   * [Class](/Fundamental/class.md)
   * [Serializable](/Fundamental/serializable.md)
+  * [Pass By Value](/Fundamental/pass_by_value.md)
 
 * [Concurrent]()
   * [About Concurrent](/Concurrent/about_concurrent.md)
@@ -49,3 +50,4 @@
   * [Class Loader](/Advanced/class_loader.md)
   * [Type Erasure](/Advanced/type_erasure.md)
   * [Convariance & Contravariance](/Advanced/convariance_contravariance.md)
+  * [Inner Class](/Advanced/nested_class.md)

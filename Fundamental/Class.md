@@ -8,6 +8,7 @@
 ----
 ### Can we declare a class as static? 
 We can’t declare a top-level class as static however an inner class can be declared as static. If inner class is declared as static, it’s called static nested class. Static nested class is same as any other top-level class and is nested for only packaging convenience.
+
 The reason why the top-level class can’t be added keyword static is all top-level classes are, by definition, static. What the static boils down to is that an instance of the class can stand on its own. Or, the other way around: a non-static inner class (= instance inner class) can’t exist without an instance of the outer class. Since a top-level class does not have an outer class, it can’t be anything but static.
 
 <br>
@@ -97,47 +98,6 @@ public class HelloWorldAnonymousClasses {
         englishGreeting.greet();
         frenchGreeting.greetSomeone("Fred");
     }   
-}
-```
-
-<br></br>
-
-
-
-## Nested Class
-----
-Nested classes enable you to logically group classes that are only used in one place, increase the use of encapsulation, and create more readable and maintainable code.
-
-```java
-class Outter {
-    private int age = 12;
-      
-    class Inner {
-        private int age = 13;
-        public void print() {
-            System.out.println("内部类变量：" + this.age);
-            System.out.println("外部类变量：" + Outter.this.age);
-        }
-    }
-}
-```
-
-<br></br>
-
-
-
-## Static Nested Class
-----
-内部类就只能访问外部类的静态成员变量
-
-```java
-class Outter {
-    private static int age = 12;
-    static class Inner {
-        public void print() {
-            System.out.println(age);
-        }
-    }
 }
 ```
 

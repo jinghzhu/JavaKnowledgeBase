@@ -431,10 +431,13 @@ public class DeepCopy {
 
 
 ### static
-方便在未创建对象情况下调用方法／变量：
-* 变量: static keyword can be used with class level variables to make it global i.e. all the objects will share the same variable. 
-* 方法: static修饰的方法只能访问类的static变量和static方法，但反过来是可以的，而且可以在没创建任何对象的前提下，仅通过类本身来调用static方法。static方法就是没有this的方法。即使没有声明为static，类的构造器也是静态方法。
+* 变量: static keyword can be used with class level variables to make it global i.e. all the objects will share the same variable. **A static variable is a class variable and doesn’t belong to Object/instance of the class.** 
+
+* 方法: **Same as static variables, static methods belong to class and not to class instances. A static method can access only static variables of class and invoke only static methods of the class.** static方法就是没有this的方法。即使没有声明为static，类的构造器也是静态方法。
+
 * Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader. It is used to initialize static variables of the class. 
+
+* Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes. Static nested class is same as any other top-level class and is nested for only packaging convenience.
 
 <br>
 
@@ -515,9 +518,6 @@ The task of java compiler is to convert java program into bytecode, we have java
 
 <br>
 
-
-### 当对象当作参数传递到方法后，方法可改变对象属性，那么是值传递还是引用传递
-值传递。当一个对象实例作为一个参数被传递到方法中时，参数的值就是对该对象的引用。对象的内容可以在被调用的方法中改变，但对象的引用是永远不会改变的。
 
 ### Statement, PreparedStatement and CallableStatement
 * Statement用于执行静态SQL语句并返回它所生成结果的对象，在执行时确定sql。
