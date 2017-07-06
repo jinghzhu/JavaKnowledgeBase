@@ -1,4 +1,4 @@
-# <center>About Concurrent</center>
+# <center>Concurrent</center>
 
 <br></br>
 

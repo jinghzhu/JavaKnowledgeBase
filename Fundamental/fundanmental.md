@@ -231,6 +231,21 @@ Wrong, because the instant variable with keyword `final` has no default value wh
 
 ## Java 8 新功能
 ----
+### Parallel Streams
+* Streams is about possibly-parallel, aggregate operations on datasets
+* Sources can be collections, arrays, generator functions, IO…
+* Encourages a declarative style 
+* Pipelines built from basic primitives – filter, map, reduce, sort
+* All operations can be executed in parallel
+* Couldn’t get to a library like this without lambdas
+
+<p align="center">
+  <img src="./Images/jdk8_streams_example.png" width="400" />
+</p>
+
+<br>
+
+
 ### Lambda(from Scala)
 What it does is that it reduces the code where it is obvious, such as in an anonymous innerclass. So, a thread can be changed as:
 

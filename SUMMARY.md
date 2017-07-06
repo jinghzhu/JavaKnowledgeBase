@@ -1,15 +1,13 @@
 # Summary
 
-* [Fundanmental]()
+* [Fundanmental](/Fundamental/fundanmental.md)
   * [Practice](/Fundamental/practice.md))
-  * [Fundanmental](/Fundamental/fundanmental.md)
   * [Upcast & Downcast](/Fundamental/upcast_downcast.md)
   * [Class](/Fundamental/class.md)
   * [Serializable](/Fundamental/serializable.md)
   * [Pass By Value](/Fundamental/pass_by_value.md)
 
-* [Concurrent]()
-  * [About Concurrent](/Concurrent/about_concurrent.md)
+* [Concurrent](/Concurrent/concurrent.md)
   * [AQS](/Concurrent/aqs.md)
   * [CAS](/Concurrent/cas.md)
   * [ReentrantLock](/Concurrent/reentrantLock.md)
@@ -24,8 +22,7 @@
   * [ThreadLocal](/Concurrent/threadlocal.md)
   * [Concurrent Conclusion](/Concurrent/conclusion.md)
   * [JVM Lock Type](/Concurrent/lock.md)
-  * [Concurrent Theory]()
-    * [Basic Theory](/Concurrent/Theory/theory.md)
+  * [Concurrent Theory](/Concurrent/Theory/concurrent_theory.md)
     * [Concurrent Memory Model](/Concurrent/Theory/con_mem_mdl.md)
     * [Thread Communication](/Concurrent/Theory/thread_communication.md)
     * [(Non-)Blocking Algorithm](/Concurrent/Theory/nonblocking_algorithm.md)
@@ -40,16 +37,15 @@
   * [String](/Java_Data_Structure/string.md)
   * [String.equals](/Java_Data_Structure/string_equals.md)
 
-* [JVM]()
-  * [About JVM](/JVM/jvm.md)
+* [JVM](/JVM/jvm.md)
   * [Garbage Collector](/JVM/gc.md)
   * [JMM](/JVM/jmm.md)
   * [Deeoly Understanding JMM](/JVM/jmm_advanced.md)
-  * [Troubleshooting OOM](/Advanced/oom.md)
+  * [Troubleshooting OOM](/JVM/oom.md)
   
 * [Advanced]()
   * [Class Loader](/Advanced/class_loader.md)
   * [Type Erasure](/Advanced/type_erasure.md)
-  * [Convariance & Contravariance](/Advanced/convariance_contravariance.md)
+  * [Convariance & Contravariance](/Advanced/covariance_contravariance.md)
   * [Inner Class](/Advanced/nested_class.md)
   
