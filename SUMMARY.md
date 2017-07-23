@@ -24,6 +24,7 @@
   * [JVM Lock Type](/Concurrent/lock.md)
   * [Concurrent Theory](/Concurrent/Theory/concurrent_theory.md)
     * [Concurrent Memory Model](/Concurrent/Theory/con_mem_mdl.md)
+    * [IO Model](/Concurrent/Theory/io_model.md)
     * [Thread Communication](/Concurrent/Theory/thread_communication.md)
     * [(Non-)Blocking Algorithm](/Concurrent/Theory/nonblocking_algorithm.md)
     * [Concurrent Programming Model](/Concurrent/Theory/con_pgm_mdl.md)
