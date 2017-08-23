@@ -2,19 +2,21 @@
 
 <br></br>
 
+> String池不属于堆和栈，而是属于常量池。
+
+<br></br>
+
 
 
 ## String Pool
 ----
-Here is a diagram which clearly explains how String Pool is maintained in Java heap space and what happens when we use different ways to create Strings.
+String Pool is possible only because String is immutable in Java and it’s the implementation of String interning concept. 
 
-![StringPool](../Images/string_pool.png)
+> String pool is also example of Flyweight design pattern.
 
-String Pool is possible only because String is immutable in Java and it’s implementation of String interning concept. *String pool is also example of Flyweight design pattern.*
+When we use double quotes to create a String(`String str = "test"`), it firstly looks for String with same value in the String pool. If found, it just returns the reference else it creates a new String in the pool and then returns the reference.
 
-When we use double quotes to create a String(`String str = "test"`), it first looks for String with same value in the String pool, if found it just returns the reference else it creates a new String in the pool and then returns the reference.
-
-However using `new` operator, we force String class to create a new String object and then we can use `intern()` method to put it into the pool or refer to other String object from pool having same value.
+However using `new` operator, we force String class to create a new String object in heap and then we can use `intern()` method to put it into the pool or refer to other String object from pool having same value.
 
 <br></br>
 
@@ -30,7 +32,6 @@ When the `intern()` is invoked, if the pool already contains a string equal to t
 
 ## Why String is immutable or final?
 ----
-There are several benefits of String because it’s immutable and final:
 * String Pool is possible because String is immutable in java. 
 * It increases security because any hacker can’t change its value and it’s used for storing sensitive information such as database username, password etc. 
 * Since String is immutable, it’s safe to use in multi-threading and we don’t need any synchronization. 
@@ -40,32 +41,8 @@ There are several benefits of String because it’s immutable and final:
 
 
 
-## How many String objects got created in below code snippet? 
+## Different Ways to Create String Object
 ----
-```java
-String s1 = new String("Hello"); 
-String s2 = new String("Hello"); 
-```
-
-Answer is 3: 
-1. First – line 1, “Hello” object in the string pool. 
-2. Second – line 1, new String with value “Hello” in the heap memory. 
-3. Third – line 2, new String with value “Hello” in the heap memory. Here “Hello” string from string pool is reused.
-
-<br></br>
-
-
-
-## What are different ways to create String Object?
-----
-```java
-String str = new String("abc"); 
-String str1 = "abc";
-```
-
-When we create a String using double quotes, JVM looks in the String pool to find if any other String is stored with same value. If found, it returns the reference to that String object else it creates a new String object and stores it in the String pool. 
-
-When we use new operator, JVM creates the String object but don’t store it into the String Pool. We can use `intern()` method to store the String object into String pool or return the reference if there is already a String with equal value present in the pool.
 
 ```java
 public class Test {  
@@ -84,15 +61,14 @@ public class Test {  
 } 
 ``` 
 
-Java语言使用内存时，栈内存主要保存基本数据类型和对象的引用，而堆内存存储对象，栈内存的速度要快于堆内存。String类的本质是字符数组`char[]`，其次String类是`final`。Java运行时维护一个String池，池中的String对象不可重复，没有创建，有则作罢。**String池不属于堆和栈，而是属于常量池。**
-
-下面分析上方代码的真正含义： 
+栈内存保存基本数据类型和对象的引用，而堆内存存储对象。String类本质是字符数组`char[]`，其次String类是`final`。Java运行时维护一个String池，池中的String对象不可重复，没有创建，有则作罢。
+ 
 ```java 
 String str = "abc";  
 String str1= "abc";  
 ```
 
-第一句的含义是在String池中创建一个对象_abc_，然后引用时`str`指向池中的对象_abc_。第二句执行时，因为_abc_已经存在于String池了，所以不再创建，则`str==str1`返回`true`。 
+第一句在String池中创建一个对象_abc_，`str`指向池中的对象_abc_。第二句，因为_abc_已存在于String池，所以不再创建，则`str==str1`返回`true`。 
 
 ```java
 String str2 = new String("abc"); 
@@ -108,9 +84,11 @@ String str2 = new String("abc"); 
 
 
 
-## StringBuilder和StringBuffer底层原理
+## StringBuilder和StringBuffer原理
 ----
 都继承自AbstractStringBuilder这个类，底层都是char数组操作，StringBuffer之所以线程安全是所有方法都加了Synchronized。
+
+<br></br>
 
 
 
@@ -190,10 +168,27 @@ System.out.println(a == c); // true
 
 虽然`b`用`final`修饰，但由于其赋值是通过方法调用返回的，那么它的值只能在运行期间确定，因此`a`和`c`指向的不是同一个对象。
 
+<br>
+
+
+### Case VI
+
+```java
+String s1 = new String("Hello"); 
+String s2 = new String("Hello"); 
+```
+
+Answer is 3: 
+1. First – line 1, “Hello” object in the string pool. 
+2. Second – line 1, new String with value “Hello” in the heap memory. 
+3. Third – line 2, new String with value “Hello” in the heap memory. Here “Hello” string from string pool is reused.
+
 <br></br>
 
 
 
-## Why Char array is preferred over String for storing password?
+## FAQ
 ----
+* Why Char array is preferred over String for storing password?
+
 String is immutable in java and stored in String pool. Once it’s created it stays in the pool until unless garbage collected, so even though we are done with password it’s available in memory for longer duration and there is no way to avoid it. It’s a security risk because anyone having access to memory dump can find the password as clear text. If we use char array to store password, we can set it to blank once we are done with it. So we can control for how long it’s available in memory that avoids the security threat with String.

@@ -34,7 +34,7 @@
     * [Amdahl Law](/Concurrent/Theory/amdahl.md)
 
 * [Data Structure]()
-  * [List, Hash](/DataStructure/java_ds.md)
+  * [Collections](/DataStructure/java_ds.md)
   * [String](/DataStructure/string.md)
   * [String.equals](/DataStructure/string_equals.md)
 
