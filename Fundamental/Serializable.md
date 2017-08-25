@@ -51,8 +51,8 @@ public class  Box implements Serializable  {  
 
 ## Serializable原理
 ----
-为什么一个类实现了`Serializable`接口，它就可以被序列化呢？
-之前使用`ObjectOutputStream`来持久化对象，在该类中有如下代码：
+为什么一个类实现了Serializable接口，它就可以被序列化呢？
+之前使用ObjectOutputStream来持久化对象，在该类中有如下代码：
 
 ```java
 private void writeObject0(Object obj, boolean unshared) throws IOException {  
@@ -75,7 +75,7 @@ private void writeObject0(Object obj, boolean unshared) throws IOExceptio
 }
 ```
 
-如果被写对象的类型是`String`或数组或`Enum`或`Serializable`，那么就可以对该对象进行序列化，否则将抛出`NotSerializableException`。
+如果被写对象的类型是`String`或数组或`Enum`或Serializable，那么就可以对该对象进行序列化，否则将抛出`NotSerializableException`。
 
 <br></br>
 
@@ -83,7 +83,7 @@ private void writeObject0(Object obj, boolean unshared) throws IOExceptio
 
 ## Externalizable
 ----
-使用该接口之后，之前基于`Serializable`接口的序列化机制就将失效。`Externalizable`继承于`Serializable`，当使用该接口时，序列化的细节由程序员完成。
+使用该接口之后，之前基于Serializable接口的序列化机制就将失效。`Externalizable`继承于Serializable，当使用该接口时，序列化的细节由程序员完成。
 
 另外，若使用`Externalizable`序列化，当读取对象时，会调用被序列化类的无参构造器去创建一个新的对象，然后再将被保存对象的字段的值分别填充到新对象中。 因此，实现`Externalizable`接口的类必须要提供一个无参的构造器，且它的访问权限为`public`。
 
@@ -183,11 +183,11 @@ Externalizable必须实现方法：
 
 ## 序列化ID问题
 ----
-情境：两个客户端A和B通过网络传递对象数据，A将对象C序列化再传给B，B反序列化得到C。
+**情境：**两个客户端A和B通过网络传递对象数据，A将对象C序列化再传给B，B反序列化得到C。
 
-问题：C对象的路径假设为`com.inout.Test`，在A和B端都有这么一个类文件，功能代码完全一致。也都实现了`Serializable`接口，但是反序列化总是不成功。
+**问题：**C对象的路径假设为`com.inout.Test`，在A和B端都有这么一个类文件，功能代码完全一致。也都实现了Serializable接口，但是反序列化总是不成功。
 
-解决：虚拟机是否允许反序列化，不仅取决于类路径和功能代码是否一致，重要的一点是两个类的序列化ID是否一致（`private static final long serialVersionUID = 1L`）。虽然两个类的功能代码完全一致，但是ID不同，他们无法相互序列化和反序列化。
+**解决：**虚拟机是否允许反序列化，不仅取决于类路径和功能代码是否一致，重要的一点是两个类的序列化ID是否一致（`private static final long serialVersionUID = 1L`）。虽然两个类的功能代码完全一致，但是ID不同，他们无法相互序列化和反序列化。
 
 ```java
  import java.io.Serializable; 
@@ -216,11 +216,11 @@ Externalizable必须实现方法：
 
 ## 父类序列化与transient关键字
 ----
-情境：子类实现了`Serializable`接口，父类没有实现`Serializable`接口。序列化子类对象，然后反序列化后输出父类定义的某变量数值，该变量数值与序列化时数值不同。
+**情境：**子类实现了Serializable接口，父类没有实现Serializable接口。序列化子类对象，然后反序列化后输出父类定义的某变量数值，该变量数值与序列化时数值不同。
 
-解决：要将父类对象也序列化，就需让父类也实现`Serializable`接口。如果父类不实现，要有默认的无参构造函数。
+**解决：**要将父类对象也序列化，就需让父类也实现Serializable接口。如果父类不实现，要有默认的无参构造函数。
 
-在父类没有实现`Serializable`接口时，虚拟机不会序列化父对象，而Java对象的构造必须先有父对象，才有子对象，反序列化也不例外。
+在父类没有实现Serializable接口时，虚拟机不会序列化父对象，而Java对象的构造必须先有父对象，才有子对象，反序列化也不例外。
 
 所以为了构造父对象，只能调用父类的无参构造函数作为默认的父对象。因此取父对象的变量值时，它的值是调用父类无参构造函数后的值。如果考虑到这种序列化的情况，在父类无参构造函数中对变量进行初始化，否则的话，父类变量值都是默认声明的值，如int型的默认是_0_。
 
@@ -232,9 +232,9 @@ Externalizable必须实现方法：
 
 ## 加密
 ----
-情境：服务器端希望对密码字段在序列化时，进行加密，而客户端如果拥有解密的密钥，只有在客户端进行反序列化时，才可以对密码进行读取 。
+**情境：**服务器端希望对密码字段在序列化时，进行加密，而客户端如果拥有解密的密钥，只有在客户端进行反序列化时，才可以对密码进行读取 。
 
-解决：序列化过程中，虚拟机会调用对象类里的`writeObject()`和`readObject()`方法，进行用户自定义的序列化和反序列化，如果没有这样的方法，则默认调用`ObjectOutputStream`的`defaultWriteObject()`方法及`ObjectInputStream`的`defaultReadObject()`方法。用户自定义的`writeObject()`和`readObject()`方法允许用户控制序列化过程，比如可以在序列化的过程中动态改变序列化的数值。
+**解决：**序列化过程中，虚拟机会调用对象类里的`writeObject()`和`readObject()`方法，进行用户自定义的序列化和反序列化，如果没有这样的方法，则默认调用ObjectOutputStream的`defaultWriteObject()`方法及ObjectInputStream的`defaultReadObject()`方法。用户自定义的`writeObject()`和`readObject()`方法允许用户控制序列化过程，比如可以在序列化的过程中动态改变序列化的数值。
 
 基于这个原理，可用于敏感字段的加密工作。
 
@@ -337,33 +337,33 @@ Java序列化机制为了节省磁盘空间，具有特定的存储规则，当�
 
 ## FAQ
 ----
-### How many methods Serializable has? If no method then what is the purpose of Serializable interface?
-Serializable interface doesn't have any method and also called Marker Interface. When your class implements Serializable interface it becomes Serializable in Java and gives compiler an indication that use Java Serialization mechanism to serialize this object.
+**Q:** How many methods Serializable has? If no method then what is the purpose of Serializable interface?
+**A:** Serializable interface doesn't have any method and also called Marker Interface. When your class implements Serializable interface it becomes Serializable in Java and gives compiler an indication that use Java Serialization mechanism to serialize this object.
 
 <br>
 
 
-## 11. What is serialVersionUID? What would happen if you don't define this?
-`serialVersionUID` is public static final constant which should define in your class otherwise compiler will throw warning. 
+**Q:** What is serialVersionUID? What would happen if you don't define this?
+*8A:** `serialVersionUID` is public static final constant which should define in your class otherwise compiler will throw warning. 
 
 If you do not specify `serialVersionUID`, Java compiler automatically generates it while persisting the object and uses its own algorithm to generate it which is normally based on fields of class and normally represent hash code of object. Consequence of not implementing `serialVersionUID` is that when you add or modify any field in class then already serialized class will not be able to recover because `serialVersionUID` generated for new class and for old serialized object will be different. 
 
 <br>
 
 
-### What will happen if one of the members in the class doesn't implement Serializable interface?
-If you try to serialize an object of a class which implements Serializable, but the object includes a reference to an non-Serializable class then a `NotSerializableException` will be thrown at runtime.
+**Q:** What will happen if one of the members in the class doesn't implement Serializable interface?
+**A:** If you try to serialize an object of a class which implements Serializable, but the object includes a reference to an non-Serializable class then a `NotSerializableException` will be thrown at runtime.
 
 <br>
 
 
-## 为何ArrayList中数组是transient修饰？
-假如实际有_5_个元素，而`elementData`大小是_10_，那么序列化时只需要储存_5_个元素。所以设计为`transient`，在`writeObject`中手动序列化，且只序列化了实际存储的那些元素，而不是整个数组。
+**Q:** 为何ArrayList中数组是transient修饰？
+**A:** 假如实际有_5_个元素，而`elementData`大小是_10_，那么序列化时只需要储存_5_个元素。所以设计为`transient`，在`writeObject`中手动序列化，且只序列化了实际存储的那些元素，而不是整个数组。
 
 <br>
 
 
-### 若通过ObjectOutputStream向一个文件中多次以追加方式写入object，为什么用ObjectInputStream读取这些object时会产生StreamCorruptedException？ 
-使用缺省的serializetion的实现时，一个ObjectOutputStream的构造和一个ObjectInputStream的构造必须一一对应。ObjectOutputStream的构造函数会向输出流中写入一个标识头，而ObjectInputStream会首先读入这个标识头。因此，多次以追加方式向一个文件中写入object时，该文件将会包含多个标识头。所以用ObjectInputStream来deserialize这个ObjectOutputStream时，将产生StreamCorruptedException。 
+**Q:** 若通过ObjectOutputStream向一个文件中多次以追加方式写入object，为什么用ObjectInputStream读取这些object时会产生StreamCorruptedException？ 
+**A:** 使用缺省的serializetion的实现时，一个ObjectOutputStream的构造和一个ObjectInputStream的构造必须一一对应。ObjectOutputStream的构造函数会向输出流中写入一个标识头，而ObjectInputStream会首先读入这个标识头。因此，多次以追加方式向一个文件中写入object时，该文件将会包含多个标识头。所以用ObjectInputStream来deserialize这个ObjectOutputStream时，将产生StreamCorruptedException。 
 
 一种解决方法是构造一个ObjectOutputStream子类，并覆盖`writeStreamHeader()`方法。被覆盖后的`writeStreamHeader()`方法应判断是否为首次向文件中写入object。若是，则调用`super.writeStreamHeader()`；若否，即以追加方式写入object时，则应调用`ObjectOutputStream.reset()`方法。

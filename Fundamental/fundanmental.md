@@ -6,17 +6,17 @@
 
 ## 常用类型
 ----
-数值范围：
-| 类型  | 存储需求 | bit数  |    存储数据量     |        取值范围/备   |
-| :--: | :------:| :---: | :------------：   | :-----------------: |
-| byte  | 1字节  | 1 * 8  |  $$256=2^{8}$$   | -128 ~ 127 |
+
+| 类型  | 存储需求 | bit数  |    存储数据量     |        取值范围   |
+| :--: | :------:| :---: | :--------------: | :-----------------: |
+| byte  | 1字节  | 1 * 8  |  $$256=2^{8}$$   | -128 ~ 127         |
 | short | 2字节  | 2 * 8  | $$65536=2^{16}$$ | $$-32768 = -2^{15}$$ ~ $$32767 = 2^{15} - 1$$ |
-| int   |  4字节 | 4 * 8  | $$2^{32}$$       | $$-2147483648 = -2^{31}$$ ~ $$2147483647 = 2^{31} - 1$$ (0x8000 0000 ~ 0x7FFF FFFF) |
+| int   |  4字节 | 4 * 8  | $$2^{32}$$       | $$-2^{31}$$ ~ $$2^{31} - 1$$ (0x8000 0000 ~ 0x7FFF FFFF) |
 | long   |  8字节 | 8 * 8 | $$2^{64}$$       | $$-2^{63}$$ ~ $$2^{63} - 1 $$ |
 | float  | 4字节  | 4 * 8 |                  | float类型数值有一个后缀F(例如：3.14F) |
-| double | 8字节  | 8 * 8 |                  | 没有后缀F的浮点数值(如3.14)默认为double |
-| char   | 2字节   |  2 * 8  |    |  |     
-| boolean | 1字节   |  1 * 8  |    |
+| double | 8字节  | 8 * 8 |                  |                    |
+| char   | 2字节  | 2 * 8 |                  |                      |
+| boolean | 1字节 | 1 * 8 |                  |                     |
 
 ``` java
 for(int i=0;i<t;i++) {
@@ -48,19 +48,7 @@ public class ASCII {
 
 
 
-## 抽象类与接口
----- 
-* 接口中所有的方法隐含的都是抽象的。而抽象类则可以同时包含抽象和非抽象的方法。
-* 类可以实现很多个接口，但只能继承一个抽象类。接口可以实现多重继承。
-* 类如果要实现一个接口，必须实现接口声明的所有方法。但是，类可以不实现抽象类声明的所有方法。
-* Java接口中声明的变量默认都是final的。抽象类可以包含非final的变量。
-* Java接口中的成员函数默认是public的, 不能有私有的方法或变量，因为是用于让别人使用的。抽象类的成员函数可以是private，protected或public。
-
-<br></br>
-
-
-
-## Object Mthod
+## Object Methods
 ----
 * toString
 * equals 
@@ -85,20 +73,11 @@ public class ASCII {
 
 
 
-## JDK and JRE
-----
-* Java Development Kit (JDK) is for development purpose and JVM is a part of it to execute the java programs. 
-* Java Runtime Environment (JRE) is the implementation of JVM. JRE consists of JVM and java binaries and other classes to execute any program successfully. 
-
-<br></br>
-
-
-
 ## newInstance与new
 ----
 * `newInstance()`是方法，`new`是关键字
 * 创建对象的方式不一样，前者是使用类加载机制，后者是创建一个新类。 
-* 使用`new`创建类时，这个类可以没有被加载。但用`newInstance()`方法就须保证这个类已加载且这个类已经连接了。而完成上面两个步骤的是`Class`的静态方法`forName()`，调用了启动类加载器，即加载Java API的那个加载器。 
+* 使用`new`创建类时，这个类可以没有被加载。但用`newInstance()`方法须保证已加载且这个类已经连接。而完成上面两个步骤的是`Class`的静态方法`forName()`，调用了启动类加载器，即加载Java API的那个加载器。 
 * `newInstance()`是把`new`分解为两步，先调用`Class`加载方法加载某个类，然后实例化。 
 
 <br></br>
@@ -107,9 +86,9 @@ public class ASCII {
 
 ## for vs foreach
 ----
-1. foreach来遍历集合时，集合必须实现Iterator接口，foreach就是使用Iterator接口来实现对集合的遍历的
-2. foreach循环遍历集合时不能向集合中增加元素，不能从集合中删除元素，否则会抛出`ConcurrentModificationException`异常。因为集合内部有一个`modCount`变量记录集合中元素个数。
-3. for效率最好，尤其是实现RandomAccess接口的collection，但在LinkedList中，Iterator效果更好；foreach效率最差，因为其实现一个Enum，每次都要掉用。
+1. foreach遍历集合时，集合须实现Iterator接口
+2. foreach遍历集合时不能向集合增加删除元素，否则会抛出ConcurrentModificationException异常。
+3. for效率最好，尤其是实现RandomAccess接口的collection。但在LinkedList中，Iterator效果更好；foreach效率最差，因为其实现一个Enum，每次都要调用。
 4. foreach遍历对象时可以修改对象属性值，但不能修改对象引用。
 
 修改基本类型的值（原集合中的值没有变化，因为`str`是集合中变量的一个副本）：
@@ -155,14 +134,6 @@ public class ForE {
 
 
 
-## 空字符
-----
-Java没有空字符`’’`，只有`(Character) null`
-
-<br></br>
-
-
-
 ## 面向对象特征
 ---- 
 1. 抽象(abstraction)：抽象是忽略一个主题中与当前目标无关的那些方面，以便更充分地注意与当前目标有关的方面。
@@ -176,54 +147,18 @@ Java没有空字符`’’`，只有`(Character) null`
 
 ## Composition
 ----
-Composition is the design technique to implement has-a relationship in classes. We can use Object composition for code reuse.
-Java composition is achieved by using instance variables that refers to other objects. Benefit of using composition is that we can control the visibility of other object to client classes and reuse only what we need.
+通过在类中直接使用另一个类的对象来达到重用代码的目的。Composition通常用在新类中使用已有类的功能，而不是使用已有类的接口时。这时，可以在新类中嵌入已有类的对象，完成想要的功能。Composition通常表述为“has a”的关系。
 
 One of the best practices is to “favor composition over inheritance”:
-1. Any change in the superclass might affect subclass even though we might not be using the superclass methods. For example, if we have a method test() in subclass and suddenly somebody introduces a method test() in superclass, we will get compilation errors in subclass. Composition will never face this issue because we are using only what methods we need.
-2. Inheritance exposes all the super class methods and variables to client and if we have no control in designing superclass, it can lead to security holes. Composition allows us to provide restricted access to the methods and hence more secure.
+1. Any change in the superclass might affect subclass. If we have a method `test()` in subclass and somebody introduces a method `test()` in superclass, we will get compilation errors in subclass. Composition will never face this issue because we are using only what methods we need.
+
+2. Inheritance exposes all the super class methods and variables to client, it can lead to security holes. Composition allows us to provide restricted access to the methods and hence more secure.
+
 3. We can get runtime binding in composition where inheritance binds the classes at compile time. So composition provides flexibility in invocation of methods.
 
-<br></br>
-
-
-
-## Java vs C++
-----
-* JVM虚拟机内部自己管理指针
-* C++多重继承
-* Java自动内存管理
-* C++操作符重载
-* Java不支持缺省函数参数，C++支持
-
-<br></br>
-
-
-
-## final对象默认值
-----
-
-```java
-class Something{
-    int i;
-    public void doSomething(){
-         System.out.println(“i = “ + i);
-    }
-}
-```
-
-Correct, the output is `i = 0`. Because `i` is instant variable which has default value.
-
-``` java
-      class Something{
-         final int i;
-         public void doSomething(){
-               System.out.println(“i = “ + i);
-         }
-      }
-```
-
-Wrong, because the instant variable with keyword `final` has no default value which means we must set a value for it.
+什么时候该用继承，什么时候该用组合？
+1. 如果存在一种IS-A的关系（比如Bee“是一个”Insect），且一个类需要向另一个类暴露所有的方法接口，那么更应该用继承的机制。
+2. 如果存在一种HAS-A的关系（比如Bee“有一个”attack功能），那么更应该运用组合。
 
 <br></br>
 
@@ -234,20 +169,18 @@ Wrong, because the instant variable with keyword `final` has no default value wh
 ### Parallel Streams
 * Streams is about possibly-parallel, aggregate operations on datasets
 * Sources can be collections, arrays, generator functions, IO…
-* Encourages a declarative style 
 * Pipelines built from basic primitives – filter, map, reduce, sort
 * All operations can be executed in parallel
 * Couldn’t get to a library like this without lambdas
 
 <p align="center">
-  <img src="./Images/jdk8_streams_example.png" width="400" />
+  <img src="./Images/jdk8_streams_example.png" width="800" />
 </p>
 
 <br>
 
 
 ### Lambda(from Scala)
-What it does is that it reduces the code where it is obvious, such as in an anonymous innerclass. So, a thread can be changed as:
 
 ```java
 Runnable oldRunner = new Runner() {
@@ -265,13 +198,13 @@ Runnable newRunner = () -> {
 
 
 ### Data/Time changes
-The Date/Time API is moved to `java.time` package. Another goodie is that most classes are Threadsafe and immutable.
+Most classes are thread safe and immutable.
 
 <br>
 
 
 ### Parallel Array Sorting
-This feature adds the same set of sorting operations currently provided by the Arrays class, but with a parallel implementation that utilizes the Fork/Join framework. Additional utility methods were added to java.util.Arrays that use the JSR 166 Fork/Join parallelism common pool to provide sorting of arrays in parallel. The methods are called `parallelSort()` and are overloaded for all the primitive data types and Comparable objects.
+This feature adds the same set of sorting operations currently provided by the Arrays class, but with a parallel implementation that utilizes the Fork/Join framework. The methods are called `parallelSort()` and are overloaded for all the primitive data types and Comparable objects.
 
 <br>
 
@@ -294,13 +227,63 @@ Hash bins containing a large number of colliding keys improve performance by sto
 ### Comparable
 Comparable interface should be implemented by any custom class if we want to use Arrays or Collections sorting methods. 
 
-Comparable interface has `compareTo(T obj)` method which is used by sorting methods. We should override this method in such a way that it returns a negative integer, zero, or a positive integer if “this” object is less than, equal to, or greater than the object passed as argument.
+Comparable interface has `compareTo(T obj)` method which is used by sorting methods. We should override this method.
 
 <br>
 
 
 ### Comparator
 `compareTo(Object o)` method implementation can sort based on one field only and we can’t chose the field on which we want to sort the Object. Comparator interface `compare(Object o1, Object o2)` method needs to be implemented that takes two Object argument.
+
+
+<br>
+
+
+### Example
+
+```java
+public class PersonComparable implements Comparable<PersonComparable>{
+    private int age;
+    private String name;
+    
+    public int compareTo(PersonComparable another) {
+        if (another != null)
+            return age - another.getAge();
+        else
+            throw new NullPointerException();
+   }
+}
+
+public static void main(String[] args) {
+        PersonComparable[] pArr = new PersonComparable[2];
+        pArr[0] = new PersonComparable("test1", 26);
+        pArr[1] = new PersonComparable("test2", 19);
+        Arrays.sort(pArr);
+}
+```
+
+<br>
+
+
+### Comparator Example
+
+```java
+public class PersonComparator implements Comparator<Person>{
+    public int compare(Person p1, Person p2){
+        if(p1 != null && p2 != null)
+            return p1.getAge() - p2.getAge();
+        else
+            throw new NullPointerException();
+    }
+}
+
+public static void main(String[] args) {
+        Person[] pArr = new Person[2];
+        pArr[0] = new Person("test1", 26);
+        pArr[1] = new Person("test2", 19);
+        Arrays.sort(pArr, new PersonComparator());
+}
+```
 
 <br></br>
 
@@ -378,48 +361,6 @@ public class Student implements Cloneable {
 ### 通过序列化深拷贝
 通过序列化进行深拷贝时，必须确保对象图中所有类都是可序列化的。
 
-```java
-public class ColoredCircle implements Serializable { 
-   private int x; 
-   private int y; 
-
-   public ColoredCircle(int x, int y) { 
-      this.x = x; 
-      this.y = y; 
-   } 
-}
-
-public class DeepCopy {
-   public static void main(String[] args) throws IOException { 
-      ObjectOutputStream oos = null; 
-      ObjectInputStream ois = null; 
-
-      try { 
-         ColoredCircle c1 = new ColoredCircle(100, 100);  // 创建原始的可序列化对象 
-         ColoredCircle c2 = null; 
-
-         // 通过序列化实现深拷贝 
-         ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
-         oos = new ObjectOutputStream(bos); 
-
-         // 序列化以及传递这个对象 
-         oos.writeObject(c1); 
-         oos.flush(); 
-         ByteArrayInputStream bin = new ByteArrayInputStream(bos.toByteArray()); 
-         ois = new ObjectInputStream(bin); 
-
-         // 返回新的对象 
-         c2 = (ColoredCircle) ois.readObject(); 
-      } catch (Exception e) { 
-         System.out.println("Exception in main = " + e); 
-      } finally { 
-         oos.close(); 
-         ois.close(); 
-      } 
-   } 
-}
-```
-
 <br>
 
 
@@ -436,7 +377,9 @@ public class DeepCopy {
 ---- 
 ### final vs finally vs finalize
 * `final` and `finally` are keywords in java whereas `finalize` is a method. 
-* `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed, it’s to make sure all the global resources are closed.
+* `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed.
+
+`final`使用效果：
 * Class: no other class can extend it, for example we can’t extend String class. 
 * Method: child classes can’t override it.
 * Variable: 如果是基本数据类型，则数值在初始化后不能更改；如果是引用类型，则初始化之后不能指向另一个对象。
@@ -446,13 +389,13 @@ public class DeepCopy {
 
 
 ### static
-* 变量: static keyword can be used with class level variables to make it global i.e. all the objects will share the same variable. **A static variable is a class variable and doesn’t belong to Object/instance of the class.** 
+* 变量: A static variable is a class variable and doesn’t belong to Object/instance of the class.
 
-* 方法: **Same as static variables, static methods belong to class and not to class instances. A static method can access only static variables of class and invoke only static methods of the class.** static方法就是没有this的方法。即使没有声明为static，类的构造器也是静态方法。
+* 方法: Same as static variables, static methods belong to class and not to class instances. A static method can access only static variables of class and invoke only static methods of the class.即使没有声明为static，类的构造器也是静态方法。
 
-* Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader. It is used to initialize static variables of the class. 
+* Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader.
 
-* Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes. Static nested class is same as any other top-level class and is nested for only packaging convenience.
+* Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes.
 
 <br>
 
@@ -463,24 +406,24 @@ A marker interface is an empty interface without any method but used to force so
 <br>
 
 
-### Override and Overlode
-**Override重写，即子类对父类； Overlode重载，即一个类里面。**
+### Override and Overload
+> Override重写，即子类对父类； Overload重载，即一个类里面。
 
 重写Override规则：
-    * 参数列表必须完全与被重写方法的相同；
-    * 返回类型必须完全与被重写方法的返回类型相同；
-    * 访问权限不能比父类中被重写的方法的访问权限更低。
-    * 父类的成员方法只能被它的子类重写。
-    * 声明为final和static的方法不能被重写。
-    * 重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。
-    * 构造方法不能被重写。
-    * 如果不能继承一个方法，则不能重写这个方法。
+* 参数列表必须完全与被重写方法的相同；
+* 返回类型必须完全与被重写方法的返回类型相同；
+* 访问权限不能比父类中被重写的方法的访问权限更低。
+* 父类的成员方法只能被它的子类重写。
+* 声明为final和static的方法不能被重写。
+* 重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。
+* 构造方法不能被重写。
+* 如果不能继承一个方法，则不能重写这个方法。
 
 重载Overload规则：
-    * 被重载的方法必须改变参数列表；
-    * 被重载的方法可以改变返回类型；
-    * 被重载的方法可以声明新的或更广的检查异常；
-    * 方法能够在同一个类中或者在一个子类中被重载。
+* 被重载的方法必须改变参数列表；
+* 被重载的方法可以改变返回类型；
+* 被重载的方法可以声明新的或更广的检查异常；
+* 方法能够在同一个类中或者在一个子类中被重载。
 
 重写与重载区别：
 
@@ -500,91 +443,8 @@ The task of java compiler is to convert java program into bytecode, we have java
 <br>
 
 
-### Iterator vs ListIterator
-1. We can use Iterator to traverse Set and List collections whereas ListIterator can be used with Lists only.
-2. Iterator can traverse in forward direction only whereas ListIterator can be used to traverse in both the directions.
-3. ListIterator inherits from Iterator interface and comes with extra functionalities like adding an element, replacing an element, getting index position for previous and next elements.
-
-<br>
-
-
-### Exception Handling Best Practices
-* Use Specific Exceptions for ease of debugging.
-* Throw Exceptions Early (Fail-Fast) in the program.
-* Catch Exceptions late in the program, let the caller handle the exception.
-* Always log exception messages for debugging purposes.
-* Use custom exceptions to throw single type of exception from your application API.
-* Follow naming convention, always end with Exception.
-* Document the Exceptions Thrown by a method using `@throws` in javadoc.
-* Exceptions are costly, so throw it only when it makes sense. Else you can catch them and provide null or empty response.
-
-<br>
-
-
 ### Collection和Collections
 * Collection是集合类的上级接口，继承与他的接口主要有Set和List。
 * Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
 
 <br>
-
-
-### abstract的method是否可同时是static,native，synchronized？
-都不能。
-
-<br>
-
-
-### Statement, PreparedStatement and CallableStatement
-* Statement用于执行静态SQL语句并返回它所生成结果的对象，在执行时确定sql。
-* PreparedStatement表示预编译的SQL语句对象。
-* CallableStatement用于执行SQL存储过程的接口。如果有输出参数要注册说明是输出参数。
-
-<br>
-
-
-### 访问数据库步骤
-连接Oracle数据库：
-```java
-Class.forName(“oracle.jdbc.driver.OracleDriver”);
-Connection con=DriverManager.openConnection(“jdbc:oracle:thin:@localhost:1521:DataBase ”,” UserName”,”Password ”)
-```
-利用JDBC检索出表中的数据：
-```java
-Class.forName(“”);
-Connection con=DriverManager.openConnection(“ ”,” ”,” ”)
-preparedStatment  ps=Con.preparedStatment(“select * from ［table］”);
-ResultSet rs=ps.executeQuery();
-while(rs.next){
-	Rs.getString(1) 或rs.getString(“字段名”)
-}
-```
-
-<br>
-
-
-### Servlet生命周期
-Init 
-多次执行doGet或doPost  
-destroy
-
-<br>
-
-
-### JSP doGet vs doPost
-转发: 保留上次的request
-		<jsp:forward>
-		actionMapping.findForWard(“”);
-		pageContext.forward();
-		request.getRequestDispacher(“a.jsp”).forward(request,response)
-跳转:不保留上次的request
-		Response.setRedirect(“”)
-
-<br>
-
-
-### JSP vs Servlet
-Jsp主要在于页面的显示动态生成页面，可以与html标记一起使用，其还是要生成为一个servlet。
-Servlet主要是控制的处理，如调用业务层，跳转不同的jsp页面。
-Mvc: Jsp - v, Servlet - c
-
-<br></br>

@@ -525,3 +525,31 @@ Exception and all of its subclasses doesn’t provide any specific methods and a
 3. `synchronized Throwable getCause()` – returns the cause of the exception or null id the cause is unknown.
 4. `String toString()` – returns the information about Throwable in String format, the returned String contains the name of Throwable class and localized message.
 5. `void printStackTrace()` – prints the stack trace information to the standard error stream, this method is overloaded and we can pass PrintStream or PrintWriter as argument to write the stack trace information to the file or stream.
+
+<br></br>
+
+
+
+## JDBC
+----
+* Statement用于执行静态SQL语句并返回它所生成结果的对象，在执行时确定sql。
+* PreparedStatement表示预编译的SQL语句对象。
+* CallableStatement用于执行SQL存储过程的接口。如果有输出参数要注册说明是输出参数。
+
+连接Oracle数据库：
+```java
+Class.forName(“oracle.jdbc.driver.OracleDriver”);
+Connection con=DriverManager.openConnection(“jdbc:oracle:thin:@localhost:1521:DataBase ”,” UserName”,”Password ”)
+```
+利用JDBC检索出表中的数据：
+```java
+Class.forName(“”);
+Connection con=DriverManager.openConnection(“ ”,” ”,” ”)
+preparedStatment  ps=Con.preparedStatment(“select * from ［table］”);
+ResultSet rs=ps.executeQuery();
+while(rs.next){
+	Rs.getString(1) 或rs.getString(“字段名”)
+}
+```
+
+<br></br>
