@@ -2,13 +2,14 @@
 
 <br></br>
 
-* 达到一定阀值，hash桶转换为红黑树。
 * PUT操作基于CAS(Unsafe类)+synchronized实现并发插入或更新操作：
     * 插入更新用CAS
     * 红黑树转换用synchronized
 * GET是对tab原子读取。不加锁因为用了`Unsafe.getObjectVolatile()`，因为table是volatile，所以对tab原子请求是可见的。根据happens-before原则，对volatile域的写入操作happens-before于每一个后续对同一域的读操作。所以不管其他线程对table链表或树的修改，都对get读取可见。
 
 <br></br>
+
+
 
 ## 相关概念：
 -----------
@@ -42,7 +43,7 @@ private transient volatile int transferIndex; // 扩容另一个表索引
 private transient volatile int cellsBusy; // 旋转锁
 ```
 
-<br>
+<br></br>
 
 
 
@@ -79,7 +80,7 @@ private final Node<K, V>[] initTable() {
 }
 ```
 
-<br>
+<br></br>
 
 
 
@@ -168,7 +169,7 @@ synchronized (f) {
 * 如果f是TreeBin类型，说明f是红黑树根节点，则在树结构上遍历元素，更新或增加节点。
 * 如果链表中节点数`binCount >= TREEIFY_THRESHOLD`(默认是8)，则把链表转化为红黑树结构。
 
-<br>
+<br></br>
 
 
 
@@ -273,7 +274,8 @@ final Node<K,V>[] helpTransfer(Node<K,V>[] tab, Node<K,V> f) {
     }
 ```
 
-<br>
+<br></br>
+
 
 
 ## table扩容
@@ -318,7 +320,8 @@ private final void addCount(long x, int check) {
 }
 ```
 
-<br>
+<br></br>
+
 
 
 ## 红黑树转化
@@ -412,7 +415,8 @@ TreeBin(TreeNode<K, V> b) {
 }
 ```
 
-<br>
+<br></br>
+
 
 
 ## get操作
@@ -449,9 +453,3 @@ get请求需CAS保证变量原子性。如果`tab[i]`被锁住，那么CAS会失
 
 `get`是怎么保证同步的呢？注意`e = tabAt(tab, (n - 1) & h)) != null`，`tablAt()`方法是对`tab[i]`进行原子性读取。不需要加锁是因为用了`Unsafe.getObjectVolatile()`，因为table是volatile，所以对`tab[i]`原子请求也是可见的。根据happens-before原则，对volatile域的写入操作happens-before于每一个后续对同一域的读操作。所以不管其他线程对table链表或树的修改，都对get读取可见。 
         
-
-
-
-
-
-
