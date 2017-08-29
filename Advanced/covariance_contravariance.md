@@ -4,7 +4,6 @@
 
 
 
-Example:
 ```java
 // 定义三个类: Benz -> Car -> Vehicle，它们之间是顺次继承关系
 class Vehicle {}
@@ -47,13 +46,14 @@ void test() {
 ## 定义
 ----
 > Liskov替换原则：所有引用基类（父类）的地方必须能透明地使用其子类的对象。
+> 
 > LSP包含以下四层含义：
 > 1. 子类完全拥有父类的方法，且具体子类必须实现父类的抽象方法。
 > 2. 子类中可以增加自己的方法。
 > 3. 当子类覆盖或实现父类的方法时，方法的形参要比父类方法的更为宽松。
 > 4. 当子类覆盖或实现父类的方法时，方法的返回值要比父类更严格。
 
-如果$$A$$和$$B$$表示类型，$$f(⋅)$$表示类型转换，$$\geqq$$≦表示继承关系（比如，A≦BA表示A由B派生出来的子类），那么：
+如果$$A$$和$$B$$表示类型，$$f(⋅)$$表示类型转换，≦表示继承关系（比如，A≦BA表示A由B派生出来的子类），那么：
 1. $$f(⋅)$$是逆变（contravariant）的，当A≦B时有$$f(B)$$≦$$f(A)$$成立；
 2. $$f(⋅)$$是协变（covariant）的，当A≦B时有$$f(A)$$≦$$f(B)$$成立；
 3. $$f(⋅)$$是不变（invariant）的，当A≦B时上述两个式子均不成立，即$$f(A)$$与$$f(B)$$之间没有继承关系。
@@ -110,14 +110,14 @@ public class Stack<E>{
 ```
 
 要实现`pushAll(Iterable<E> src)`方法，将_src_的元素逐一入栈：
-```
+```java
 public void pushAll(Iterable<E> src){  
     for(E e : src)  
         push(e)  
 }  
 ```
        
-假设有一个实例化`Stack<Number>`的对象_stack_，_src_有`Iterable<Integer>`与`Iterable<Float`。在调用`pushAll()`方法时会发生Type Mismatch错误，因为Java中泛型是不可变的，`Iterable<Integer>`与`Iterable<Float>`都不是`Iterable<Number>`的子类型。因此，应改为
+假设有一个实例化`Stack<Number>`的对象_stack_，_src_有`Iterable<Integer>`与`Iterable<Float>`。在调用`pushAll()`方法时会发生Type Mismatch错误，因为Java中泛型是不可变的，`Iterable<Integer>`与`Iterable<Float>`都不是`Iterable<Number>`的子类型。因此，应改为
 ```java
 // Wildcard type for parameter that serves as an E producer  
 public void pushAll(Iterable<? extends E> src) {  

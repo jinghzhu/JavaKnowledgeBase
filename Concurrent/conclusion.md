@@ -15,7 +15,7 @@
 ![Thread Lifecycle](./Images/thread_lifecycle.jpg)
 
 1. 新建(new)：新创建了一个线程对象。
-2. 可运行(runnable)：线程对象创建后，其他线程调用了该对象的`start()`，该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu使用权 。
+2. 可运行(runnable)：线程创建后，其他线程调用了该对象的`start()`，该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu使用权 。
 3. 运行(running)：可运行状态(runnable)的线程获得了cpu时间片（timeslice），执行程序。
 4. 阻塞(block)：线程因为某种原因放弃了cpu使用权，暂时停止运行，阻塞的情况分三种： 
     1. 等待阻塞：运行的线程执行`wait()`，JVM把该线程放入等待队列(waitting queue)中。
@@ -28,8 +28,8 @@
 *  `sleep()`使线程阻塞指定时间，这段时间当前线程让出CPU时间，时间结束后继续执行，该过程不释放线程持有的对象锁；`wait()`调用后线程释放持有的锁并进入该锁等待队列，当收到持有锁的其它线程`notify()`或`notifyAll()`信号后，`wait()`方法返回。
 
 `run()`与`start()`区别：
-* 用`start()`启动无需等待`run()`执行完毕而直接继续执行下面的代码。通过调用`Thread`类的`start()`启动线程，这时此线程处于就绪状态，并没有运行，一旦得到时间片就开始执行`run()`。
-* `run()`只是类的一个普通方法，如果直接调用`run()`，程序中依然只有主线程这一个线程，其程序执行路径还是只有一条，还是要顺序执行，还是要等待`run()`方法体执行完毕后才可继续执行下面的代码，这样就没有达到写线程的目的。
+* 通过调用`Thread`类的`start()`启动线程，这时此线程处于就绪状态，并没有运行，一旦得到时间片就开始执行`run()`。
+* `run()`只是类的一个普通方法，如果直接调用`run()`，程序中依然只有主线程这一个线程，没有达到写线程的目的。
 
 <br></br>
 
@@ -88,23 +88,41 @@ public boolean add(T e) {
         lock.unlock();
     }
 }
-
-final void setArray(Object[] a) {
-    array = a;
-}
 ```
-
-适用场景：
-* （写时复制）是一个线程安全的容器，它的线程安全性在于对容器的修改可以和读操作同时进行。从容器中读时不需要加锁，对容器中的元素进行修改时，先复制一份所有元素的副本，然后在新的副本上进行操作。 
-* 读操作多于写操作的场景。例如，缓存。
 
 <br>
 
 
 ### AQS
-AQS(AbstractQueuedSynchronizer)为实现依赖于先进先出 (FIFO) 等待队列的阻塞锁和相关同步器（信号量、事件，等等）提供一个框架。设计目标是成为依靠单个原子`int`值来表示状态的大多数同步器的一个基础。子类必须定义更改此状态的受保护方法，并定义哪种状态对于此对象意味着被获取或被释放。假定这些条件之后，此类中的其他方法就可以实现所有排队和阻塞机制。
+AQS(AbstractQueuedSynchronizer)为实现依赖于先进先出 (FIFO) 等待队列的阻塞锁和相关同步器（信号量、事件，等等）提供一个框架。
 
-子类可以维护其他状态字段，但只是为了获得同步而只追踪使用`getState()`、`setState(int)`和`compareAndSetState(int, int)`来操作以原子方式更新的`int`值。
+队列节点为：
+```java
+static final class Node {
+	static final int CANCELLED = 1;
+	static final int SIGNAL = -1;
+	static final int CONDITION = -2;
+	static final int PROPAGATE = -3;
+
+	volatile int waitStatus;
+	volatile Node prev;
+	volatile Node next;
+	volatile Thread thread;
+
+	Node nextWaiter;
+	Node(Thread thread, Node mode) { // Used by addWaiter
+		this.nextWaiter = mode;
+		this.thread = thread;
+	}
+	Node(Thread thread, int waitStatus) { // Used by Condition
+		this.waitStatus = waitStatus;
+		this.thread = thread;
+	}
+}
+```
+
+对于首尾结点（即获取释放锁和阻赛线程）和结点status设置都是类似CAS语义。
+
 
 <br>
 

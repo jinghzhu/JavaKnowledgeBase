@@ -4,25 +4,6 @@
 
 
 
-Example:
-
-``` java
-class Counter {
-    private volatile int count = 0;
-    public synchronized void increment() {
-        count++;  //若要线程安全执行执行count++，需要加锁
-    }
-}
-
-class Counter {
-    private AtomicInteger count = new AtomicInteger(); 
-    public void increment() {//使用AtomicInteger之后，不加锁也可实现线程安全
-        count.incrementAndGet();
-    }
-       
-}
-```
-
 Java可以原子更新的基本类型有三个：
 1. AtomicBoolean
 2. AtomicInteger

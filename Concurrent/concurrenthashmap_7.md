@@ -4,6 +4,10 @@
 
 <br></br>
 
+* 对table使用violate
+* next指针是final，这样remove节点其实是clone。保证访问某节点时，这节点后的链接不会被改变。降低处理链表时的复杂性。
+* 使用RentrantLock
+
 ![ConcurrentHashMap before JDK 1.8](./Images/chm_before1.8.png)
 
 <br></br>
@@ -262,53 +266,3 @@ V remove(Object key, int hash, Object value) {
 ``` 
 
 <br></br>
-
-
-
-## volatile变量协调读写线程间的内存可见性
-----
-由于内存可见性问题，未正确同步的情况下，写线程写入的值可能并不为后续的读线程可见。
-
-<p align="center">
-  <img src="./Images/chm7_violate1.jpg" />
-</p>
-
-<center><i>协调读-写线程间的内存可见性的示意图</i></center>
-
-<br>
-
-假设线程M写入volatile型变量`count`后，线程N读取了`count`。根据happens-before的程序次序法则，A appens-before于B，C happens-before D。根据volatile变量法则，B happens-before C。根据传递性，得到A appens-before 于 B，B appens-before C，C happens-before D。写线程M对链表做的结构性修改，在读线程N读取了同一个volatile变量后，对线程N也是可见的了。
-
-ConcurrentHashMap中，每个Segment都有一个变量`count`。统计Segment中的HashEntry个数。这个变量被声明为volatile。
-
-```java
- transient volatile int count;
-```
-
-所有不加锁读方法，在进入读方法时，首先都会去读这个`count`变量。比如get方法：
-
-```java
-V get(Object key, int hash) { 
-    if(count != 0) {       // 首先读 count 变量
-        HashEntry<K,V> e = getFirst(hash); 
-        while(e != null) { 
-            if(e.hash == hash && key.equals(e.key)) { 
-                V v = e.value; 
-                if(v != null)            
-                    return v; 
-                // 如果读到value域为null，说明发生了重排序，加锁后重新读取
-                return readValueUnderLock(e); 
-            } 
-            e = e.next; 
-        } 
-    } 
-    return null; 
-}
-```
-
-所有执行写操作的方法（put, remove, clear），在对链表做结构性修改之后，在退出写方法前都会去写这个`count`变量。所有未加锁的读操作（get, contains, containsKey）在读方法中，都会首先去读取这个`count`变量。
-
-根据Java内存模型，对同一个volatile变量的写/读操作可确保写线程写入的值，能够被之后未加锁的读线程看到。
-
-这个特性和HashEntry对象的不变性相结合，使得在ConcurrentHashMap中，读线程基本不需加锁就能成功获得值。只有读到`value`域为null时 , 读线程才需要加锁后重读。
-
