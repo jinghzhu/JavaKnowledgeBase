@@ -3,8 +3,6 @@
 
 <br></br>
 
-
-
 * 是非阻塞、乐观锁。 
 * CAS通过调用JNI的代码实现的。
 * Java无法直接访问底层操作系统，而是通过native来访问。类Unsafe提供了硬件级别的原子操作。
@@ -20,6 +18,17 @@ static {
   } catch (Exception ex) { throw new Error(ex); }
 }
 ```
+
+Java的CAS使用处理器提供的机器级别原子指令。同时，volatile变量的读/写和CAS可以实现线程之间的通信。把这些特性整合在一起，就形成了整个concurrent包的基石。
+
+如果分析concurrent包的源代码实现，会发现一个通用化的实现模式：
+* 首先，声明共享变量为volatile；
+* 然后，使用CAS的原子条件更新来实现线程之间的同步；
+* 同时，配合以volatile的读/写和CAS所具有的volatile读和写的内存语义来实现线程之间的通信。
+
+AQS，非阻塞数据结构和原子变量类（java.util.concurrent.atomic包中的类），都是这种模式：
+
+![concurrent包的实现示意图](./Images/overall.png)
 
 <br></br>
 
@@ -130,18 +139,3 @@ Core1和Core2可能会同时把主存中某个位置的值Load到自己的L1 Cac
 如果Cache一致性流量过大，总线将成为瓶颈。当Core1和Core2中值再次一致时，称为“Cache一致性”。锁设计终极目标是减少Cache一致性流量。CAS恰好会导致Cache一致性流量。如果很多线程共享同一个对象，当某个Core CAS成功时必然会引起总线风暴，即本地延迟。本质上偏向锁是为了消除CAS，降低Cache一致性流量。
 
 <br></br>
-
-
-
-## concurrent包实现
-----
-Java的CAS使用处理器提供的机器级别原子指令，这些指令以原子方式对内存执行读-改-写操作。同时，volatile变量的读/写和CAS可以实现线程之间的通信。把这些特性整合在一起，就形成了整个concurrent包的基石。
-
-如果分析concurrent包的源代码实现，会发现一个通用化的实现模式：
-* 首先，声明共享变量为volatile；
-* 然后，使用CAS的原子条件更新来实现线程之间的同步；
-* 同时，配合以volatile的读/写和CAS所具有的volatile读和写的内存语义来实现线程之间的通信。
-
-AQS，非阻塞数据结构和原子变量类（java.util.concurrent.atomic包中的类），都是使用这种模式的。concurrent包高层类又是依赖于这些基础类来实现的：
-
-![concurrent包的实现示意图](./Images/overall.png)

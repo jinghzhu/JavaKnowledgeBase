@@ -9,10 +9,6 @@ AQS提供了基于FIFO的队列，用于构建锁或其他同步装置的基础�
 * `java.util.concurrent.locks.AbstractQueuedSynchronizer.setState(int)`
 * `java.util.concurrent.locks.AbstractQueuedSynchronizer.compareAndSetState(int, int)`
 
-同步器是实现锁的关键，利用同步器将锁的语义实现，然后在锁的实现中聚合同步器。可以这样理解：
-* 锁的API是面向使用者的，定义了与锁交互的公共行为，而每个锁需完成特定的操作也是透过这些行为来完成的（比如：可以允许两个线程进行加锁，排除两个以上的线程），但是实现是依托给同步器来完成；
-* 同步器面向的是线程访问和资源控制，定义了线程对资源是否能够获取以及线程排队等操作。
-
 同步器的FIFO队列的Node保存线程引用和线程状态的容器，每个线程对同步器的访问，都是队列中的一个节点：
 
 ``` java

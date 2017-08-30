@@ -5,6 +5,7 @@
 * PUT操作基于CAS(Unsafe类)+synchronized实现并发插入或更新操作：
     * 插入更新用CAS
     * 红黑树转换用synchronized
+    
 * GET是对tab原子读取。不加锁因为用了`Unsafe.getObjectVolatile()`，因为table是volatile，所以对tab原子请求是可见的。根据happens-before原则，对volatile域的写入操作happens-before于每一个后续对同一域的读操作。所以不管其他线程对table链表或树的修改，都对get读取可见。
 
 <br></br>

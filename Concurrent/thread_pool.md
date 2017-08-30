@@ -2,9 +2,20 @@
 
 <br></br>
 
+* 线程池内部，任务被插入阻塞队列，线程池里的线程会去取这个队列里的任务。
+* ForkJoinPool
+    * JDK1.7引入；
+    * 大任务分割成小任务；
+    * 工作窃取(work-stealing)算法。
 
+* ExecutorService：
 
-可以把并发执行的任务传递给一个线程池，来替代为每个并发执行的任务都启动新线程。只要池里有空闲的线程，任务就会分配给一个线程执行。在线程池内部，任务被插入阻塞队列（Blocking Queue），线程池里的线程会去取这个队列里的任务。
+![Overall of ExecutorService](./Images/executorservice_workflow.png)
+
+1. 使用工厂方法创建不同的线程池。
+2. 线程池把任务封装成FutureTask对象。
+3. 工作线程在其`run()`方法中循环，从线程池领取可以执行的task，调用task的`run()`方法执行task的任务。
+5. FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务的执行结果返回给FutureTask的`result`变量。
 
 <br></br>
 
@@ -12,6 +23,7 @@
 
 ## 简单的线程池实现
 ----
+线程池实现由两部分组成。类ThreadPool是线程池公开接口，类PoolThread实现执行任务的子线程。
 ``` java
 public class ThreadPool {
   private BlockingQueue taskQueue = null;
@@ -21,12 +33,10 @@ public class ThreadPool {
   public ThreadPool(int noOfThreads, int maxNoOfTasks) {
     taskQueue = new BlockingQueue(maxNoOfTasks);
 
-    for (int i=0; i<noOfThreads; i++) {
+    for (int i=0; i<noOfThreads; i++) 
       threads.add(new PoolThread(taskQueue));
-    }
-    for (PoolThread thread : threads) {
+    for (PoolThread thread : threads)
       thread.start();
-    }
   }
 
   public void synchronized execute(Runnable task) {
@@ -38,14 +48,11 @@ public class ThreadPool {
 
   public synchronized boolean stop() {
     this.isStopped = true;
-    for (PoolThread thread : threads) {
+    for (PoolThread thread : threads)
       thread.stop();
-    }
   }
 }
 ```
-
-线程池实现由两部分组成。类ThreadPool是线程池公开接口，类PoolThread实现执行任务的子线程。
 
 ```java
 public class PoolThread extends Thread {
@@ -80,7 +87,7 @@ public class PoolThread extends Thread {
 
 为了执行一个任务，方法`ThreadPool.execute(Runnable r)`用Runnable的实现作为调用参数。在内部，Runnable对象被放入阻塞队列。空闲的PoolThread线程会把Runnable对象从队列中取出并执行。可以在`PoolThread.run()`方法里看到这些代码。执行完后，PoolThread进入循环且尝试从队列中再取出任务，直到线程终止。
 
-`ThreadPool.stop()`方法可以停止ThreadPool。在内部，调用stop先标记`isStopped`成员变量（为`true`）。然后，线程池的每个子线程都调用`PoolThread.stop()`方法停止运行。如果线程池`execute()`在`stop()`后调用，会抛出IllegalStateException异常。
+`ThreadPool.stop()`方法可以停止ThreadPool。在内部，调用stop先标记`isStopped`成员变量为`true`。然后，线程池的每个子线程都调用`PoolThread.stop()`方法停止运行。如果线程池`execute()`在`stop()`后调用，会抛出IllegalStateException异常。
 
 子线程会在完成当前任务后停止。`PoolThread.stop()`方法中调用了`this.interrupt()`，确保阻塞在`taskQueue.dequeue()`的`wait()`调用的线程能跳出`wait()`调用，并抛出InterruptedException异常离开`dequeue()`方法。这个异常在`PoolThread.run()`方法中被截获、报告，然后再检查`isStopped`变量。由于`isStopped`值是`true,` 因此`PoolThread.run()`方法退出，子线程终止。
 
@@ -94,15 +101,13 @@ public class PoolThread extends Thread {
 * 大任务分割成小任务；
 * 工作窃取(work-stealing)算法。
 
-为减少窃取任务线程和被窃取任务线程之间的竞争，会使用双端队列，被窃取任务线程永远从双端队列的头部拿任务执行，而窃取任务的线程永远从双端队列的尾部拿任务执行。
-
-应用场景包括做报表导出时，大量数据的导出处理；做BI时，大量的数据迁移清洗作业等。
+为减少窃取任务线程和被窃取任务线程之间的竞争，会使用双端队列，被窃取任务线程从双端队列头部拿任务执行，窃取任务线程从双端队列尾部拿任务执行。
 
 <br>
 
 
 ### 原理
-ForkJoinPool由ForkJoinTask数组和ForkJoinWorkerThread数组组成，ForkJoinTask数组存放提交给ForkJoinPool的任务，而ForkJoinWorkerThread数组负责执行任务。调用ForkJoinTask的`fork()`方法时，会调用ForkJoinWorkerThread的`pushTask()`方法异步执行任务，然后返回结果：
+由ForkJoinTask数组和ForkJoinWorkerThread数组组成。ForkJoinTask数组存放提交给ForkJoinPool的任务，而ForkJoinWorkerThread数组负责执行任务。调用ForkJoinTask的`fork()`方法时，会调用ForkJoinWorkerThread的`pushTask()`方法异步执行任务，然后返回结果：
 
 ```java
 public final ForkJoinTask fork() {         
@@ -112,10 +117,11 @@ public final ForkJoinTask fork() {
 ```
 
 `pushTask()`把当前任务存放在ForkJoinTask数组queue里。然后再调用ForkJoinPool的`signalWork()`方法唤醒或创建一个工作线程来执行任务：
-
 ```java
 final void pushTask(ForkJoinTask t) {
-    ForkJoinTask[] q; int s, m;
+    ForkJoinTask[] q; 
+    int s, m;
+
     if ((q = queue) != null) {    // ignore if queue removed
         long u = (((s = queueTop) & (m = q.length - 1)) << ASHIFT) + ABASE;
         UNSAFE.putOrderedObject(q, u, t);
@@ -128,8 +134,7 @@ final void pushTask(ForkJoinTask t) {
 }
 ```
 
-`join()`方法的主要作用是阻塞当前线程并等待获取结果：
-
+`join()`方法阻塞当前线程并等待获取结果：
 ```java
 public final V join() {
     if (doJoin() != NORMAL) 
@@ -141,6 +146,7 @@ public final V join() {
 private V reportResult() {
     int s;
     Throwable ex;
+
     if ((s = status) == CANCELLED)
         throw new CancellationException();
     if (s == EXCEPTIONAL && (ex = getThrowableExcetpion()) != null)
@@ -150,23 +156,24 @@ private V reportResult() {
 }
 ```
 
-首先，调用`doJoin()`得到当前任务的状态来判断返回什么结果，任务状态有四种：已完成（NORMAL），被取消（CANCELLED），信号（SIGNAL）和出现异常（EXCEPTIONAL）。
+首先，调用`doJoin()`得到当前任务的状态来判断返回什么结果，任务状态有四种：已完成（NORMAL），被取消（CANCELLED），信号（SIGNAL）和出现异常（EXCEPTIONAL）：
 
-* 如果任务状态是已完成，则直接返回任务结果。
-* 如果任务状态是被取消，则直接抛出CancellationException。
-* 如果任务状态是抛出异常，则直接抛出对应的异常。
+* 已完成，则直接返回任务结果。
+* 被取消，则直接抛出CancellationException。
+* 抛出异常，则直接抛出对应的异常。
 
 `doJoin()`方法的实现代码：
-
 ```java
 private int doJoin() {
     Thread t;
     ForkJoinThread w;
     int s;
     boolean completed;
+
     if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) {
         if ((s = status) < 0)
             return s;
+
         if ((w = (ForkJoinWorkerThread)t).unpushTask(this)) {
             try {
                 completed = exec();
@@ -183,19 +190,15 @@ private int doJoin() {
 }
 ```
 
-在`doJoin()`里，首先通过查看任务的状态，看任务是否已执行完，如果执行完则返回任务状态，如果没有则从任务数组里取出任务并执行。如果任务顺利执行完成了，则设置任务状态为`NORMAL`，如果出现异常，则纪录异常并将任务状态设置为`EXCEPTIONAL`。
-
-<br>
-
-
-### ForkJoinPool VS ExecutorService
-Fork-join allows you to easily execute divide and conquer jobs, which have to be implemented manualy if you want to execute it in ExecutorService. In practice ExecutorService is usualy used to process many independent requests (aka transaction) concurrently, and fork-join when you want to accelerate one coherent job.
+在`doJoin()`里，首先通过查看任务的状态，看任务是否已执行完。如果执行完则返回任务状态，如果没有则从任务数组里取出任务并执行。如果任务顺利执行完成了，则设置任务状态为NORMAL，如果出现异常，则纪录异常并将任务状态设置为EXCEPTIONAL。
 
 <br>
 
 
 ### RecursiveAction Example（没有返回值）
-任务类`PrintTask`统一用`compute()`方法负责计算子任务或者讲任务分解成子任务；对每次的分解均调用类似`PrintTask.fork()`方法；最后勿忘`ForkJoinPool.shutdown()`.
+* 任务类`PrintTask`统一用`compute()`方法负责计算子任务或任务分解成子任务；
+* 每次分解调用类似`PrintTask.fork()`方法；
+* 最后`ForkJoinPool.shutdown()`。
 
 ```java
 class PrintTask extends RecursiveAction {
@@ -245,6 +248,7 @@ public class ForkJoinPoolTest1 {
 
 
 ### RecursiveTask Example（有返回值）
+
 ```java
 class SumTask extends RecursiveTask<Integer> {
     private static final int MAX = 70; // 每个小任务最多只打印70个数
@@ -344,12 +348,13 @@ static class DefaultThreadFactory implements ThreadFactory {
 
 
 ### 把Runnable实例加入pool
-Executor的`execute()`将Runnable实例加入pool中,并进行一些pool size计算和优先级处理。`execute()`在Executor接口中定义,有多个实现类都定义了不同的`execute()`方法。如ThreadPoolExecutor类（cache,fiexed,single三种池子都是调用它）的`execute()`方法如下：
+`execute()`将Runnable实例加入pool，并进行一些pool size计算和优先级处理。`execute()`在Executor接口中定义，有多个实现类都定义了不同的`execute()`方法。如ThreadPoolExecutor类（cache，fiexed和single三种池子都调用它）的`execute()`方法如下：
 
 ```java
 public void execute(Runnable command) {
     if (command == null)
         throw new NullPointerException();
+
     if (poolSize >= corePoolSize || !addIfUnderCorePoolSize(command)) {
         if (runState == RUNNING && workQueue.offer(command)) {
             if (runStat != RUNNING || poolSize == 0)
@@ -362,7 +367,6 @@ public void execute(Runnable command) {
 ```
 
 ThreadPoolExecutor有两个最重要的集合属性，分别是存储接收任务的任务队列和用来干活的作业集合：
-
 ```java
 // task queue
 private final BlockingQueue<Runnable> workQueue;
@@ -370,7 +374,7 @@ private final BlockingQueue<Runnable> workQueue;
 private final HashSet<Worker> workers = new HashSet<Worker>();
 ```
 
-其中阻塞队列workQueue存储待执行任务，在构造线程池时可选择满足BlockingQueue定义的SynchronousQueue、LinkedBlockingQueue或DelayedWorkQueue等不同阻塞队列来实现不同特征的线程池。
+阻塞队列workQueue存储待执行任务，在构造线程池时可选择满足BlockingQueue定义的SynchronousQueue、LinkedBlockingQueue或DelayedWorkQueue等不同阻塞队列来实现不同特征的线程池。
 
 <br>
 
@@ -394,7 +398,6 @@ public void run() {
 ```
 
 `getTask()`是ThreadPoolExecutor提供给内部类Worker的方法。作用是从任务队列中取任务:
-
 ```java
 Runnable getTask() {
     for (;;) {
@@ -405,7 +408,6 @@ Runnable getTask() {
 ```
 
 `runTask(Runnable task)`是工作线程Worker真正处理每个具体任务:
-
 ```java
 private void runTask(Runnable task) {
     // 调用任务的run方法，即在Worker线程中执行Task内定义的内容
@@ -418,17 +420,11 @@ private void runTask(Runnable task) {
 <br>
 
 
-### 获取结果
-获取执行结果只需调用FutureTask的`get()`方法即可。该方法是在Future接口中就定义的。
-
-<br>
-
-
 ### 总结
 
 ![Overall of ExecutorService](./Images/executorservice_workflow.png)
 
-1. 首先创建一个任务执行服务ExecutorService，使用工具类Executors工厂方法创建不同的线程池`hreadPoolExecutor；
+1. 首先创建一个任务执行服务ExecutorService，使用工具类Executors工厂方法创建不同的线程池`ThreadPoolExecutor；
 2. 线程池是负责把任务封装成FutureTask对象，并根据输入定义好要获得结果的类型，就可以`submit()`任务了。
 3. 线程池接收输入的task，根据需要创建工作线程，启动工作线程来执行task。
 4. 工作线程在其`run()`方法中一直循环，从线程池领取可以执行的task，调用task的`run()`方法执行task的任务。
