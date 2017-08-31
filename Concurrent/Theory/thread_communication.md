@@ -1,13 +1,15 @@
 # <center>Thread Communication</center>
 
+<br></br>
 
 
-## 1. 通过共享对象通信
+
+## 通过共享对象通信
+----
 线程间发送信号的简单方式是在共享对象的变量里设置信号值。线程A在一个同步块里设置boolean型成员变量`hasDataToProcess`为true，线程B在同步块里读取`hasDataToProcess`变量。这个例子使用了一个持有信号的对象，并提供了set和check方法:
 
 ``` java
 public class MySignal{
-
   protected boolean hasDataToProcess = false;
 
   public synchronized boolean hasDataToProcess(){
@@ -17,7 +19,6 @@ public class MySignal{
   public synchronized void setHasDataToProcess(boolean hasData){
     this.hasDataToProcess = hasData;
   }
-
 }
 ```
 
@@ -25,14 +26,14 @@ public class MySignal{
 
 
 
-## 2. wait()，notify()和notifyAll()
+## wait()，notify()和notifyAll()
+----
 MySingal修改版本——使用了`wait()`和`notify()`：
 
 ``` java
 public class MonitorObject{}
 
 public class MyWaitNotify{
-
   MonitorObject myMonitorObject = new MonitorObject();
 
   public void doWait(){
@@ -51,22 +52,19 @@ public class MyWaitNotify{
 }
 ```
 
-一个线程如果没有持有对象锁，不能调用	`wait()`，`notify()`或`notifyAll()`。否则会抛出IllegalMonitorStateException。因为一旦线程调用了`wait()`方法，它就释放了所持有的监视器对象上的锁。
-
-一旦一个线程被唤醒，不能立刻就退出`wait()`方法调用，直到调用`notify()`线程退出了它自己的同步块。换句话说：被唤醒的线程必须重新获得监视器对象的锁，才可以退出`wait()`方法调用，因为`wait()`方法调用运行在同步块里面。如果多个线程被`notifyAll()`唤醒，那么在同一时刻将只有一个线程可以退出`wait()`方法，因为每个线程在退出` wait()`前须获得监视器对象的锁。
+一旦一个线程被唤醒，不能立刻就退出`wait()`方法调用，直到调用`notify()`线程退出了它自己的同步块。换句话说，被唤醒的线程必须重新获得监视器对象的锁，才可以退出`wait()`方法调用。因为`wait()`方法调用运行在同步块里面。如果多个线程被`notifyAll()`唤醒，那么在同一时刻将只有一个线程可以退出`wait()`方法，因为每个线程在退出` wait()`前须获得监视器对象的锁。
 
 <br></br>
 
 
 
-## 3. 丢失的信号（Missed Signals）
+## Missed Signals
+----
 `notify()`和`notifyAll()`方法不会保存调用它们的方法，因为当这两个方法被调用时，有可能没有线程处于等待状态。通知信号过后便丢弃了。因此，如果一个线程先于被通知线程调用`wait()`前调用了`notify()`，等待的线程将错过这个信号。
 
 为避免丢失信号，须把它们保存在信号类里。在MyWaitNotify中，通知信号应被存储在MyWaitNotify实例的一个成员变量里：
-
 ``` java
 public class MyWaitNotify2{
-
   MonitorObject myMonitorObject = new MonitorObject();
   boolean wasSignalled = false;
 
@@ -95,7 +93,8 @@ public class MyWaitNotify2{
 
 
 
-## 4. 假唤醒
+## 假唤醒
+----
 线程可能在没有调用过`notify()`和`notifyAll()`的情况下醒来，这就是假唤醒（spurious wakeups）。
 
 如果在MyWaitNotify2的`doWait()`方法里发生了假唤醒，等待线程即使没有收到正确的信号，也能够执行后续的操作。为防止假唤醒，保存信号的成员变量将在一个while循环里接受检查，而不是在if表达式里。这样的一个while循环叫做自旋锁（这种做法要慎重，JVM实现自旋会消耗CPU）。被唤醒的线程会自旋直到自旋锁（while循环）里的条件变为false。
@@ -131,8 +130,8 @@ public class MyWaitNotify3{
 
 
 
-## 5. 不要在字符串常量或全局对象中调用wait()
-
+## 不要在字符串常量或全局对象中调用wait()
+----
 > 字符串常量指的是值为常量的变量
 
 下面的MyWaitNotify里使用字符串常量（””）作为管程对象：

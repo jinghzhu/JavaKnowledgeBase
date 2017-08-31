@@ -1,12 +1,13 @@
 # <center>Read-Write Lock</center>
 
-<br>
+<br></br>
 
 
 
-#### 信号量实现的写进程优先
---------------
-``` java
+## 信号量实现的写进程优先
+----
+
+```c
 int readcount, writecount;
 semaphore x = 1, y = 1, z = 1, wsem = 1, rsem = 1;
 
@@ -59,14 +60,14 @@ void main()
 }
 ```
 
-<br>
+<br></br>
 
 
 
-#### 读写锁可重入的Java代码
--------------------
-##### 最简单的读写锁（写锁高优先级）
-&#12288;&#12288;如果读操作较频繁，又没有提升写操作优先级就会产生“饥饿”。写线程一直阻塞，直到所有读线程都从ReadWriteLock上解锁。因此，只有当没有线程正锁住ReadWriteLock进行写操作，且没有线程请求锁准备写操作时，才保证读操作继续。
+## 读写锁可重入的Java代码
+---------
+### 最简单的读写锁（写锁高优先级）
+如果读操作较频繁，又没有提升写操作优先级就会产生“饥饿”。写线程一直阻塞，直到所有读线程都从ReadWriteLock上解锁。因此，只有当没有线程正锁住ReadWriteLock进行写操作，且没有线程请求锁准备写操作时，才保证读操作继续。
 
 ``` java
 public class ReadWriteLock{
@@ -105,7 +106,7 @@ public class ReadWriteLock{
 }
 ```
 
-&#12288;&#12288;在两个释放锁的方法（unlockRead，unlockWrite）中，都调用`notifyAll()`方法，而不是`notify()`，因为：
+在两个释放锁的方法（unlockRead，unlockWrite）中，都调用`notifyAll()`方法，而不是`notify()`，因为：
 
 * 如果有线程在等待获取读锁，同时又有线程在等待获取写锁。如果这时一个等待读锁的线程被`notify()`方法唤醒，但因为此时仍有请求写锁的线程存在（`writeRequests > 0`），所以被唤醒的线程会再次进入阻塞状态。然而，等待写锁的线程一个也没被唤醒，就像什么也没发生过一样（信号丢失现象）。如果用`notifyAll()`方法，所有的线程都会被唤醒，然后判断能否获得其请求的锁。
 
@@ -114,8 +115,8 @@ public class ReadWriteLock{
 <br>
 
 
-##### 读锁重入
-&#12288;&#12288;要保证某个读锁可重入，要么没有写或写请求，要么已持有读锁（不管是否有写请求）。 可以用一个map存储已持有读锁的线程以及对应线程获取读锁的次数。当需要判断某个线程能否获得读锁时，就用map中数据进行判断。
+### 读锁重入
+要保证某个读锁可重入，要么没有写或写请求，要么已持有读锁（不管是否有写请求）。 可以用一个map存储已持有读锁的线程以及对应线程获取读锁的次数。当需要判断某个线程能否获得读锁时，就用map中数据进行判断。
 
 ``` java
 public class ReadWriteLock{
@@ -165,13 +166,13 @@ public class ReadWriteLock{
 }
 ```
 
-&#12288;&#12288;注意，重入的读锁比写锁优先级高。
+注意，重入的读锁比写锁优先级高。
 
 <br>
 
 
-##### 写锁重入
-&#12288;&#12288;仅当一个线程已持有写锁，才允许写锁重入（再次获得写锁）。
+### 写锁重入
+仅当一个线程已持有写锁，才允许写锁重入（再次获得写锁）。
 
 ``` java
 public class ReadWriteLock{
@@ -221,8 +222,8 @@ public class ReadWriteLock{
 <br>
 
 
-##### 读锁升级到写锁
-&#12288;&#12288;有时希望拥有读锁的线程也能获得写锁。要允许这操作，要求这个线程是唯一一个拥有读锁的线程。`writeLock()`做点改动：
+### 读锁升级到写锁
+有时希望拥有读锁的线程也能获得写锁。要允许这操作，要求这个线程是唯一一个拥有读锁的线程。`writeLock()`做点改动：
 
 ``` java
 public class ReadWriteLock{
@@ -277,8 +278,8 @@ public class ReadWriteLock{
 <br>
 
 
-##### 写锁降级到读锁
-&#12288;&#12288;有时拥有写锁的线程希望得到读锁。如果线程拥有写锁，那么其它线程不可能拥有读锁或写锁。所以对于拥有写锁的线程，再获得读锁，不会有什么危险。仅需对`canGrantReadAccess()`方法修改：
+### 写锁降级到读锁
+有时拥有写锁的线程希望得到读锁。如果线程拥有写锁，那么其它线程不可能拥有读锁或写锁。所以对于拥有写锁的线程，再获得读锁，不会有什么危险。仅需对`canGrantReadAccess()`方法修改：
 
 ``` java
 public class ReadWriteLock{
@@ -292,11 +293,12 @@ public class ReadWriteLock{
 }
 ```
 
-<br>
+<br></br>
 
 
-#### 可重入ReadWriteLock完整实现
-------------------------
+
+## 可重入ReadWriteLock完整实现
+-----
 ``` java
 public class ReadWriteLock{
     private Map<Thread, Integer> readingThreads =
