@@ -4,6 +4,26 @@
 
 
 
+## Happens-Before
+----
+重排序需要遵守happens-before规则:
+* **程序次序法则** 如果A一定在B之前发生，则happen before
+* **监视器法则** 对一个监视器的解锁一定发生在后续对同一监视器加锁之前
+* **volatie变量法则** 写volatile变量一定发生在后续对它的读之前 
+* **线程启动法则** `Thread.start`一定发生在线程中的动作 
+* **终结法则** 对象的构造函数结束一定发生在对象的finalizer前 
+* **传递性** A发生在B之前，B发生在C之前，A一定发生在C之前
+
+两个操作间具有happens-before关系，不意味着前一个操作要在后一个操作之前执行。happens-before仅要求前一个操作（执行的结果）对后一个操作可见，且前一个操作按顺序排在第二个操作之前。
+
+<p align="center">
+  <img src="./Images/happens-before_JMM.png" />
+</p>
+
+<br></br>
+
+
+
 ## 线程安全与共享资源
 ----
 ### 局部的对象引用

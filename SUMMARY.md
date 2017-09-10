@@ -38,10 +38,11 @@
   * [String](/DataStructure/string.md)
   * [String.equals](/DataStructure/string_equals.md)
 
-* [JVM](/JVM/jvm.md)
+* [JVM]()
+  * [Reference](/JVM/reference.md)
   * [Garbage Collector](/JVM/gc.md)
-  * [JMM](/JVM/jmm.md)
-  * [Deeoly Understanding JMM](/JVM/jmm_advanced.md)
+  * [Memory Model](/JVM/jmm.md)
+  * [Theory](/JVM/jvm_theory.md)
   * [Troubleshooting OOM](/JVM/oom.md)
   
 * [Advanced]()

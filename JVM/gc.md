@@ -4,72 +4,93 @@
 
 
 
-| GC算法    |   优点 | 缺点  | 存活对象移动 | 内存碎片 | 适用场景 |
-| :--------: | :--------| :-- | :---: | :--: | :-- |
-| 引用计数  | 简单 | 不能解决循环引用 | | | |
-| 标记-清除 | 无需额外空间 |  两次扫描，耗时严重| N | Y | 旧生代 |
-| 复制 | 没有标记和清除 | 需额外空间 | Y | N | 新生代 |
-| 标记整理 | 无内存碎片 | 有移动对象的成本  | Y | N | 旧生代 |
+| GC算法    |   优点     | 缺点              | 存活对象移动 | 内存碎片 | 适用场景 |
+| :------: | :--------  | :--------------- | :--------: | :-----: | :----- |
+| 引用计数  | 简单        | 不能解决循环引用    |     N      |   Y     |        |
+| 标记-清除 | 无需额外空间  |  两次扫描，耗时严重 | N          | Y      | 旧生代   |
+| 复制     | 没有标记和清除 | 需额外空间        | Y          | N      | 新生代   |
+| 标记整理  | 无内存碎片   | 有移动对象的成本    | Y          | N      | 旧生代   |
 
 <br></br>
 
 
 
-
-## GC收集算法
----- 
-### 标记-清除(Mark-Sweep)
+## 标记-清除(Mark-Sweep)
+----
 步骤：
-1. 标记：根据可达性分析对不可达对象进行标记，即标记出所有需要被回收的对象
-2. 清理：标记完成后统一清理这些对象，即回收被标记的对象所占用的空间
+1. 标记：根据可达性分析对不可达对象进行标记
+2. 清理：回收被标记的对象所占用的空间
+
+优点：实现简单
 
 缺点：
 * 标记和清理的效率不高（因为垃圾对象比较少，大部分都不是垃圾）
 * 产生大量内存碎片，导致后续需要为大对象分配空间时无法找到足够的空间而提前触发GC
 
-适用场景：基于Mark-Sweep的GC多用于老年代。
+适用场景：老年代。
 
  ![Mark-Sweep](./Images/mark_sweep.png)
 
-<br>
+<br></br>
 
 
-### 复制(Copying)
-为了解决Mark-Sweep算法的缺陷，Copying算法就被提了出来。将堆内分成两个相同空间，从根(ThreadLocal的对象，静态对象)开始访问每一个关联的活跃对象，将空间A的活跃对象全部复制到空间B，然后一次性回收整个空间A。因为只访问活跃对象，将所有活动对象复制走之后就清空整个空间，不用去访问死对象，所以实现简单，运行高效且不容易产生内存碎片，但对内存空间的使用做出了高昂的代价，因为能够使用的内存缩减到原来的一半。
 
-显然，Copying算法的效率跟存活对象的数目多少有很大的关系，如果存活对象很多，那么Copying算法的效率将会大大降低。
+## 复制(Copying)
+-----
+Copying算法为了解决Mark-Sweep算法缺陷。
+
+步骤：
+1. 将堆内分成两个相同空间。
+2. 从根开始访问每一个关联的活跃对象，将空间A的活跃对象全部复制到空间B。
+3. 一次性回收整个空间A。
+
+优点：无内存碎片
+
+缺点：
+1. 耗时高。
+2. 效率跟存活对象数目多少有关系。
+3. 能够使用的内存缩减到原来的一半。
+
+适用场景：新生代
 
  ![Copying](./Images/copying.png)
 
-<br>
+<br></br>
 
 
-### 标记-压缩(Mark-Compact)
-在完成标记之后，它不是直接清理可回收对象，而是将存活对象都向一端移动，然后清理掉端边界以外的内存.
+
+## 标记-压缩(Mark-Compact)
+----
+在完成标记后，不是直接清理可回收对象，而将存活对象向一端移动，然后清理掉端边界以外的内存.
 
 步骤：
-1. 在标记好待回收对象后，将存活的对象移至一端
-2. 然后对剩余的部分进行回收
+1. 在标记好待回收对象后，将存活的对象移至一端。
+2. 然后对剩余的部分进行回收。
 
-优点：
-* 可以解决内存碎片的问题
+优点：可解决内存碎片问题。
+
+缺点：耗时高。
 
 适用场景：基于Mark-Compact的GC多用于老年代
 
  ![Mark-Compact](./Images/mark_compact.png)
 
-<br>
+<br></br>
 
 
-### 标记-整理-压缩(Mark-Sweep-Compact)
-为了解决Copying算法缺陷，提出了Mark-Sweep-Compact算法。综合了上述两者的做法和优点，先标记活跃对象，在完成标记之后，不直接清理可回收对象，而是将存活对象向一端移动，然后清理掉端边界以外的内，将其合并成较大的内存块.
+
+## 标记-整理-压缩(Mark-Sweep-Compact)
+----
+Mark-Sweep-Compact算法为了解决Copying算法缺陷，综合了上述两者做法和优点，先标记活跃对象，在完成标记之后，不直接清理可回收对象，而是将存活对象向一端移动，然后清理掉端边界以外的内存，将其合并成较大的内存块.
 
  ![Mark-Sweep-Compact](./Images/mark_sweep_compact.png)
 
-<br>
+<br></br>
 
 
-### 1.4 分代收集(Generational Collection)
+
+## 分代收集(Generational Collection)
+----
 
  ![Generation1](./Images/generation1.png)
 
@@ -78,45 +99,40 @@
 <br>
 
 
-#### 新生代(Young)
+### 新生代(Young)
+新建对象用新生代分配内存，新生代进一步分为Eden和Survivor区，Survivor由FromSpace和ToSpace组成。
 
- ![Young Generation](./Images/young.png)
+Eden空间不足时，把存活对象转移到Survivor。新生代存活时间短，因此基于Copying算法进行回收，在Eden的FromSpace或ToSpace之间copy。
 
-新建的对象都用新生代分配内存，新生代又进一步分为Eden和Survivor区，Survivor由FromSpace和ToSpace组成。
+> `-XX:NewRatio=`参数可设置Young与Old大小比例，`-XX:SurvivorRatio=`参数可设置Eden与Survivor比例。
 
-Eden空间不足的时候，会把存活的对象转移到Survivor中。新生代通常存活时间较短，因此基于Copying算法来进行回收，就是在Eden和FromSpace或ToSpace之间copy。`-XX:NewRatio=`参数可以设置Young与Old的大小比例，`-XX:SurvivorRatio=`参数可以设置Eden与Survivor的比例.
+新生代采用空闲指针方式控制GC触发。指针保持最后一个分配的对象在新生代区间的位置，当有新对象要分配内存时，用于检查空间是否足够，不够就触发GC(minor GC)。当连续分配对象时，对象会逐渐从Eden到Survivor。 
 
-两个存活区中始终有一个是空白的。GC时，Eden和其中一个非空存活区中还存活的对象根据其存活时间被复制到当前空白的存活区或年老世代中。经过这一次的复制之后，之前非空的存活区中包含了当前还存活的对象，而Eden和另一个存活区中的内容已经不再需要了，只需把这两个区域清空即可。下一次GC时，这两个存活区的角色就发生了交换。
-
-新生代采用空闲指针的方式来控制GC触发，指针保持最后一个分配的对象在新生代区间的位置，当有新的对象要分配内存时，用于检查空间是否足够，不够就触发GC(minor GC)。当连续分配对象时，对象会逐渐从Eden到Survivor。 
-
-> 年轻代的痛：由于对年轻代的复制收集，须停止所有线程。只能靠多CPU，多线程并发来提高收集速度。所以，暂停时间的瓶颈就落在了年轻代的复制算法上。  
-> 
-> Minor GC does trigger stop-the-world pauses, suspending the application threads. For most applications, the length of the pauses is negligible latency-wise. Major GC will clean the old gen and full GC will clean whole heap.
+> 年轻代的痛：由于对年轻代的复制收集，须停止所有线程。只能靠多CPU，多线程并发来提高收集速度。所以，暂停时间的瓶颈就落在了年轻代的复制算法上。
 
  ![Young GC](./Images/young_gc.png)
 
 <br>
 
 
-#### 年老代(Old)
-`-XX:MaxTenuringThreshold=`设置熬过年轻代多少次GC后移入老人区，默认为0，熬过一次GC就转入。Java对象存活周期长命的对象放在老年代：
-* 存放新生代中经历多次GC仍然存活的对象
-* 新建的对象也有可能直接在旧生代分配，取决于具体GC的实现
-* GC频率相对降低，标记(mark)、清理(sweep)、压缩(compaction)算法的各种结合和优化
+### 年老代(Old)
+`-XX:MaxTenuringThreshold=`设置熬过年轻代多少次GC后移入老人区，默认为0，熬过一次GC就转入。对象存活周期长的对象放在老年代：
+* 存放新生代中经历多次GC仍然存活的对象；
+* 新建的对象也可能直接在旧生代分配，取决于具体GC实现；
+* GC频率降低，标记(mark)、清理(sweep)、压缩(compaction)算法的各种结合和优化。
 
 Old常见对象为比如Http请求中的Session对象、线程、Socket连接，这类对象跟业务直接挂钩，因此生命周期比较长。
 
 <br>
 
 
-#### 永久代(Permanent)
-装载Class信息等基础数据，默认64M，如果是类很多的程序，需加大其设置`-XX:MaxPermSize=`，否则满了后会引起Major GC。Spring，Hibernate这类喜欢AOP动态生成类的框架需要更多的持久代内存。
+### 永久代(Permanent)
+装载Class信息等基础数据，默认64M。如果是类很多的程序，需加大其设置`-XX:MaxPermSize=`，否则满了后会引起Major GC。Spring，Hibernate这类喜欢AOP动态生成类的框架需要更多的持久代内存。
 
 <br>
 
 
-#### 对象提升到老年代
+### 对象提升到老年代
 1.对象分配
 
  ![Step 1](./Images/step1.png)
@@ -193,21 +209,6 @@ Old常见对象为比如Http请求中的Session对象、线程、Socket连接，
 
 
 
-## System.gc() and finalize()
-----
-使用`System.gc()`可以请求Java的垃圾回收。调用`System.gc()`仅是一个请求，JVM并不立即做gc，而只是对几个gc算法做了加权，使gc容易发生，或回收较多而已。
-
-之所以用`finalize()`是存在着gc不能处理的特殊情况，例如：
-1. 由于在分配内存的时候采用了C语言的做法，而非JAVA的new做法（主要发生在native method中）。此时除非调用`free()`否则这些内存将不会释放，造成内存泄漏。但由于`free()`在C/C++中，所以`finalize()`中可以用本地方法来调用它。
-
-2. 打开的文件资源，这些资源不属于垃圾回收器的回收范围。
-         
-每个对象只能调用`finalize()`一次。如果在`finalize()`执行时产生异常，则该对象仍可以被垃圾收集器收集。
-
-<br></br>
-
-
-
 ## 确定垃圾
 ----
 ### 引用计数法
@@ -219,8 +220,6 @@ Old常见对象为比如Http请求中的Session对象、线程、Socket连接，
 
 
 ### 可达性分析法（根搜索）
-为了解决循环引用，**Java采取了可达性分析法**。通过GC Roots对象作为起点进行搜索，如果在GC Roots和一个对象之间没有可达路径，则称该对象是不可达的。被判定为不可达的对象不一定就会成为可回收对象，除非至少经历两次标记过程，如果在这两次标记过程中仍然没有逃脱成为可回收对象的可能性。
-
 There are many kinds of GC roots:
 1. **Stack Local - Java方法的local变量或参数**
 
@@ -230,7 +229,9 @@ There are many kinds of GC roots:
 
     Active Java threads are always considered live objects and are therefore GC roots. This is especially important for thread local variables.
 
-3. **Static variables** are referenced by their classes. This fact makes them de facto GC roots. Classes themselves can be garbage-collected, which would remove all referenced static variables. 
+3. **Static variables** 
+
+    referenced by their classes. This fact makes them de facto GC roots. Classes themselves can be garbage-collected, which would remove all referenced static variables. 
 
 4. **JNI Local - JNI方法的local变量或参数**
 
@@ -247,9 +248,7 @@ There are many kinds of GC roots:
 
 <br>
 
-最后两句将`obj1`和`obj2`赋为`null`，即`obj1`和`obj2`指向的对象不可能再被访问。但由于它们互相引用对方，导致它们的引用计数都不为0，那么GC永远不会回收它们。
-
-使用根搜索算法，则可以正常回收:
+使用根搜索算法，可正常回收:
 
  ![根搜索](./Images/root_example.png)
 
@@ -257,15 +256,11 @@ There are many kinds of GC roots:
 
 
 
-## Improve GC Performance
+## Improve Performance
 ----
 1. **不要显式调用`System.gc()`**
 
-    此函数建议JVM进行Major GC，从而增加主GC的频率，也即增加了间歇性停顿的次数。
-
 2. **减少临时对象的使用**
-
-    临时对象在跳出函数调用后会成为垃圾，少用临时变量就相当于减少了垃圾的产生，从而延长了出现上述第二个触发条件出现的时间，减少了Major GC机会。
 
 3. **对象不用时显式置为`null`**
 
@@ -279,9 +274,7 @@ There are many kinds of GC roots:
 
     静态变量属于全局变量，不会被GC回收，它们会一直占用内存。
 
-7. 分散对象创建或删除的时间
-
-    集中在短时间内大量创建新对象，会导致突然需要大量内存。JVM在面临这种情况时，只能进行Major GC，以回收内存或整合内存碎片，从而增加主GC的频率。集中删除对象，道理也是一样的。
+7. **分散对象创建或删除的时间**
 
 <br></br>
 
@@ -300,8 +293,6 @@ There are many kinds of GC roots:
 | 串行  | Y | GC单线程 | 
 | 并行 | Y |  GC多线程 |
 | 并发 | N | GC和用户线程是多线程 |
-
- ![Serial, Parallel, and Concurrent](./Images/serial_parallel_concurrent.png)
 
 <br></br>
 
