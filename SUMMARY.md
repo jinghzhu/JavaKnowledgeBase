@@ -24,6 +24,7 @@
   * [Concurrent Memory Model](/Concurrent/con_mem_mdl.md)
   * [Conclusion](/Concurrent/conclusion.md)
   * [Concurrent Theory](/Concurrent/Theory/concurrent_theory.md)
+    * [Concurrent Model](/Concurrent/Theory/concurrent_model.md)
     * [IO Model](/Concurrent/Theory/io_model.md)
     * [Thread Communication](/Concurrent/Theory/thread_communication.md)
     * [(Non-)Blocking Algorithm](/Concurrent/Theory/nonblocking_algorithm.md)
