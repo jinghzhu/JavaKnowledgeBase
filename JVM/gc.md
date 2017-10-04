@@ -211,46 +211,33 @@ Old常见对象为比如Http请求中的Session对象、线程、Socket连接，
 
 ## 确定垃圾
 ----
-### 引用计数法
-每个对象都有一个引用计数器，当有对象引用它时，计数器+1；当引用失效时，计数器-1；计数器为0时就是不可能再被使用的。缺点是：
-1. 引用和去引用伴随加法和减法，影响性能
-2. 对于循环引用的对象无法进行回收
-
-<br>
-
-
-### 可达性分析法（根搜索）
-There are many kinds of GC roots:
-1. **Stack Local - Java方法的local变量或参数**
-
-    Local variables are kept alive by the stack of a thread. This is not a real object virtual reference and thus is not visible. For all intents and purposes, local variables are GC roots.
-
-2. **Thread - 活着的线程**
-
-    Active Java threads are always considered live objects and are therefore GC roots. This is especially important for thread local variables.
-
-3. **Static variables** 
-
-    referenced by their classes. This fact makes them de facto GC roots. Classes themselves can be garbage-collected, which would remove all referenced static variables. 
-
-4. **JNI Local - JNI方法的local变量或参数**
-
-5. **Monitor Used - 用于同步的监控对象**
-
-7. **Class - 由系统类加载器加载的对象**
-
-<br>
-
-
-### Example
-
- ![引用循环](./Images/count_circle.png)
-
-<br>
-
-使用根搜索算法，可正常回收:
 
  ![根搜索](./Images/root_example.png)
+
+
+GC roots:
+    1. **Stack Local - Java方法的local变量或参数**
+
+        Local variables are kept alive by the stack of a thread. This is not a real object virtual reference and thus is not visible. For all intents and purposes, local variables are GC roots.
+
+    2. **Thread - 活着的线程**
+
+        Active Java threads are always considered live objects and are therefore GC roots. This is especially important for thread local variables.
+
+    3. **Static variables** 
+
+        Referenced by their classes. This fact makes them de facto GC roots. Classes themselves can be garbage-collected, which would remove all referenced static variables. 
+
+    4. **JNI Local - JNI方法的local变量或参数**
+
+    5. **Monitor Used - 用于同步的监控对象**
+
+    7. **Class - 由系统类加载器加载的对象**
+
+JVM判定无用的类的条件：
+1. 该类的所有实例已经被回收，java堆中不存在该类的任何示例
+2. 加载该类的ClassLoader已经被回收
+3. 该类对应的java.lang.Class对象没有在任何地方被引用
 
 <br></br>
 
