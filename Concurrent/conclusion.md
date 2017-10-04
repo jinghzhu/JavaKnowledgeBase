@@ -52,8 +52,8 @@ JDK 1.8前基于**segment的lock**，JDK1.8是对node使用了`volatile`保证�
 
 ### BlockingQuque
 原理：
-* ArrayBlockingQueue是一个由数组支持的有界阻塞队列。 创建时默认非公平锁，不过可在它的构造函数里指定,因为调用ReentrantLock的构造函数创建锁。
-* SynchronousQueue同步队列没有任何内部容量。不能在同步队列上进行`peek()`，因为仅在试图要取得元素时，该元素才存在；除非另一个线程试图移除某个元素，否则也不能使用任何方法添加元素；也不能迭代队列，因为其中没有元素可用于迭代。
+* ArrayBlockingQueue是一个由数组支持的有界阻塞队列。默认非公平锁，可指定公平锁，因为调用ReentrantLock构造函数创建锁。
+* SynchronousQueue同步队列没有任何内部容量。不能在同步队列上`peek()`，因为仅在试图要取得元素时，该元素才存在；除非另一个线程试图移除某个元素，否则也不能使用任何方法添加元素；也不能迭代队列，因为其中没有元素可用于迭代。
 * LinkedBlockingQueue是一个基于已链接节点的、范围任意的blocking queue。队列的头部是在队列中时间最长的元素。队列的尾部是在队列中时间最短的元素。新元素插入到队列的尾部，队列检索操作会获得位于队列头部的元素。链接队列的吞吐量通常要高于基于数组的队列，但是在大多数并发应用程序中，其可预知的性能要低。
 
 > LinkedBlcokingQueue和ArrayBlockingQueue用ReentrantLock，默认非公平锁，即阻塞式队列。其中LinkedBlockingQueue使用了2个lock，takelock和putlock，读和写用不同的lock来控制，这样并发效率更高。
@@ -96,6 +96,8 @@ public boolean add(T e) {
 
 ### AQS
 AQS(AbstractQueuedSynchronizer)为实现依赖于先进先出 (FIFO) 等待队列的阻塞锁和相关同步器（信号量、事件，等等）提供一个框架。
+
+设计目标是成为依靠单个原子int值表示状态的大多数同步器基础。子类须定义更改此状态受保护方法，并定义哪种状态对于此对象意味着被获取或被释放。假定这些条件之后，此类中其他方法可实现所有排队和阻塞机制。子类可维护其他状态字段，但只为了获得同步而只追踪使用`getState()`、`setState(int)`和`compareAndSetState(int, int)`方法来操作以原子方式更新的int值。
 
 队列节点为：
 ```java

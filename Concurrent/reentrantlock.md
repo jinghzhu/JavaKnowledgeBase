@@ -17,6 +17,67 @@
 
 
 
+## 使用场景
+-----
+* 场景1：如果发现该操作已经在执行中则不再执行（有状态执行）
+
+    1. 用在定时任务，如果任务执行时间可能超过下次计划执行时间，确保该有状态任务只有一个在执行，忽略重复触发。
+    2. 用在界面交互时点击执行较长时间请求操作时，防止多次点击导致后台重复执行（忽略重复触发）。
+
+```java
+private ReentrantLock lock = new ReentrantLock();
+    if (lock.tryLock()) {  // 如果已被lock，则不会等待，达到忽略操作的效果 
+        try {
+            //操作
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+* 场景2：如果发现该操作已在执行，等待一个一个执行（同步执行，类似synchronized）
+
+    主要防止资源使用冲突，保证同一时间内只有一个操作可以使用该资源。但与synchronized区别是性能优势，同时Lock有更灵活的锁定方式，公平锁与不公平锁，而synchronized是公平的。
+
+    这种情况主要用于对资源的争抢，如文件操作，同步消息发送和有状态的操作等。
+
+* 场景3：如果发现该操作已经在执行，则尝试等待一段时间，超时则不执行。
+
+    其实属于场景2的改进，等待获得锁的操作有一个时间的限制，如果超时则放弃执行。主要防止由于资源处理不当长时间占用导致死锁情况。
+
+```java
+try {
+    if (lock.tryLock(5, TimeUnit.SECONDS)) {  
+        try {
+            //操作
+        } finally {
+            lock.unlock();
+        }
+    }
+} catch (InterruptedException e) {
+    e.printStackTrace(); //当前线程被中断时(interrupt)，会抛InterruptedException                 
+}
+```
+
+* 场景4：如果发现该操作已经在执行，等待执行。这时可中断正在进行的操作立刻释放锁继续下一操作。
+
+    synchronized与Lock默认情况是不会响应中断，会继续执行完。`lockInterruptibly()`提供了可中断锁来解决此问题。
+
+```java
+try {
+    lock.lockInterruptibly();
+} catch (InterruptedException e) {
+    e.printStackTrace();
+} finally {
+    lock.unlock();
+}
+```
+
+<br></br>
+
+
+
 ## 锁的可重入性
 ----
 synchronized同步块是可重入的，这意味着如果一个线程进入synchronized同步块，并因此获得了该同步块使用的同步对象对应的管程上的锁，那么这个线程可以进入由同一个管程对象所同步的另一个代码块：
@@ -380,18 +441,4 @@ protected final boolean tryAcquire(int acquires) {
 
 
 
-## 非公平锁分析
------
-非公平锁释放和公平锁一样，所以仅分析非公平锁获取。加锁方法`lock()`调用轨迹如下：
-1. ReentrantLock : `lock()`
-2. NonfairSync : `lock()`
-3. AbstractQueuedSynchronizer : `compareAndSetState(int expect, int update)`
 
-在第3步真正开始加锁：
-``` java
-protected final boolean compareAndSetState(int expect, int update) {
-    return unsafe.compareAndSwapInt(this, stateOffset, expect, update);
-}
-```
-
-该方法以CAS原子操作的方式更新state变量。
