@@ -51,8 +51,7 @@ public class  Box implements Serializable  {  
 
 ## Serializable原理
 ----
-为什么一个类实现了Serializable接口，它就可以被序列化呢？
-之前使用ObjectOutputStream来持久化对象，在该类中有如下代码：
+为什么一个类实现了Serializable接口，它就可以被序列化呢？之前使用ObjectOutputStream来持久化对象，在该类中有如下代码：
 
 ```java
 private void writeObject0(Object obj, boolean unshared) throws IOException {  

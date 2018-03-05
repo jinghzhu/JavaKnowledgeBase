@@ -314,7 +314,7 @@ private volatile int state;
         }
         if (s != null)
             LockSupport.unpark(s.thread);
-}
+    }
 ```
 
 上述逻辑主要包括，该方法取出了当前节点的`next`引用，然后对其线程(Node)进行了唤醒，被唤醒的线程继续进行对资源的获取与争夺。

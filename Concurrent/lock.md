@@ -1,5 +1,7 @@
 # <center>JVM Lock</center>
 
+
+
 <br></br>
 
 
@@ -74,4 +76,3 @@ HotSpot虚拟机的对象头（Object Header）分为两部分信息，第一部
   <img src="./Images/lock3.png"/>
 </p>
 <center><i>偏向锁、轻量级锁的状态转化及对象Mark Word的关系</i></center>
-

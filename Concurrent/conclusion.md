@@ -1,7 +1,8 @@
 # <center>Concurrent Conclusion</center>
 
-<br></br>
 
+
+<br></br>
 
 ![concurrent包的实现示意图](./Images/overall.png)
 
@@ -147,12 +148,15 @@ ReentrantLock**默认是nonfair**，当中的`lock()`是通过`static`内部类`
 public void lock() {
      sync.lock();
 }
+
 //定义成final型的成员变量，在构造方法中进行初始化 
 private final Sync sync;
+
 //无参数默认非公平锁
 public ReentrantLock() {
     sync = new NonfairSync();
 }
+
 //根据参数初始化为公平锁或者非公平锁 
 public ReentrantLock(boolean fair) {
     sync = fair ? new FairSync() : new NonfairSync();

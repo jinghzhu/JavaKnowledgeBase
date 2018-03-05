@@ -24,17 +24,17 @@
     1. 用在定时任务，如果任务执行时间可能超过下次计划执行时间，确保该有状态任务只有一个在执行，忽略重复触发。
     2. 用在界面交互时点击执行较长时间请求操作时，防止多次点击导致后台重复执行（忽略重复触发）。
 
-```java
-private ReentrantLock lock = new ReentrantLock();
-    if (lock.tryLock()) {  // 如果已被lock，则不会等待，达到忽略操作的效果 
-        try {
-            //操作
-        } finally {
-            lock.unlock();
+    ```java
+    private ReentrantLock lock = new ReentrantLock();
+        if (lock.tryLock()) {  // 如果已被lock，则不会等待，达到忽略操作的效果 
+            try {
+                //操作
+            } finally {
+                lock.unlock();
+            }
         }
     }
-}
-```
+    ```
 
 * 场景2：如果发现该操作已在执行，等待一个一个执行（同步执行，类似synchronized）
 
@@ -46,33 +46,33 @@ private ReentrantLock lock = new ReentrantLock();
 
     其实属于场景2的改进，等待获得锁的操作有一个时间的限制，如果超时则放弃执行。主要防止由于资源处理不当长时间占用导致死锁情况。
 
-```java
-try {
-    if (lock.tryLock(5, TimeUnit.SECONDS)) {  
-        try {
-            //操作
-        } finally {
-            lock.unlock();
+    ```java
+    try {
+        if (lock.tryLock(5, TimeUnit.SECONDS)) {  
+            try {
+                //操作
+            } finally {
+                lock.unlock();
+            }
         }
+    } catch (InterruptedException e) {
+        e.printStackTrace(); //当前线程被中断时(interrupt)，会抛InterruptedException                 
     }
-} catch (InterruptedException e) {
-    e.printStackTrace(); //当前线程被中断时(interrupt)，会抛InterruptedException                 
-}
-```
+    ```
 
 * 场景4：如果发现该操作已经在执行，等待执行。这时可中断正在进行的操作立刻释放锁继续下一操作。
 
     synchronized与Lock默认情况是不会响应中断，会继续执行完。`lockInterruptibly()`提供了可中断锁来解决此问题。
 
-```java
-try {
-    lock.lockInterruptibly();
-} catch (InterruptedException e) {
-    e.printStackTrace();
-} finally {
-    lock.unlock();
-}
-```
+    ```java
+    try {
+        lock.lockInterruptibly();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } finally {
+        lock.unlock();
+    }
+    ```
 
 <br></br>
 

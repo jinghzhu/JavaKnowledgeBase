@@ -1,5 +1,7 @@
 # <center>ConcurrentHashMap (JDK 1.8)</center>
 
+
+
 <br></br>
 
 * PUT操作基于CAS(Unsafe类)+synchronized实现并发插入或更新操作：
@@ -15,34 +17,39 @@
 ## 相关概念：
 -----------
 * table：默认为`null`，初始化发生在第一次插入操作，默认大小为_16_的数组，存储Node节点数据，扩容时大小总是_2_的幂次方。
+
 * nextTable：默认为`null`，扩容时新生成的数组，其大小为原数组的两倍。
+
 * sizeCtl ：默认为_0_，用来控制table的初始化和扩容操作：
     * _-1_代表table正在初始化
     * _-N_表示有_N - 1_个线程正在进行扩容操作
     * 其余情况：
         * 如果table未初始化，表示table需要初始化的大小。
         * 如果table初始化完成，表示table的容量，默认是table大小的0.75倍。
+
 * Node：保存key，value及key的hash值的数据结构。其中value和next都用`volatile`修饰，保证并发的可见性。Node类没有提供修改入口，只能用于只读遍历。
+
 * ForwardingNode：特殊的Node节点，hash值为_-1_，存储nextTable的引用。只有table扩容时，ForwardingNode才会发挥作用，作为一个占位符放在table中表示当前节点为`null`或则已经被移动。
 
-``` java
-final class ForwardingNode<K, V> extends Node<K, V> {
-    final Node<K, V>[] nextTable;
-    ForwardingNode(Node<K, V>[] tab) {
-        super(MOVED, null, null, null);
-        this.nextTable = tab;
+    ``` java
+    final class ForwardingNode<K, V> extends Node<K, V> {
+        final Node<K, V>[] nextTable;
+        ForwardingNode(Node<K, V>[] tab) {
+            super(MOVED, null, null, null);
+            this.nextTable = tab;
+        }
     }
-}
-```
+    ```
 
 * TreeBins: 用于封装维护TreeNode。当链表转树时，用于封装TreeNode，即ConcurrentHashMap的红黑树存放的是TreeBin，而不是treeNode。
+
 * 一系列标示：
-``` java
- static final int MOVED     = -1; // hash for forwarding nodes
- static final int TREEBIN   = -2; // hash for roots of trees
-private transient volatile int transferIndex; // 扩容另一个表索引
-private transient volatile int cellsBusy; // 旋转锁
-```
+    ``` java
+    static final int MOVED     = -1; // hash for forwarding nodes
+    static final int TREEBIN   = -2; // hash for roots of trees
+    private transient volatile int transferIndex; // 扩容另一个表索引
+    private transient volatile int cellsBusy; // 旋转锁
+    ```
 
 <br></br>
 

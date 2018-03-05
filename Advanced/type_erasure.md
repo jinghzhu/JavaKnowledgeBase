@@ -58,7 +58,7 @@ class Pair<T> {
 } 
 ```
 
-Pair<T>的原始类型为：
+`Pair<T>`的原始类型为：
 ```java
 class Pair {  
     private Object value;  
@@ -149,7 +149,7 @@ ArrayList arrayList2 = new ArrayList<String>(); // 第二种情况
 
 因为，类型检查就是编译时完成的。`new ArrayList()`只是在内存中开辟一个存储空间，可以存储任何的类型对象。而真正涉及类型检查的是它的引用，所以_arrayList1_引用能完成泛型类型的检查。而引用_arrayList2_没有使用泛型，所以不行。
 
-举例子：
+举例：
 ```java
 public class Test10 {  
     public static void main(String[] args) {   
@@ -357,69 +357,68 @@ if(arrayList instanceof ArrayList<?>) // ？是通配符的形式
 
 ### 异常中使用泛型的问题
 * 不能抛出也不能捕获泛型类的对象。
-事实上，泛型类扩展Throwable都不合法。例如下面的定义将不会通过编译：
-```java
-public class Problem<T> extends Exception{......}  
-```
+    事实上，泛型类扩展Throwable都不合法。例如下面的定义将不会通过编译：
+    ```java
+    public class Problem<T> extends Exception{......}  
+    ```
 
-因为异常都是在运行时捕获和抛出的，而在编译候，泛型信息都会被擦除。假设上面的编译可行，再看下面的定义：
-```java
-try{  
-}catch(Problem<Integer> e1){  
-...
-}catch(Problem<Number> e2){  
-...  
-}   
-```
+    因为异常都是在运行时捕获和抛出的，而在编译候，泛型信息都会被擦除。假设上面的编译可行，再看下面的定义：
+    ```java
+    try{  
+    }catch(Problem<Integer> e1){  
+        ...
+    }catch(Problem<Number> e2){  
+        ...  
+    }   
+    ```
 
-类型信息被擦除后，两个地方的catch都变为原始类型Object，相当于：
-```java
-try{  
-}catch(Problem<Object> e1){  
-...  
-}catch(Problem<Object> e2){  
-...  
-}
-```
+    类型信息被擦除后，两个地方的catch都变为原始类型Object，相当于：
+    ```java
+    try{  
+    }catch(Problem<Object> e1){  
+        ...  
+    }catch(Problem<Object> e2){  
+        ...  
+    }
+    ```
 
-catch两个一模一样的普通异常，不能通过编译。
+    catch两个一模一样的普通异常，不能通过编译。
 
 * 不能在catch子句中使用泛型变量
-```java
-public static <T extends Throwable> void doWork(Class<T> t){  
+    ```java
+    public static <T extends Throwable> void doWork(Class<T> t){  
         try{  
             ...  
         }catch(T e){ //编译错误  
             ...  
         }  
-}
-```
+    }
+    ```
 
-因为泛型信息在编译的时变为原始类型，也就是说T变为Throwable。假如可在catch子句中使用泛型变量，那么，下面的定义呢：
-```java
-public static <T extends Throwable> void doWork(Class<T> t){  
+    因为泛型信息在编译的时变为原始类型，也就是说T变为Throwable。假如可在catch子句中使用泛型变量：
+    ```java
+    public static <T extends Throwable> void doWork(Class<T> t){  
         try{  
             ...  
         }catch(T e){ //编译错误  
             ...  
         }catch(IndexOutOfBounds e){  
+            ...
         }                           
-}  
-```
+    }  
+    ```
 
-根据异常捕获原则，一定是子类在前面，父类在后面，上面就违背了这个原则。所以Java为了避免这样的情况，禁止在catch子句中使用泛型变量。
-
-但是在异常声明中可以使用类型变量。下面方法是合法的：
-```java
-public static<T extends Throwable> void doWork(T t) throws T{  
-    try{  
-        ...  
-    }catch(Throwable realCause){  
-        t.initCause(realCause);  
-        throw t;   
-    } 
-}
-``` 
+    根据异常捕获原则，一定是子类在前面，父类在后面，上面就违背了这个原则。所以Java为了避免这样的情况，禁止在catch子句中使用泛型变量。但在异常声明中可使用类型变量：
+    ```java
+    public static<T extends Throwable> void doWork(T t) throws T{  
+        try{  
+            ...  
+        }catch(Throwable realCause){  
+            t.initCause(realCause);  
+            throw t;   
+        } 
+    }
+    ``` 
 
 <br>
 
@@ -446,27 +445,27 @@ objarray = new Pair<Employee>();
 
 ### 泛型类型实例化 
 * 不能实例化泛型类型
-```java
-first = new T(); // ERROR 
-``` 
+    ```java
+    first = new T(); // ERROR 
+    ``` 
 
-类型擦除会使这个操作做成`new Object()`。
+    类型擦除会使这个操作做成`new Object()`。
 
 * 不能建立一个泛型数组
-```java
-public<T> T[] minMax(T[] a){  
-     T[] mm = new T[2]; // ERROR
-}  
-```
+    ```java
+    public<T> T[] minMax(T[] a){  
+        T[] mm = new T[2]; // ERROR
+    }  
+    ```
 
-擦除会使这个方法总是构靠一个`Object[2]`数组。但可用反射构造泛型对象和数组:
-```java
-public static <T extends Comparable> T[]minmax(T[] a)  {  
-      T[] mm == (T[])Array.newInstance(a.getClass().getComponentType(),2);   
-      // 替换掉以下代码  
-      // Obeject[] mm = new Object[2];
-}
-```
+    擦除会使这个方法总是构靠一个`Object[2]`数组。但可用反射构造泛型对象和数组:
+    ```java
+    public static <T extends Comparable> T[]minmax(T[] a)  {  
+        T[] mm == (T[])Array.newInstance(a.getClass().getComponentType(),2);   
+        // 替换掉以下代码  
+        // Obeject[] mm = new Object[2];
+    }
+    ```
 
 <br>
   

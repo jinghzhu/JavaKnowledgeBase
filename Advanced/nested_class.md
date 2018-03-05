@@ -1,5 +1,7 @@
 # <center>Nested Class</center>
 
+
+
 <br></br>
 
 Nested classes are further divided into two types: static nested classes and Java inner class.
@@ -180,7 +182,7 @@ public class OuterClass {
             public int getNumber(){
                 return number;
             }
-        };        /* 注意：分号不能省 */
+        };  /* 注意：分号不能省 */
     }
     
     public static void main(String[] args) {

@@ -1,5 +1,7 @@
 # <center>Thread Local</center>
 
+
+
 <br></br>
 
 * 类似全局的Map，key是线程。不同线程get时拿到的都是属于自己的对象，互相隔离，不存在并发问题。

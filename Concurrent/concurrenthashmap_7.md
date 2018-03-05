@@ -41,10 +41,8 @@ static final class HashEntry<K,V> {
 HashEntry中的`key`，`hash`，`next`都声明为final型。意味着不能把节点添加到链接的中间和尾部，也不能在链接的中间和尾部删除节点。这个特性保证在访问某个节点时，这个节点之后的链接不会被改变。大大降低处理链表时的复杂性。
 
 ```java
-static final class Segment<K,V> extends ReentrantLock implements Serializable {   
-  
-        transient volatile int count;  // 在本segment范围内，包含的HashEntry元素个数  
-                                       //volatile 型   
+static final class Segment<K,V> extends ReentrantLock implements Serializable {  
+        transient volatile int count;  // 在segment范围内，包含的HashEntry元素个数 
         transient int modCount;     //table 被更新的次数  
         transient int threshold;    //默认容量  
     	final float loadFactor;    //装载因子  
@@ -142,15 +140,12 @@ public V put(K key, V value) {
 
 然后，根据_hash_值找到对应的Segment对象：
 ```java
-    /** 
-     * 使用 key 的散列码来得到 segments 数组中对应的 Segment 
-     */ 
+// 使用key散列码得到segments数组中对应的Segment
  final Segment<K,V> segmentFor(int hash) { 
-    // 将散列值右移 segmentShift 个位，并在高位填充 0 
-    // 然后把得到的值与 segmentMask 相“与”
- // 从而得到 hash 值对应的 segments 数组的下标值
- // 最后根据下标值返回散列码对应的 Segment 对象
-        return segments[(hash >>> segmentShift) & segmentMask]; 
+    // 将散列值右移segmentShift位，并在高位填充0 
+    // 然后把得到的值与segmentMask相“与”得到hash值对应的segments数组下标
+    // 根据下标值返回散列码对应的Segment对象
+    return segments[(hash >>> segmentShift) & segmentMask]; 
  }
 ```
 

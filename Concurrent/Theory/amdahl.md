@@ -1,5 +1,7 @@
 # <center>Amdahl Law</center>
 
+
+
 <br></br>
 
 > 阿姆达尔定律用来计算处理器平行运算之后效率提升的能力。

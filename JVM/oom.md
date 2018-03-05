@@ -265,4 +265,3 @@ The number of loaded classes and the memory used by them can be tracked using th
 In Java 7, the default value of this flag is false, whereas in Java 8 it is enabled by default.
 
 <br></br>
-
