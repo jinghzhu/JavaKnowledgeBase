@@ -51,4 +51,5 @@
   * [Type Erasure](/Advanced/type_erasure.md)
   * [Convariance & Contravariance](/Advanced/covariance_contravariance.md)
   * [Inner Class](/Advanced/nested_class.md)
+  * [enum](/Advanced/enum.md)
   
