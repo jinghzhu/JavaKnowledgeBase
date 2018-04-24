@@ -6,6 +6,7 @@
   * [Class](/Fundamental/class.md)
   * [Serializable](/Fundamental/serializable.md)
   * [Pass By Value](/Fundamental/pass_by_value.md)
+  * [Changelog](/Fundamental/changelog.md)
 
 * [Concurrent](/Concurrent/concurrent.md)
   * [AQS](/Concurrent/aqs.md)
