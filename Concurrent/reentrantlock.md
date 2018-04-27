@@ -17,6 +17,47 @@
 
 
 
+## 可重入锁
+----
+
+```java
+public class Child extends Father implements Runnable{
+	final static Child child = new Child(); // 保证锁唯一
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 50; i++)
+			new Thread(child).start();
+	}
+
+	public synchronized void doSomething() {
+		System.out.println("1child.doSomething()");
+		doAnotherThing(); // 调用自己类中其他的synchronized方法
+	}
+
+	private synchronized void doAnotherThing() {
+		super.doSomething(); // 调用父类的synchronized方法
+		System.out.println("3child.doAnotherThing()");
+	}
+
+	@Override
+	public void run() {
+		child.doSomething();
+	}
+}
+
+class Father {
+	public synchronized void doSomething() {
+		System.out.println("2father.doSomething()");
+	}
+}
+```
+
+锁都是`child`对象。当执行`child.doSomething()`时，该线程获得`child`对象锁。在`doSomething()`方法内执行`doAnotherThing()`时再请求`child`对象锁。因为synchronized是重入锁，所以可以得到该锁。继续在`doAnotherThing()`里执行父类`doSomething()`方法时第三次请求`child`对象锁，同理可得到。如果不是重入锁，后面两次请求锁会被阻塞，导致死锁。 
+
+<br></br>
+
+
+
 ## 使用场景
 -----
 * 场景1：如果发现该操作已经在执行中则不再执行（有状态执行）
