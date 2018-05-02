@@ -1,7 +1,6 @@
 # Summary
 
 * [Fundanmental](/Fundamental/fundanmental.md)
-  * [Practice](/Fundamental/practice.md))
   * [Upcast & Downcast](/Fundamental/upcast_downcast.md)
   * [Class](/Fundamental/class.md)
   * [Serializable](/Fundamental/serializable.md)
@@ -40,12 +39,11 @@
   * [String](/DataStructure/string.md)
   * [String.equals](/DataStructure/string_equals.md)
 
-* [JVM]()
+* [JVM](/JVM/jvm.md)
   * [Reference](/JVM/reference.md)
   * [Garbage Collector](/JVM/gc.md)
   * [Memory Model](/JVM/jmm.md)
-  * [Theory](/JVM/jvm_theory.md)
-  * [Troubleshooting OOM](/JVM/oom.md)
+  
   
 * [Advanced]()
   * [Class Loader](/Advanced/class_loader.md)
@@ -55,3 +53,4 @@
   * [enum](/Advanced/enum.md)
   
 * [Practice](/Practice/practice.md)
+  * [Troubleshooting OOM](/Practice/oom.md)
