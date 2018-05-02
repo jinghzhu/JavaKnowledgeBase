@@ -21,7 +21,6 @@
 ``` java
 for(int i=0;i<t;i++) {
                 long x=sc.nextLong();
-                System.out.println(x+" can be fitted in:");
                 if(x>=-128 && x<=127)
                 	System.out.println("* byte");
                 if(x >= -Math.pow(2, 15) && x <= Math.pow(2, 15) - 1)
@@ -30,7 +29,7 @@ for(int i=0;i<t;i++) {
                 	System.out.println("* int");
                 if(x >= -Math.pow(2, 63) && x <= Math.pow(2, 63) - 1)
                 	System.out.println("* long");
-        }
+}
 ```
 
 ASCII码：
@@ -73,9 +72,9 @@ public class ASCII {
 
 
 
-## newInstance与new
+## newInstance vs new
 ----
-* `newInstance()`是方法，`new`是关键字
+* `newInstance()`是方法，`new`是关键字。
 * 创建对象的方式不一样，前者是使用类加载机制，后者是创建一个新类。 
 * 使用`new`创建类时，这个类可以没有被加载。但用`newInstance()`方法须保证已加载且这个类已经连接。而完成上面两个步骤的是`Class`的静态方法`forName()`，调用了启动类加载器，即加载Java API的那个加载器。 
 * `newInstance()`是把`new`分解为两步，先调用`Class`加载方法加载某个类，然后实例化。 
@@ -86,49 +85,10 @@ public class ASCII {
 
 ## for vs foreach
 ----
-1. foreach遍历集合时，集合须实现Iterator接口
+1. foreach遍历集合时，集合须实现Iterator接口。
 2. foreach遍历集合时不能向集合增加删除元素，否则会抛出ConcurrentModificationException异常。
 3. for效率最好，尤其是实现RandomAccess接口的collection。但在LinkedList中，Iterator效果更好；foreach效率最差，因为其实现一个Enum，每次都要调用。
 4. foreach遍历对象时可以修改对象属性值，但不能修改对象引用。
-
-修改基本类型的值（原集合中的值没有变化，因为`str`是集合中变量的一个副本）：
-
-``` java
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<String>();
-        list.add("0");
-        list.add("1");
-        list.add("2");
-        for(String str:list){
-            str=str+"0";
-            System.out.println(str);
-        }
-        System.out.println(list);
-    }
-
-// 修改对象的值（可以修改，因为f是一个指针）：
-public class ForE {
-    public String name;
-    public int age;
-    
-    public ForE(String name, int age) {
-        super();
-        this.name = name;
-        this.age = age;
-    }
-
-    public static void main(String[] args) {
-        List<ForE> list = new ArrayList<ForE>();
-        list.add(new ForE("apple", 10));
-        list.add(new ForE("banana", 20));
-        list.add(new ForE("orange", 30));
-        for(ForE f:list){
-            f.age(f.age * 2);
-        }
-        System.out.println(list);
-    }
-}
-```
 
 <br></br>
 
@@ -138,104 +98,91 @@ public class ForE {
 ---- 
 1. 抽象(abstraction)：抽象是忽略一个主题中与当前目标无关的那些方面，以便更充分地注意与当前目标有关的方面。
 2. 继承(inheritance)
-3. 封装(encapsulation)：封装是把过程和数据包围起来，对数据的访问只能通过已定义的界面。
-4. 多态(polymorphism)：允许不同类的对象对同一消息作出响应。多态性包括参数化多态性和包含多态性。
+3. 封装(encapsulation)。
+4. 多态(polymorphism)
 
 <br></br>
 
 
 
-## Composition
+## Composition 组合
 ----
-通过在类中直接使用另一个类的对象来达到重用代码的目的。Composition通常用在新类中使用已有类的功能，而不是使用已有类的接口时。这时，可以在新类中嵌入已有类的对象，完成想要的功能。Composition通常表述为“has a”的关系。
+通过在类中直接使用另一个类的对象来达到重用代码的目的。Composition用在新类中使用已有类的功能，而不是使用已有类接口。这时，在新类中嵌入已有类对象，完成想要的功能。Composition常表述为*HAS-A*关系。
 
 One of the best practices is to “favor composition over inheritance”:
 1. Any change in the superclass might affect subclass. If we have a method `test()` in subclass and somebody introduces a method `test()` in superclass, we will get compilation errors in subclass. Composition will never face this issue because we are using only what methods we need.
 
-2. Inheritance exposes all the super class methods and variables to client, it can lead to security holes. Composition allows us to provide restricted access to the methods and hence more secure.
+2. Inheritance exposes all super class methods and variables to client, it can lead to security holes. Composition allows us to provide restricted access to the methods.
 
-3. We can get runtime binding in composition where inheritance binds the classes at compile time. So composition provides flexibility in invocation of methods.
+3. We can get runtime binding in composition where inheritance binds classes at compile time. So composition provides flexibility in invocation of methods.
 
-什么时候该用继承，什么时候该用组合？
-1. 如果存在一种IS-A的关系（比如Bee“是一个”Insect），且一个类需要向另一个类暴露所有的方法接口，那么更应该用继承的机制。
-2. 如果存在一种HAS-A的关系（比如Bee“有一个”attack功能），那么更应该运用组合。
+什么时候用继承？什么时候用组合？
+1. 如果存在*IS-A*关系（比如Bee是一个Insect），且类需向另一个类暴露所有方法接口，用继承。
+2. 如果存在*HAS-A*关系（比如Bee有一个attack功能），用组合。
 
-<br></br>
-
-
-
-## Comparable vs Comparator
-----
-### Comparable
-Comparable interface should be implemented by any custom class if we want to use Arrays or Collections sorting methods. 
-
-Comparable interface has `compareTo(T obj)` method which is used by sorting methods. We should override this method.
-
-<br>
-
-
-### Comparator
-`compareTo(Object o)` method implementation can sort based on one field only and we can’t chose the field on which we want to sort the Object. Comparator interface `compare(Object o1, Object o2)` method needs to be implemented that takes two Object argument.
-
-
-<br>
-
-
-### Example
-
+定义一个`Battery`类，并用`power`表示电量。`Battery`可以充电`chargeBattery()`和使用`useBattery()`。`Torch`类定义中使用`Battery`类型对象作为数据成员：
 ```java
-public class PersonComparable implements Comparable<PersonComparable>{
-    private int age;
-    private String name;
-    
-    public int compareTo(PersonComparable another) {
-        if (another != null)
-            return age - another.getAge();
-        else
-            throw new NullPointerException();
-   }
-}
-
-public static void main(String[] args) {
-        PersonComparable[] pArr = new PersonComparable[2];
-        pArr[0] = new PersonComparable("test1", 26);
-        pArr[1] = new PersonComparable("test2", 19);
-        Arrays.sort(pArr);
-}
-```
-
-<br>
-
-
-### Comparator Example
-
-```java
-public class PersonComparator implements Comparator<Person>{
-    public int compare(Person p1, Person p2){
-        if(p1 != null && p2 != null)
-            return p1.getAge() - p2.getAge();
-        else
-            throw new NullPointerException();
+class Battery {
+    public void chargeBattery(double p) {
+        if (this.power < 1.)
+            this.power = this.power + p;
     }
+    public boolean useBattery(double p) {
+        if (this.power >= p) {
+            this.power = this.power - p;
+            return true;
+        } else {
+            this.power = 0.0;
+            return false;
+        }
+    }
+
+    private double power = 0.0;
 }
 
-public static void main(String[] args) {
-        Person[] pArr = new Person[2];
-        pArr[0] = new Person("test1", 26);
-        pArr[1] = new Person("test2", 19);
-        Arrays.sort(pArr, new PersonComparator());
+class Torch {
+    /** 
+     * 10% power per hour use
+     * warning when out of power
+     */
+    public void turnOn(int hours) {
+        boolean usable;
+        usable = this.theBattery.useBattery( hours*0.1 );
+        if (usable != true)
+            System.out.println("No more usable, must charge!");
+    }
+
+    /**
+     * 20% power per hour charge
+     */
+    public void charge(int hours) {
+        this.theBattery.chargeBattery( hours*0.2 );
+    }
+
+    /**
+     * composition
+     */
+    private Battery theBattery = new Battery();
 }
 ```
+
+`Torch`类使用一个`Battery`类型的对象(`theBattery`)作为数据成员。在`Torch`方法中，通过操纵`theBattery`对象接口，实现`Battery`类提供的功能。上述关系表示成:
+
+<p align="center">
+  <img src="./Images/composition1.jpg" />
+</p>
+
+通过组合，可复用Battery相关代码。假如还有其他使用Battery的类，比如手机，都可将Battery对象组合进去。这样就不用为每个类单独编写相关功能。
 
 <br></br>
 
 
 
-## Shallow Copy and Deep Copy
+## Copy
 ----
-### Shallow Copy
+### Shallow Copy 浅拷贝
 
-![ShallowCopy](./Images/shallow_copy.png)
+![Shallow Copy 浅拷贝](./Images/shallow_copy.png)
 
 浅拷贝是按位拷贝对象，会创建一个新对象。如果原始对象属性是基本类型，拷贝的就是基本类型的值；如果原始对象属性是内存地址（引用类型），拷贝的就是内存地址 ，因此如果其中一个对象改变了这个地址，就会影响到另一个对象。
 
@@ -262,7 +209,7 @@ public class Student implements Cloneable {
    // 重写clone()方法, 浅拷贝
    public Object clone() { 
       try { 
-         return super.clone();  // 直接调用父类的clone()方法
+         return super.clone();  // 直接调用父类clone()方法
       } catch (CloneNotSupportedException e) { 
          return null; 
       } 
@@ -274,7 +221,7 @@ public class Student implements Cloneable {
 
 
 ### Deep Copy
-深拷贝会拷贝所有的属性，并拷贝属性指向的动态分配的内存。当对象和它所引用的对象一起拷贝时即发生深拷贝。深拷贝相比于浅拷贝速度较慢并且花销较大。
+深拷贝会拷贝所有的属性。通过序列化进行深拷贝时，须确保对象图中所有类都可序列化。
 
 ![DeepCopy](./Images/deep_copy.png)
 
@@ -290,7 +237,7 @@ public class Student implements Cloneable {
 
    // 重写clone()方法 
    public Object clone() { 
-      // 深拷贝，创建拷贝类的一个新对象，这样就和原始对象相互独立
+      // 深拷贝，创建拷贝类的一个新对象，和原始对象相互独立
       Student s = new Student(name, subj.getName()); 
       return s; 
    } 
@@ -300,93 +247,84 @@ public class Student implements Cloneable {
 <br>
 
 
-### 通过序列化深拷贝
-通过序列化进行深拷贝时，必须确保对象图中所有类都是可序列化的。
-
-<br>
-
-
 ### 延迟拷贝
-是浅拷贝和深拷贝的组合。当最开始拷贝一个对象时，会使用速度较快的浅拷贝，还会用计数器记录有多少对象共享这个数据。当程序想要修改原始的对象时，它会决定数据是否被共享（通过检查计数器）并根据需要进行深拷贝。 
-
-延迟拷贝从外面看起来就是深拷贝，但是只要有可能它就会利用浅拷贝的速度。当原始对象中的引用不经常改变的时候可以使用延迟拷贝。由于存在计数器，效率下降很高，但只是常量级的开销。而且, 在某些情况下, 循环引用会导致一些问题。
+浅拷贝和深拷贝的组合。开始拷贝对象时，使用速度较快的浅拷贝，还会用计数器记录有多少对象共享这个数据。修改原始对象时，它会决定数据是否被共享（通过检查计数器）并根据需要进行深拷贝。在某些情况下, 循环引用会导致问题。
 
 <br></br>
 
 
 
-## FAQ 
----- 
-### final vs finally vs finalize
-* `final` and `finally` are keywords in java whereas `finalize` is a method. 
-* `final` keyword can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by Garbage Collector before the object is destroyed.
+## final vs finally vs finalize
+----
+* `final` and `finally` are keywords whereas `finalize` is a method. 
+* `final` can be used with class variables so that they can’t be reassigned, with class to avoid extending by classes and with methods to avoid overriding by subclasses. `finally` keyword is used with try-catch block. `finalize` method is executed by GC before the object is destroyed.
 
-`final`使用效果：
-* Class: no other class can extend it, for example we can’t extend String class. 
+`final`：
+* Class: no other class can extend it. 
 * Method: child classes can’t override it.
-* Variable: 如果是基本数据类型，则数值在初始化后不能更改；如果是引用类型，则初始化之后不能指向另一个对象。
-* Java interface variables are by default final and static.
+* Variable: 如果是基本数据类型，则数值初始化后不能更改；如果是引用类型，则初始化后不能指向另一个对象。
 
-<br>
+<br></br>
 
 
-### static
+
+## static
+----
 * 变量: A static variable is a class variable and doesn’t belong to Object/instance of the class.
 
-* 方法: Same as static variables, static methods belong to class and not to class instances. A static method can access only static variables of class and invoke only static methods of the class.即使没有声明为static，类的构造器也是静态方法。
+* 方法: Same as static variables, static methods belong to class and not to class instances. **A static method can access only static variables of class and invoke only static methods of the class. 即使没有声明为static，类构造器也是静态方法。**
 
 * Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader.
 
 * Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes.
 
-<br>
+<br></br>
 
 
-### Marker Interface
+
+## Marker Interface
+----
 A marker interface is an empty interface without any method but used to force some functionality in implementing classes by Java. Some of the well known marker interfaces are Serializable and Cloneable.
 
-<br>
+<br></br>
 
 
-### Override and Overload
-> Override重写，即子类对父类； Overload重载，即一个类里面。
+
+## Override vs Overload
+----
+> Override重写，子类对父类； Overload重载，一个类里面。
 
 重写Override规则：
-* 参数列表必须完全与被重写方法的相同；
-* 返回类型必须完全与被重写方法的返回类型相同；
-* 访问权限不能比父类中被重写的方法的访问权限更低。
-* 父类的成员方法只能被它的子类重写。
-* 声明为final和static的方法不能被重写。
-* 重写的方法能够抛出任何非强制异常，无论被重写的方法是否抛出异常。但是，重写的方法不能抛出新的强制性异常，或者比被重写方法声明的更广泛的强制性异常，反之则可以。
-* 构造方法不能被重写。
+* 参数列表完全与被重写方法相同；
+* 返回类型完全与被重写方法返回类型相同；
+* 访问权限不能比父类中被重写方法的访问权限低。
+* 父类成员方法只能被子类重写。
+* 构造函数、`final`和`static`方法不能被重写。
+* 重写方法能抛出任何非强制异常，无论被重写的方法是否抛出异常。但重写方法不能抛出新强制性异常，或比被重写方法声明的更广泛的强制性异常，反之则可以。
 * 如果不能继承一个方法，则不能重写这个方法。
 
 重载Overload规则：
-* 被重载的方法必须改变参数列表；
-* 被重载的方法可以改变返回类型；
-* 被重载的方法可以声明新的或更广的检查异常；
-* 方法能够在同一个类中或者在一个子类中被重载。
+* 被重载方法须改变参数列表；
+* 被重载方法可改变返回类型；
+* 被重载方法可声明新的或更广的检查异常；
+* 方法能在同一个类中或子类中被重载。
 
 重写与重载区别：
 
-区别点      |    重载Overload | 重写Override  
--------- | -------- | ----------
-参数列表  | 必须修改 |  不能修改   
-返回类型 |   可以修改 |  不能修改 
-异常      |    可以修改 | 可以减少，但不能抛出新的或更广的异常  
-访问      |    可以修改 | 可以降低限制，但不能做更严格限制  
+| 区别点   | 重载Overload | 重写Override  |
+| ------- | ----------- | ---------- |
+| 参数列表 | 必须修改      |  不能修改   |
+| 返回类型 |  可以修改     |  不能修改 |
+| 异常    |   可以修改     | 可以减少，但不能抛出新的或更广的异常  |
+| 访问    |   可以修改     | 可以降低限制，但不能做更严格限制  |
 
-<br>
-
-
-### Java Compiler is stored in JDK, JRE or JVM?
-The task of java compiler is to convert java program into bytecode, we have javac executable for that. So it must be stored in JDK, we don’t need it in JRE and JVM is just the specs.
-
-<br>
+<br></br>
 
 
-### Collection和Collections
-* Collection是集合类的上级接口，继承与他的接口主要有Set和List。
-* Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
 
-<br>
+## Collection vs Collections
+----
+* Collection - 集合类上级接口，继承与他的接口主要有Set和List。
+* Collections - 针对集合类的帮助类，提供静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+
+<br></br>

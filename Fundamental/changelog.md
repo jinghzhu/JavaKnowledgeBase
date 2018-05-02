@@ -6,20 +6,6 @@
 
 ## v1.8
 ----
-### Parallel Streams
-* Streams is about possibly-parallel, aggregate operations on datasets
-* Sources can be collections, arrays, generator functions, IO…
-* Pipelines built from basic primitives – filter, map, reduce, sort
-* All operations can be executed in parallel
-* Couldn’t get to a library like this without lambdas
-
-<p align="center">
-  <img src="./Images/jdk8_streams_example.png" width="800" />
-</p>
-
-<br>
-
-
 ### Lambda(from Scala)
 
 ```java
@@ -49,7 +35,7 @@ This feature adds the same set of sorting operations currently provided by the A
 <br>
 
 
-### Concurrency
+### ConcurrentHashMap
 `ConcurrentHashMap` class introduces over 30 new methods in this release. These include various forEach methods (`forEach`, `forEachKey`, `forEachValue`, and `forEachEntry`), and search methods (`search`, `searchKeys`, `searchValues`, and `searchEntries`).
 
 <br>
@@ -86,7 +72,7 @@ JVM启动时，从应用根模块开始，根据依赖关系递归的进行解�
 
 
 ### JShell
-```shell
+```bash
 jshell> int add(int x, int y) { 
     ...> return x + y; 
     ...> } 
@@ -104,23 +90,6 @@ jshell> int add(int x, int y) {
 
 ### 改进Javadoc
 Javadoc现支持在API文档中进行搜索。另外，Javadoc输出符合兼容HTML5标准。
-
-<br>
-
-
-### 集合工厂方法
-增加`List.of()`、`Set.of()`、`Map.of()`和`Map.ofEntries()`等工厂方法创建不可变集合。
-
-```java
-List.of(); 
-List.of("Hello", "World"); 
-List.of(1, 2, 3);
-Set.of(); 
-Set.of("Hello", "World"); 
-Set.of(1, 2, 3);
-Map.of();
-Map.of("Hello", 1, "World", 2); 
-```
 
 <br>
 
