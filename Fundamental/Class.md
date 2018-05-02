@@ -47,4 +47,8 @@ We should not use reflection in normal programming:
 
     匿名的内部类是没有名字的内部类。不能继承其它类，但内部类可作为一个接口，由另一个内部类实现。
 
+4. Why can’t we create generic array? 
+
+    We are not allowed to create generic arrays because array carry type information of it’s elements at runtime. This information is used at runtime to throw `ArrayStoreException` if elements type doesn’t match to the defined type. Since generics type information gets erased at runtime by Type Erasure, the array store check would have been passed where it should have failed. 
+
 <br></br>

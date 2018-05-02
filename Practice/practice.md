@@ -1,4 +1,4 @@
-# <center>Practics</center>
+# <center>Practice</center>
 
 <br></br>
 
@@ -8,7 +8,7 @@
 ----
 
 ```java
-public class  Box implements Serializable  {  
+public class Box implements Serializable  {  
     private int width;  
     private int height;  
   
@@ -71,6 +71,29 @@ public class ChildClass extends SuperClass {
 }
 ```
 
+``` java
+class Super {
+    String s;
+
+    public Super(String s) {
+        this.s = s;
+    }
+}
+
+public class Sub extends Super {
+    int x = 200;
+    public Sub(String s) {} // error
+    public Sub(){} // error
+}
+```
+
+出现编译错误因为默认的父类构造函数未定义。如果一个类没有定义构造函数，编译器会默认插入一个默认的无参数构造函数。如果程序员定义构造函数，编译器将不插入默认的无参数构造函数。上面的代码由于自定义了有参数的构造函数，编译器不再插入无参数的构造函数。子类的构造函数，无论是有参数或无参数，都将调用父类无参构造函数。当子类需要父类的无参数构造函数的时候，就发生了错误。
+
+解决这个问题，可以增加一个父类构造函数:
+``` java
+public Super() {}
+```
+
 <br></br>
 
 
@@ -123,20 +146,6 @@ public class Salary extends Employee {
 <br>
 
 
-### Exception Hierarchy
-* *Errors*: out of scope of application and it’s not possible to anticipate and recover from them, for example hardware failure, JVM crash or out of memory error. 
-
-* *Checked Exceptions*: we can anticipate in a program and try to recover from it, for example `FileNotFoundException`. Exception is the parent class of all Checked Exceptions. 
-
-* *Runtime Exceptions:* caused by bad programming, for example `ArrayIndexOutOfBound` exception at runtime. RuntimeException is the parent class of all runtime exceptions.
-
-<p align="center">
-  <img src="./Images/exception_hierarchy.png" />
-</p>
-
-<br>
-
-
 ### 自定义Exception
 
 ```java
@@ -160,13 +169,9 @@ public class CustomException extends RuntimeException {
         this.msgDes = msgDes;  
     }  
   
-    public String getRetCd() {  
-        return retCd;  
-    }  
+    public String getRetCd() {return retCd;}  
   
-    public String getMsgDes() {  
-        return msgDes;  
-    }  
+    public String getMsgDes() {return msgDes;}  
 }  
 ```
 
@@ -174,45 +179,16 @@ public class CustomException extends RuntimeException {
 
 
 
-## 父类和子类的构造函数
+## 泛型
 ----
-``` java
-class Super {
-    String s;
-
-    public Super(String s) {
-        this.s = s;
-    }
-}
-
-public class Sub extends Super {
-    int x = 200;
-    public Sub(String s) {} // error
-    public Sub(){} // error
-}
-```
-
-出现编译错误因为默认的父类构造函数未定义。如果一个类没有定义构造函数，编译器会默认插入一个默认的无参数构造函数。如果程序员定义构造函数，编译器将不插入默认的无参数构造函数。上面的代码由于自定义了有参数的构造函数，编译器不再插入无参数的构造函数。子类的构造函数，无论是有参数或无参数，都将调用父类无参构造函数。当子类需要父类的无参数构造函数的时候，就发生了错误。
-
-解决这个问题，可以增加一个父类构造函数:
-``` java
-public Super() {}
-```
-
-<br></br>
-
-
-
-## 范型
-----
-* 泛型的类型参数只能是类类型（包括自定义类），不能是简单类型。
-* 泛型的参数类型可以使用extends语句，例如`<T extends superclass>`。
-* 泛型的参数类型还可以是通配符类型。例如`Class<?> classType = Class.forName(java.lang.String);`
+* 泛型类型参数只能是类类型（包括自定义类），不能是简单类型。
+* 泛型参数类型可使用_extends_语句，如`<T extends superclass>`。
+* 泛型参数类型可以是通配符类型。如`Class<?> classType = Class.forName(java.lang.String);`
 
 <br>
 
 
-### 范型类
+### 泛型类
 ``` java
 public class Gen<T> {
     private T t;
@@ -227,7 +203,7 @@ Gen<Integer> gen2=new Gen<Integer>(1);
 <br>
 
 
-### 范型方法
+### 泛型方法
 须在方法的修饰符（public, static, final, abstract）后，返回值声明前:
 * 正确：`public static <E> void printArray(E[] a)`
 * 错误：`public static void <E> printArray(E[] a)`
@@ -273,8 +249,8 @@ Writer和Reader用于字符流的写入和读取，也就是说写入和读取�
 
 
 ### InputStream和OutputStream
-* InputStream是表示字节输入流的所有类的超类。字节输入流相当于是一个将要输入目标文件的“流”。InputStream有 read() 方法而没有write()方法，因为它本身代表将要输入目的文件的一个“流” 
-* OutputStream：此抽象类是表示输出字节流的所有类的超类。输出流接受输出字节并将这些字节发送到某个接收器。是从文件中将要输出到某个目标的“流”。OutputStream有 write()方法而没有read()方法。
+* InputStream是表示字节输入流的所有类的超类。字节输入流相当于是一个将要输入目标文件的“流”。InputStream有`read()`方法而没有`write()`方法，因为它本身代表将要输入目的文件的一个“流” 
+* OutputStream：此抽象类是表示输出字节流的所有类的超类。输出流接受输出字节并将这些字节发送到某个接收器。是从文件中将要输出到某个目标的“流”。OutputStream有`write()`方法而没有`read()`方法。
 * InputStreamReader是字节流通向字符流的桥梁：它使用指定的 charset 读取字节并将其解码为字符。它使用的字符集可以由名称指定或显式给定，或者可以接受平台默认的字符集。 
 * OutputStreamWriter是字符流通向字节流的桥梁：可使用指定的 charset 将要写入流中的字符编码成字节。它使用的字符集可以由名称指定或显式给定，否则将接受平台默认的字符集。
 
@@ -350,92 +326,6 @@ for(int i=0; i<files.length; i++){
 
 
 
-## Comparable vs Comparator
-----
-### Comparable定义在Person类的内部
-
-```java
-public class Persion implements Comparable {
-    // 比较Person的大小
-    // Collections.sort(personList)可以得到正确结果
-}
-```
-
-<br>
-
-
-### Comparator定义在Person外部
-此时`Person`类结构不需要有任何变化,如
-```java
-public class Person{ String name; int age }
-```
-
-然后另外定义一个比较器:
-``` java
-public PersonComparator implements Comparator() {
-    // 比较Person的大小
-}
-```
-
-当要对`personList`排序时, 除了要传递`personList`, 还要把`PersonComparator`传过去, 如:
-
-```java
-Collections.sort(personList , new PersonComparator());
-```
-
-<br>
-
-
-### Comparable Example
-
-```java
-public class PersonComparable implements Comparable<PersonComparable>{
-    private int age;
-    private String name;
-    
-    public int compareTo(PersonComparable another) {
-        if (another != null)
-            return age - another.getAge();
-        else
-            throw new NullPointerException();
-   }
-}
-
-public static void main(String[] args) {
-        PersonComparable[] pArr = new PersonComparable[2];
-        pArr[0] = new PersonComparable("test1", 26);
-        pArr[1] = new PersonComparable("test2", 19);
-        Arrays.sort(pArr);
-}
-```
-
-<br>
-
-
-### Comparator Example
-
-```java
-public class PersonComparator implements Comparator<Person>{
-    public int compare(Person p1, Person p2){
-        if(p1 != null && p2 != null)
-            return p1.getAge() - p2.getAge();
-        else
-            throw new NullPointerException();
-    }
-}
-
-public static void main(String[] args) {
-        Person[] pArr = new Person[2];
-        pArr[0] = new Person("test1", 26);
-        pArr[1] = new Person("test2", 19);
-        Arrays.sort(pArr, new PersonComparator());
-}
-```
-
-<br></br>
-
-
-
 ## Regular Expression
 ----
 ![RegularExpression](./Images/regular_expression.png)
@@ -444,7 +334,7 @@ public static void main(String[] args) {
 
 
 
-## List中的迭代器
+## 迭代器
 ----
 ```java
 private class Itr implements Iterator<E> {
@@ -473,6 +363,7 @@ private class Itr implements Iterator<E> {
         public void remove() {
             if (lastRet < 0)
                 throw new IllegalStateException();
+            
             checkForComodification();
 
             try {
@@ -497,48 +388,9 @@ private class Itr implements Iterator<E> {
 
 
 
-## Static Import
+## Annotations
 ----
-If we have to use any static variable or method from other class, usually we import the class and then use the method/variable with class name.
-```java
-import java.lang.Math;
-//inside class
-double test = Math.PI * 5;
-```
-
-We can do the same thing by importing the static method or variable only and then use it in the class as if it belongs to it.
-```java
-import static java.lang.Math.PI;
-//no need to refer class now
-double test = PI * 5;
-```
-Use of static import can cause confusion, so it’s better to avoid it. 
-
-<br></br>
-
-
-
-## Java Annotations
-----
-Java Annotations provide information about the code and they have no direct effect on the code they annotate. Annotations are introduced in Java 5. Annotation is metadata about the program embedded in the program itself. It can be parsed by the annotation parsing tool or by compiler. We can also specify annotation availability to either compile time only or till runtime also. Java Built-in annotations are `@Override`, `@Deprecated` and `@SuppressWarnings`.
-
-<br></br>
-
-
-
-## Why can’t we create generic array? 
-----
-We are not allowed to create generic arrays because array carry type information of it’s elements at runtime. This information is used at runtime to throw ArrayStoreException if elements type doesn’t match to the defined type. Since generics type information gets erased at runtime by Type Erasure, the array store check would have been passed where it should have failed. 
-
-```java
-List<Integer>[] intList = new List<Integer>[5]; // compile error
-Object[] objArray = intList;
-List<Double> doubleList = new ArrayList<Double>();
-doubleList.add(Double.valueOf(1.23));
-// this should fail but it would pass because at runtime intList and doubleList both are just List
-objArray[0] = doubleList; 
-```
-Arrays are covariant by nature i.e `S[]` is a subtype of `T[]` whenever S is a subtype of T but generics doesn’t support covariance or sub-typing as we saw in last question. So if we would have been allowed to create generic arrays, because of type erasure we would not get array store exception even though both types are not related.
+Annotations provide information about code and they have no direct effect on the code they annotate. Annotations are introduced in Java 5. Annotation is metadata about program embedded in program itself. It can be parsed by annotation parsing tool or by compiler. We can also specify annotation availability to either compile time only or till runtime also. Java Built-in annotations are `@Override`, `@Deprecated` and `@SuppressWarnings`.
 
 <br></br>
 

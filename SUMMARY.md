@@ -54,3 +54,4 @@
   * [Inner Class](/Advanced/nested_class.md)
   * [enum](/Advanced/enum.md)
   
+* [Practice](/Practice/practice.md)

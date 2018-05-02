@@ -328,3 +328,19 @@ A marker interface is an empty interface without any method but used to force so
 * Collections - 针对集合类的帮助类，提供静态方法实现对各种集合的搜索、排序、线程安全化等操作。
 
 <br></br>
+
+
+
+## Exception Hierarchy
+----
+* *Errors*: out of scope of application and it’s not possible to anticipate and recover from them, for example hardware failure, JVM crash or OOM error. 
+
+* *Checked Exceptions*: we can anticipate in a program and try to recover from it, for example `FileNotFoundException`. Exception is the parent class of all Checked Exceptions. 
+
+* *Runtime Exceptions:* caused by bad programming, for example `ArrayIndexOutOfBound` exception at runtime. RuntimeException is the parent class of all runtime exceptions.
+
+<p align="center">
+  <img src="./Images/exception_hierarchy.png" />
+</p>
+
+<br>
