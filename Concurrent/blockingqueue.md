@@ -4,7 +4,7 @@
 
 
 
-BlockingQueue doesn’t accept `null` values and throw `NullPointerException` if store `null` value in the queue.
+BlockingQueue doesn’t accept `null`. Throw `NullPointerException` if store `null`.
 
 BlockingQueue是接口，使用它应类似`BlockingQueue q = new LinkedBlockingQueue(5)`。
 

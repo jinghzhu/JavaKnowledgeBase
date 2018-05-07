@@ -4,9 +4,9 @@
 
 <br></br>
 
-* 对table使用violate
-* next指针是final，这样remove节点其实是clone。保证访问某节点时，这节点后的链接不会被改变。降低处理链表时的复杂性。
-* 使用RentrantLock
+* 对table使用`violate`。
+* `next`指针是`final`，这样remove节点其实是clone。保证访问某节点时，节点后的链接不会被改变。降低处理链表时的复杂性。
+* 使用RentrantLock。
 
 ![ConcurrentHashMap before JDK 1.8](./Images/chm_before1.8.png)
 
@@ -16,18 +16,18 @@
 
 ## 内部数据结构
 --------------
-采用分段锁实现并发操作，底层采用数组+链表+红黑树的存储结构。包含两个核心静态内部类Segment和HashEntry:
-1. Segment继承ReentrantLock充当锁，每个Segment对象守护每个散列映射表的若干个桶。
-2. HashEntry封装映射表的键/值对；
+采用分段锁实现并发操作，底层采用数组+链表+红黑树存储结构。包含两个核心静态内部类`Segment`和`HashEntry`:
+1. `Segment`继承ReentrantLock充当锁，每个`Segment`对象守护每个散列映射表的若干个桶。
+2. `HashEntry`封装映射表的键值对。
 
-每个桶是由若干HashEntry链接起来的链表。一个ConcurrentHashMap实例中包含由若干Segment对象组成的数组：
+每个桶由若干`HashEntry`链接起来的链表。一个ConcurrentHashMap实例中包含由若干`Segment`对象组成的数组：
 
 ``` java
 static final class HashEntry<K,V> {   
-       final K key;                       // 声明 key 为 final 型  
-       final int hash;                   // 声明 hash 值为 final 型   
-       volatile V value;                 // 声明 value 为 volatile 型  
-       final HashEntry<K,V> next;      // 声明 next 为 final 型   
+       final K key;                         
+       final int hash;           
+       volatile V value;   
+       final HashEntry<K,V> next;   
   
        HashEntry(K key, int hash, HashEntry<K,V> next, V value) {   
            this.key = key;   
@@ -38,26 +38,26 @@ static final class HashEntry<K,V> {
 }   
 ```
 
-HashEntry中的`key`，`hash`，`next`都声明为final型。意味着不能把节点添加到链接的中间和尾部，也不能在链接的中间和尾部删除节点。这个特性保证在访问某个节点时，这个节点之后的链接不会被改变。大大降低处理链表时的复杂性。
+`key`，`hash`和`next`都声明为`final`型，意味着不能把节点添加到链接中间和尾部，也不能在链接的中间和尾部删除节点。这个特性保证在访问某个节点时，这个节点之后链接不会被改变，降低处理链表时的复杂性。
 
 ```java
 static final class Segment<K,V> extends ReentrantLock implements Serializable {  
         transient volatile int count;  // 在segment范围内，包含的HashEntry元素个数 
-        transient int modCount;     //table 被更新的次数  
-        transient int threshold;    //默认容量  
-    	final float loadFactor;    //装载因子  
+        transient int modCount;     // table被更新次数  
+        transient int threshold;    // 默认容量  
+    	final float loadFactor;    // 装载因子  
   
         /**  
-         * table 是由 HashEntry 对象组成的数组 
-         * 如果散列时发生碰撞，碰撞的 HashEntry 对象就以链表的形式链接成一个链表 
-         * table 数组的数组成员代表散列映射表的一个桶         
+         * table由HashEntry对象组成的数组 
+         * 如果散列发生碰撞，碰撞的HashEntry链成一个链表 
+         * table数组成员代表散列映射表的一个桶         
          */   
         transient volatile HashEntry<K,V>[] table;   
   
         /**  
-         * 根据key的hash值，找到table中对应的桶（table数组的某个成员） 
-         * 把散列值与table数组长度减1的值相“与”，得到散列值对应的table数组下标 
-         * 然后返回table数组中此下标对应的HashEntry元素,即这个段中链表的第一个元素 
+         * 根据key的hash值，找到table中对应的桶。 
+         * 把散列值与table数组长度减1的值相“与”，得到散列值对应的table数组下标。
+         * 然后返回table数组中此下标对应的HashEntry元素，即这个段中链表的第一个元素。
          */   
         HashEntry<K,V> getFirst(int hash) {   
             HashEntry<K,V>[] tab = table;               
@@ -70,7 +70,7 @@ static final class Segment<K,V> extends ReentrantLock implements Serializable {
         }   
   
         /**  
-         * 设置 table 引用到这个新生成的 HashEntry 数组 
+         * 设置table引用这个新生成的HashEntry数组 
          * 只能在持有锁或构造函数中调用本方法 
          */   
         void setTable(HashEntry<K,V>[] newTable) {               
@@ -84,13 +84,13 @@ static final class Segment<K,V> extends ReentrantLock implements Serializable {
 
 
 
-## get方法
+## 读操作
 --------------
-首先判断当前桶数据个数是否为0。否则，得到头节点后根据hash和key逐个判断是否是指定的值。如果是并且值非空，就说明找到了，直接返回。注意，返回结果时的`return readValueUnderLock(e)`是为了并发考虑的。当`v`为空时，可能是一个线程正在改变节点，而之前的get操作都未进行锁定，所以这里要对`e`重新上锁再读一遍，以保证得到的是正确值。
+首先判断当前桶个数是否为0。否则，得到头节点后根据hash和key逐个判断是否是指定的值。如果是并且值非空，说明找到。注意，返回结果时的`return readValueUnderLock(e)`是为并发考虑的。当`v`空时，可能是一个线程正在改变节点，而之前的get操作都未进行锁定，所以这里要对`e`重新上锁再读一遍，以保证得到的是正确值。
  
-为什么get需判断`count`不等于_0_？这是用到happens-before原则之volatile变量法则：对volatile写入操作happens-before于每一个后续对同一域的读操作。
+get需判断`count`不等于0是用到happens-before原则之volatile变量法则：对volatile写入操作happens-before于每一个后续对同一域的读操作。
 
-虽然线程N是在未加锁的情况下访问链表。Java内存模型可以保证只要之前对链表做结构性修改操作的写线程M在退出写方法前写volatile变量`count`，读线程N读取`count`后，定能看到修改。这个特性和HashEntry对象的不变性相结合，使读线程在读取散列表时，基本不需要加锁就能成功获得需要的值。这两个特性相配合，不仅减少了请求同一个锁的频率（读操作一般不需要加锁就能够成功获得值），也减少了持有同一个锁的时间（只有`value`为`null`, 读线程才要加锁后重读）。
+虽然线程N是在未加锁情况下访问链表。Java内存模型保证只要之前对链表做结构性修改操作的写线程M在退出写方法前写volatile变量`count`，读线程N读取`count`后，定能看到修改。这个特性和HashEntry对象不变性相结合，使读线程在读取散列表时，不需加锁就能成功获得需要的值。
 
 ``` java
 V get(Object key, int hash) {  
@@ -125,20 +125,20 @@ V readValueUnderLock(HashEntry e) {
 
 ## 写操作
 --------------
-一般情况下不需要加锁就可以完成，对容器做结构性修改的操作才需要加锁。下面以put操作为例说明对ConcurrentHashMap做结构性修改的过程。
+一般情况下不需加锁就可完成，做结构性修改才需加锁。
 
-首先，根据_key_计算对应的hash值：
+首先，根据`key`计算对应的hash值：
 ```java
 public V put(K key, V value) { 
-        if (value == null)          //ConcurrentHashMap 中不允许用 null 作为映射值
+        if (value == null)  // ConcurrentHashMap中不允许用null作为映射值
             throw new NullPointerException(); 
         int hash = hash(key.hashCode());        // 计算键对应的散列码
-        // 根据散列码找到对应的 Segment 
+        // 根据散列码找到对应的Segment 
         return segmentFor(hash).put(key, hash, value, false); 
  }
  ```
 
-然后，根据_hash_值找到对应的Segment对象：
+然后，根据hash值找到对应的Segment对象：
 ```java
 // 使用key散列码得到segments数组中对应的Segment
  final Segment<K,V> segmentFor(int hash) { 
@@ -149,7 +149,7 @@ public V put(K key, V value) {
  }
 ```
 
-最后，在Segment中执行具体的put操作：
+最后，在Segment中执行put操作：
 ``` java
 V put(K key, int hash, V value, boolean onlyIfAbsent) {  
     lock();  // 先锁定整个segment，因为修改数据不能并发进行。
@@ -183,13 +183,13 @@ V put(K key, int hash, V value, boolean onlyIfAbsent) {
 }  
 ```
 
-线程写入的两种情形：
+线程写入两种情形：
 1. 对散列表做非结构性修改的操作。
 2. 对散列表做结构性修改的操作。
 
-非结构性修改操作只更改某个HashEntry的`value`域的值。由于对volatile变量的写入操作与随后对这个变量的读操作同步。当写线程修改了某个HashEntry的`value`域后，另一个读线程读这个值域，Java内存模型保证读取的一定是更新后的值。所以，写线程对链表的非结构性修改能够被后续不加锁的读线程看到。
+**非结构性修改操作只更改某个HashEntry的`value`域的值。由于对volatile变量写入操作与随后对这个变量读操作同步。当写线程修改某个HashEntry的`value`域后，另一个读线程读这个值，Java内存模型保证读取的是更新后的值。所以，写线程对链表的非结构性修改能够被后续不加锁的读线程看到。**
 
-结构性修改是对某个桶指向的链表做结构性修改。如果能够确保在读线程遍历一个链表期间，写线程对这个链表所做的结构性修改不影响读线程继续正常遍历这个链表。那么读/写线程之间就可以安全并发访问这个ConcurrentHashMap。
+结构性修改是对某个桶指向的链表做结构性修改。如果能够确保在读线程遍历链表期间，写线程对这个链表所做结构性修改不影响读线程继续正常遍历这个链表。那么读写线程间就可以安全并发访问ConcurrentHashMap。
 
 结构性修改操作包括put，remove，clear。
 
@@ -205,7 +205,7 @@ put操作如果需插入一个新节点 , 会在链表头部插入这个新节�
 
 ## remove操作
 ----------------------
-类似put，但要注意一点区别，中间for循环是将定位之后的所有entry克隆并拼回前面去。这点是由entry 的不变性决定的。entry中除了value，其他所有属性都是final修饰。意味着在第一次设置了next域后便不能再改变，取而代之的是将它之前的节点全都克隆一次。entry要设置为不变性，因为不变性的访问不需要同步从而节省时间有关。
+类似put，但注意中间for循环是将定位之后的所有entry克隆并拼回前面去。这点是由entry不变性决定的。entry中除了value，其他所有属性都是final修饰。意味着第一次设置next域后不能再改变，取而代之的是将它之前的节点全都克隆一次。entry要设置为不变性，因为不变性的访问不需要同步从而节省时间有关。
 
 <p align="center">
   <img src="./Images/chm7_delete1.png" />

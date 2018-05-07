@@ -4,6 +4,94 @@
 
 
 
+## 并发执行并汇总结果
+----
+* CountDownLatch：允许一个或者多个线程等待前面的一个或多个线程完成，构造一个CountDownLatch时指定需要CountDown的点的数量，每完成一点就count down一下，当所有点都完成，latch.wait就解除阻塞。
+
+* CyclicBarrier：可循环使用的Barrier，让一组线程到达一个Barrier后阻塞，直到所有线程都到达Barrier后才继续执行。CountDownLatch计数值只能用一次，CyclicBarrier通过reset重置，还可指定到达栅栏后优先执行的任务。
+
+* fork/join框架：fork把大任务分解成小任务，然后汇总小任务结果到最终结果。使用一个双端队列，当线程空闲时从双端队列的另一端领取任务。
+
+<br></br>
+
+
+
+## 外星方法保护性锁
+----
+构造一个类从URL进行下载，并用`ProgressListeners`监听下载进度：
+
+``` java
+class Downloader extends Thread {
+    private InputStream in;
+    private OutputStream out;
+    private ArrayList<ProgressListener> listeners;
+
+    public Downloader(URL url, String outputFilename) throws IOException {
+        in = url.openConnection().getInputStream();
+        out = new FileOutputStream(outputFilename);
+        listeners = new ArrayList<ProgressListener>();
+    }
+
+    public synchronized void addListener(ProgressListener listeners) {
+        listeners.add(listener);
+    }
+
+    public synchronized void removeListener(ProgressListener listener) {
+        listeners.remove(listener);
+    }
+
+    private synchronized void updateProgress(int n) {
+        for (ProgressListener listener: listeners)
+            listener.onProgress(n);   // 这里调用了一个外星方法
+    }
+
+    public void run() {
+        int n = 0, total = 0;
+        byte[] buffer = new byte[1024];
+
+        try {
+            while ((n = in.read(buffer)) != -1) {
+                out.write(buffer, 0, n);
+                total += n;
+                updateProgress(total);
+            }
+            out.flush();
+        } catach (IOException e) {}
+    }
+}
+```
+
+* 问题：调用`onProgress()`外星方法，可能引入其他锁导致死锁。
+* 解决方案：采用保护性复制（defensive copy），即不对原始对象进行操作，而是对克隆出来的对象进行操作。
+* 注意：保护性复制是个好方法。前提是进行只读的操作，不做修改。
+
+``` java
+private void updatePrgress(int n) {
+    ArrayList<ProgressListener> listernersCopy;
+    synchronized(this) {
+        listernersCopy = (ArrayList<ProgressListener>)listeners.clone();
+    }
+    for (ProgressListener listener : listernersCopy)
+        listener.onProgress(n);
+}
+```
+
+<br></br>
+
+
+
+## 获取线程dump文件
+----
+线程dump就是线程堆栈，获取到线程堆栈有两步：
+1. 获取到线程的`pid`, 在Linux环境下还可以使用ps -ef | grep java
+2. 打印线程堆栈, 在Linux环境下还可以使用kill -3 pid
+
+Thread类提供了`getStackTrace()`用于获取线程堆栈。这是一个实例方法，因此此方法是和具体线程实例绑定的，每次获取获取到的是具体某个线程当前运行的堆栈。
+
+<br></br>
+
+
+
 ## Serializable
 ----
 

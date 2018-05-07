@@ -15,7 +15,7 @@
 
 ```java
 public class Semaphore {
-    private boolean signal = false;   // 使用signal可以避免信号丢失
+    private boolean signal = false;   // 使用signal避免信号丢失
 
     public synchronized void take() {
        this.signal = true;
@@ -34,7 +34,7 @@ public class Semaphore {
 
 
 
-## 可计数的Semaphore
+## 可计数Semaphore
 ----
 
 ```java
@@ -98,7 +98,7 @@ public class Mutex {
     private boolean isLocked = false;
 
     public synchronized void lock() {
-        while(this.isLocked) // 使用while可以避免线程假唤醒
+        while(this.isLocked) // 使用while避免假唤醒
             wait();
         this.isLocked= true;
     }

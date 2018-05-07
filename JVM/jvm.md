@@ -1,4 +1,4 @@
-# <center>Theory</center>
+# <center>JVM Theory</center>
 
 <br></br>
 

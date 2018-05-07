@@ -7,8 +7,6 @@
         "mathjax", 
         "anchors",
         "splitter",
-        "github",
-        "github-buttons",
         "prism", 
         "-highlight",
         "book-summary-scroll-position-saver",
@@ -18,17 +16,6 @@
     ],
 
     "pluginsConfig": {
-        "github-buttons": {
-            "repo": "jinghzhu/JavaNote",
-            "types": [
-                "star",
-                "watch"
-            ],
-            "size": "small"
-        },
-        "github": {
-            "url": "https://github.com/jinghzhu/JavaNote"
-        },
         "mathjax":{
             "forceSVG": false
         },

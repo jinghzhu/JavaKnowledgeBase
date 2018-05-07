@@ -4,11 +4,11 @@
 
 <br></br>
 
-* PUT操作基于CAS(Unsafe类)+synchronized实现并发插入或更新操作：
-    * 插入更新用CAS
-    * 红黑树转换用synchronized
+* PUT操作基于CAS（unsafe类）+synchronized实现并发插入更新操作：
+    * 插入更新用CAS。
+    * 红黑树转换用synchronized。
     
-* GET是对tab原子读取。不加锁因为用了`Unsafe.getObjectVolatile()`，因为table是volatile，所以对tab原子请求是可见的。根据happens-before原则，对volatile域的写入操作happens-before于每一个后续对同一域的读操作。所以不管其他线程对table链表或树的修改，都对get读取可见。
+* GET是对tab原子读取。不加锁因为用了`Unsafe.getObjectVolatile()`，因为table是volatile，所以对tab原子请求是可见的。根据happens-before原则，对volatile域写入操作happens-before于每一个后续对同一域读操作。所以不管其他线程对table链表或树的修改，都对get读取可见。
 
 <br></br>
 
@@ -16,20 +16,20 @@
 
 ## 相关概念：
 -----------
-* table：默认为`null`，初始化发生在第一次插入操作，默认大小为_16_的数组，存储Node节点数据，扩容时大小总是_2_的幂次方。
+* table：默认`null`，初始化发生在第一次插入操作，默认大小为16的数组，存储Node节点数据，扩容时大小总是2的幂次方。
 
-* nextTable：默认为`null`，扩容时新生成的数组，其大小为原数组的两倍。
+* nextTable：默认`null`，扩容时新生成的数组，大小为原数组2倍。
 
-* sizeCtl ：默认为_0_，用来控制table的初始化和扩容操作：
-    * _-1_代表table正在初始化
-    * _-N_表示有_N - 1_个线程正在进行扩容操作
+* sizeCtl ：默认0，控制table初始化和扩容操作：
+    * -1代表table正在初始化
+    * -N表示有N-1个线程正在进行扩容操作
     * 其余情况：
         * 如果table未初始化，表示table需要初始化的大小。
         * 如果table初始化完成，表示table的容量，默认是table大小的0.75倍。
 
-* Node：保存key，value及key的hash值的数据结构。其中value和next都用`volatile`修饰，保证并发的可见性。Node类没有提供修改入口，只能用于只读遍历。
+* Node：保存key，value及key的hash值的数据结构。其中value和next用`volatile`修饰，保证并发可见性。Node类没有提供修改入口，只能用于只读遍历。
 
-* ForwardingNode：特殊的Node节点，hash值为_-1_，存储nextTable的引用。只有table扩容时，ForwardingNode才会发挥作用，作为一个占位符放在table中表示当前节点为`null`或则已经被移动。
+* ForwardingNode：特殊的Node节点，hash值为-1，存储nextTable引用。只有table扩容时，ForwardingNode才会发挥作用，作为一个占位符放在table中表示当前节点为`null`或则已经被移动。
 
     ``` java
     final class ForwardingNode<K, V> extends Node<K, V> {
@@ -41,7 +41,7 @@
     }
     ```
 
-* TreeBins: 用于封装维护TreeNode。当链表转树时，用于封装TreeNode，即ConcurrentHashMap的红黑树存放的是TreeBin，而不是treeNode。
+* TreeBins: 链表转树时，封装TreeNode，即ConcurrentHashMap红黑树存放的是TreeBin，而不是treeNode。
 
 * 一系列标示：
     ``` java
@@ -57,7 +57,7 @@
 
 ## table初始化
 ---------------
-table初始化操作会延缓到第一次put行为。`sizeCtl`默认为_0_。如果ConcurrentHashMap实例化时有传参数，`sizeCtl`会是一个_2_的幂次方的值。所以执行第一次put操作的线程会执行`Unsafe.compareAndSwapInt()`方法修改`sizeCtl`为_-1_。有且只有一个线程能够修改成功，其它线程通过`Thread.yield()`让出CPU时间片等待table初始化完成。
+table初始化操作会延缓到第一次put行为。`sizeCtl`默认0。如果ConcurrentHashMap实例化时有传参数，`sizeCtl`是一个2的幂次方值。所以执行第一次put操作线程会执行`Unsafe.compareAndSwapInt()`方法修改`sizeCtl`为-1。有且只有一个线程能修改成功，其它线程通过`Thread.yield()`让出CPU时间片等待table初始化完成。
 
 ``` java
 private final Node<K, V>[] initTable() {
@@ -94,10 +94,10 @@ private final Node<K, V>[] initTable() {
 
 ## PUT操作
 ------------
-采用CAS + synchronized实现并发插入或更新操作:
-1. 判断存储的key、value是否为空，若为空，则抛出异常，否则，进入步骤2;
-2. 计算key的hash值，随后进入无限循环，该无限循环可以确保成功插入数据，若table表为空或者长度为_0_，则初始化table表，否则，进入步骤3;
-3. 根据key的hash值取出table表中结点，若取出结点为空（该桶为空），则用`CAS`将key、value、hash值生成的结点放入桶中。否则，进入步骤4;
+采用CAS + synchronized实现并发插入更新操作:
+1. 判断存储的key和value是否为空。若为空，则抛出异常，否则，进入步骤2;
+2. 计算key的hash值，随后进入无限循环。该无限循环确保成功插入数据，若table表为空或长度为0，则初始化table表，否则进入步骤3;
+3. 根据key的hash值取出table表中结点，若取出结点为空（该桶为空），则用CAS将key、value和hash值生成的结点放入桶中。否则，进入步骤4;
 4. 若该结点hash值为`MOVED`，则对该桶中结点进行转移，否则，进入步骤5;
 5. 对桶中第一个结点（即table表中结点）进行加锁，对该桶遍历，桶中的结点的hash值与key值与给定的hash值和key值相等，则根据标识选择是否进行更新操作（用给定的value值替换该结点的value值），若遍历完桶仍没有找到hash值与key值和指定的hash值与key值相等的结点，则直接新生一个结点并赋值为之前最后一个结点的下一个结点。进入步骤6;
 6. 若`binCount`值达到红黑树转化的阈值，则将桶中的结构转化为红黑树存储，最后，增加`binCount`的值。
@@ -126,18 +126,18 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 }
 ```
 
-其中的hash算法为：
+其中hash算法为：
 ``` java
 static final int spread(int h) {return (h ^ (h >>> 16)) & HASH_BITS;}
 ```
 
-获取table中对应索引的元素f采用`Unsafe.getObjectVolatile()`来获取。每个线程都有一个工作内存，存储着table副本，虽然table是`volatile`修饰，但不能保证每次都拿到table中最新元素，`Unsafe.getObjectVolatile`可直接获取指定内存的数据，保证了每次拿到数据都是最新的。
+获取table中对应索引的元素`f`采用`Unsafe.getObjectVolatile()`。每个线程都有一个工作内存，存储table副本。虽然table是`volatile`修饰，但不能保证每次都拿到table中最新元素，`Unsafe.getObjectVolatile`可直接获取指定内存数据，保证每次拿到数据都是最新的。
 
-如果f为`null`，说明这个位置第一次插入元素，用`Unsafe.compareAndSwapObject()`方法插入Node节点:
+如果`f`为`null`，说明这个位置第一次插入元素，用`Unsafe.compareAndSwapObject()`方法插入Node节点:
 * 如果CAS成功，说明Node节点已插入，随后`addCount(1L, binCount)`会检查当前容量是否需要进行扩容。
 * 如果CAS失败，说明有其它线程提前插入节点，自旋重新尝试插入节点。
 
-如果f的hash值为_-1_，说明当前f是ForwardingNode节点，意味有线程正在扩容，则一起进行扩容操作。其余情况把新节点按链表或红黑树方式，采用同步内置锁实现并发:
+如果`f`的hash值为-1，说明当前`f`是ForwardingNode节点，有线程正在扩容，则一起进行扩容操作。其余情况把新节点按链表或红黑树方式，采用同步内置锁实现并发:
 
 ``` java
 synchronized (f) {
@@ -184,7 +184,7 @@ synchronized (f) {
 ## putVal中涉及的函数
 ---------------
 ### initTable
-对于table大小，会根据`sizeCtl`值进行设置，如果没有设置`szieCtl`值，那么默认table大小为_16_：
+对于table大小，会根据`sizeCtl`值设置。如果没有设置`szieCtl`值，那么默认table大小为16：
 
 ``` java
 private final Node<K,V>[] initTable() {
@@ -192,11 +192,11 @@ private final Node<K,V>[] initTable() {
         while ((tab = table) == null || tab.length == 0) { // 无限循环
             if ((sc = sizeCtl) < 0) // sizeCtl小于0，则进行线程让步等待
                 Thread.yield(); // lost initialization race; just spin
-            // 比较sizeCtl的值与sc是否相等，相等则用-1替换
+            // 比较sizeCtl的值与sc是否相等，相等用-1替换
             else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) { 
                 try {
                     if ((tab = table) == null || tab.length == 0) {
-                        // sc的值是否大于0，若是，则n为sc，否则，n为默认初始容量
+                        // sc值是否大于0，若是则n为sc，否则n为默认初始容量
                         int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
                         // 新生结点数组
                         Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n]; 
@@ -217,7 +217,7 @@ private final Node<K,V>[] initTable() {
 
 
 ### tabAt
-返回table数组中下标为`i`的结点。是通过Unsafe反射获取的，`getObjectVolatile()`的第二项参数为下标为`i`的偏移地址:
+返回table数组中下标为`i`的结点，通过Unsafe反射获取。`getObjectVolatile()`第二项参数为下标为`i`的偏移地址:
 
 ``` java
 static final <K,V> boolean casTabAt(Node<K,V>[] tab, int i,
@@ -256,13 +256,13 @@ static final <K,V> boolean casTabAt(Node<K,V>[] tab, int i,
 
 
 ### helpTransfer
-用于在扩容时将table表中的结点转移到nextTable中:
+在扩容时将table表中结点转移到nextTable中:
 
 ``` java
 final Node<K,V>[] helpTransfer(Node<K,V>[] tab, Node<K,V> f) {
         Node<K,V>[] nextTab; int sc;
-        // table表不为空并且结点类型使ForwardingNode类型，
-        // 并且结点的nextTable不为空
+        // table表不为空且结点类型是ForwardingNode类型，
+        // 并且结点nextTable不为空。
         if (tab != null && (f instanceof ForwardingNode) &&
             (nextTab = ((ForwardingNode<K,V>)f).nextTable) != null) { 
             int rs = resizeStamp(tab.length);
@@ -289,12 +289,10 @@ final Node<K,V>[] helpTransfer(Node<K,V>[] tab, Node<K,V> f) {
 ## table扩容
 -----------------
 table元素数量达到阈值`sizeCtl`，需扩容，扩容分为两部分：
-
-1. 构建一个nextTable，大小为table的_2_倍。
-2. 把table的数据复制到nextTable中。
+1. 构建一个nextTable，大小为table 2倍。
+2. 把table数据复制到nextTable中。
 
 第一步构建nextTable，只能单线程进行nextTable初始化。通过`Unsafe.compareAndSwapInt()`修改`sizeCtl`值。节点从table移到nextTable：
-
 1. 根据运算得到需要遍历的次数`i`，利用`tabAt()`方法获得`i`位置元素`f`，初始化forwardNode实例`fwd`。
 2. 如果`f == null`，在`i`位置放入`fwd`，采用`Unsafe.compareAndSwapObjectf()`方法实现。
 3. 如果`f`是链表头节点，构造一个反序链表，把他们放在nextTable的`i`和`i + n`位置，移动完成，用`Unsafe.putObjectVolatile给table()`原位置赋值`fwd`。
@@ -334,7 +332,7 @@ private final void addCount(long x, int check) {
 
 ## 红黑树转化
 ----------
-如果链表中元素超过`TREEIFY_THRESHOLD`阈值（默认为8），则把链表转化为红黑树：
+如果链表中元素超过`TREEIFY_THRESHOLD`阈值（默认8），则把链表转化为红黑树：
 
 ``` java
 if (bitCount != 0) {

@@ -4,30 +4,32 @@
 
 <br></br>
 
-* 线程池内部，任务被插入阻塞队列，线程池里的线程会去取这个队列里的任务。
-* ForkJoinPool
+* 线程池内部，任务被插入阻塞队列，线程池里线程会去取队列任务。
+
+* ForkJoinPool：
     * JDK1.7引入；
     * 大任务分割成小任务；
-    * 工作窃取(work-stealing)算法。
+    * 工作窃取（work-stealing）算法。
 
 * ExecutorService：
 
 ![Overall of ExecutorService](./Images/executorservice_workflow.png)
 
-1. 使用工厂方法创建不同的线程池。
-2. 线程池把任务封装成FutureTask对象。
-3. 工作线程在其`run()`方法中循环，从线程池领取可以执行的task，调用task的`run()`方法执行task的任务。
-5. FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务的执行结果返回给FutureTask的`result`变量。
+
+    * 使用工厂方法创建不同线程池。
+    * 线程池把任务封装成FutureTask对象。
+    * 工作线程在`run()`方法中循环，从线程池领取可执行的task，调用task的`run()`方法执行。
+    * FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务结果返回给FutureTask的`result`变量。
 
 <br></br>
 
 
 
-## 简单的线程池实现
+## 简单线程池实现
 ----
-线程池实现由两部分组成。类ThreadPool是线程池公开接口，类PoolThread实现执行任务的子线程。
+线程池实现由两部分组成：类ThreadPool是线程池公开接口；类PoolThread实现执行任务子线程。
 ``` java
-public class ThreadPool {
+public class ThreadPool { // 线程池公开接口
   private BlockingQueue taskQueue = null;
   private List<PoolThread> threads = new ArrayList<PoolThread>();
   private boolean isStopped = false;
@@ -57,9 +59,9 @@ public class ThreadPool {
 ```
 
 ```java
-public class PoolThread extends Thread {
+public class PoolThread extends Thread { // 实现执行任务子线程
   private BlockingQueue<Runnable> taskQueue = null;
-  private boolean       isStopped = false;
+  private boolean isStopped = false;
 
   public PoolThread(BlockingQueue<Runnable> queue) {
     taskQueue = queue;
@@ -71,14 +73,14 @@ public class PoolThread extends Thread {
         Runnable runnable =taskQueue.take();
         runnable.run();
       } catch(Exception e) {
-        // 写日志或者报告异常,但保持线程池运行
+        // 写日志或报告异常，但保持线程池运行。
       }
     }
   }
 
   public synchronized void toStop() {
     isStopped = true;
-    this.interrupt(); // 打断池中线程dequeue()调用.
+    this.interrupt(); // 打断池中线程dequeue()调用。
   }
 
   public synchronized boolean isStopped() {
@@ -87,11 +89,11 @@ public class PoolThread extends Thread {
 }
 ```
 
-为了执行一个任务，方法`ThreadPool.execute(Runnable r)`用Runnable的实现作为调用参数。在内部，Runnable对象被放入阻塞队列。空闲的PoolThread线程会把Runnable对象从队列中取出并执行。可以在`PoolThread.run()`方法里看到这些代码。执行完后，PoolThread进入循环且尝试从队列中再取出任务，直到线程终止。
+为执行任务，方法`ThreadPool.execute(Runnable r)`用Runnable实现作为调用参数。在内部，Runnable对象被放入阻塞队列。空闲PoolThread线程把Runnable对象从队列中取出并执行，可在`PoolThread.run()`方法里看到这些代码。执行完后，PoolThread进入循环且尝试从队列中再取出任务，直到线程终止。
 
-`ThreadPool.stop()`方法可以停止ThreadPool。在内部，调用stop先标记`isStopped`成员变量为`true`。然后，线程池的每个子线程都调用`PoolThread.stop()`方法停止运行。如果线程池`execute()`在`stop()`后调用，会抛出IllegalStateException异常。
+`ThreadPool.stop()`方法可停止ThreadPool。在内部，调用`stop()`先标记`isStopped`为`true`。然后，线程池每个子线程都调用`PoolThread.stop()`方法停止运行。如果线程池`execute()`在`stop()`后调用，会抛出IllegalStateException异常。
 
-子线程会在完成当前任务后停止。`PoolThread.stop()`方法中调用了`this.interrupt()`，确保阻塞在`taskQueue.dequeue()`的`wait()`调用的线程能跳出`wait()`调用，并抛出InterruptedException异常离开`dequeue()`方法。这个异常在`PoolThread.run()`方法中被截获、报告，然后再检查`isStopped`变量。由于`isStopped`值是`true,` 因此`PoolThread.run()`方法退出，子线程终止。
+子线程在完成当前任务后停止。`PoolThread.stop()`方法中调用`this.interrupt()`，确保阻塞在`taskQueue.dequeue()`的`wait()`调用线程能跳出`wait()`调用，并抛出InterruptedException异常离开`dequeue()`方法。这个异常在`PoolThread.run()`方法中被截获，然后再检查`isStopped`变量。由于`isStopped`是`true`，因此`PoolThread.run()`方法退出，子线程终止。
 
 <br></br>
 
@@ -101,9 +103,9 @@ public class PoolThread extends Thread {
 ----
 * JDK1.7引入；
 * 大任务分割成小任务；
-* 工作窃取(work-stealing)算法。
+* 工作窃取（work-stealing）算法。
 
-为减少窃取任务线程和被窃取任务线程之间的竞争，会使用双端队列，被窃取任务线程从双端队列头部拿任务执行，窃取任务线程从双端队列尾部拿任务执行。
+为减少窃取任务线程和被窃取任务线程之间竞争，使用双端队列。被窃取任务线程从双端队列头部拿任务执行，窃取任务线程从双端队列尾部拿任务执行。
 
 <br>
 
@@ -118,7 +120,7 @@ public final ForkJoinTask fork() {
 } 
 ```
 
-`pushTask()`把当前任务存放在ForkJoinTask数组queue里。然后再调用ForkJoinPool的`signalWork()`方法唤醒或创建一个工作线程来执行任务：
+`pushTask()`把当前任务存放在ForkJoinTask数组queue里。然后再调用ForkJoinPool的`signalWork()`方法唤醒或创建一个工作线程执行任务：
 ```java
 final void pushTask(ForkJoinTask t) {
     ForkJoinTask[] q; 
@@ -158,13 +160,13 @@ private V reportResult() {
 }
 ```
 
-首先，调用`doJoin()`得到当前任务的状态来判断返回什么结果，任务状态有四种：已完成（NORMAL），被取消（CANCELLED），信号（SIGNAL）和出现异常（EXCEPTIONAL）：
+首先，调用`doJoin()`得到当前任务状态判断返回什么结果。任务状态有四种：
+1. 已完成（NORMAL），则返回任务结果。
+2. 被取消（CANCELLED），则抛出CancellationException。
+3. 信号（SIGNAL）
+4. 异常（EXCEPTIONAL），则抛出异常。
 
-* 已完成，则直接返回任务结果。
-* 被取消，则直接抛出CancellationException。
-* 抛出异常，则直接抛出对应的异常。
-
-`doJoin()`方法的实现代码：
+`doJoin()`方法：
 ```java
 private int doJoin() {
     Thread t;
@@ -192,7 +194,7 @@ private int doJoin() {
 }
 ```
 
-在`doJoin()`里，首先通过查看任务的状态，看任务是否已执行完。如果执行完则返回任务状态，如果没有则从任务数组里取出任务并执行。如果任务顺利执行完成了，则设置任务状态为NORMAL，如果出现异常，则纪录异常并将任务状态设置为EXCEPTIONAL。
+`doJoin()`首先通过查看任务状态，看任务是否已执行完。如果执行完则返回任务状态。如果没有则从任务数组取出任务并执行。如果任务顺利执行完成，则设置任务状态为NORMAL。如果出现异常，则纪录异常并将任务状态设置为EXCEPTIONAL。
 
 <br>
 

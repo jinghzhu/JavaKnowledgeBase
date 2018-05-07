@@ -1,34 +1,186 @@
 # <center>Concurrent</center>
 
-<br></br>
 
-
-
-## 并发执行并汇总结果
-----
-* CountDownLatch：允许一个或者多个线程等待前面的一个或多个线程完成，构造一个CountDownLatch时指定需要CountDown的点的数量，每完成一点就count down一下，当所有点都完成，latch.wait就解除阻塞。
-
-* CyclicBarrier：可循环使用的Barrier，让一组线程到达一个Barrier后阻塞，直到所有线程都到达Barrier后才继续执行。CountDownLatch计数值只能用一次，CyclicBarrier通过reset重置，还可指定到达栅栏后优先执行的任务。
-
-* fork/join框架：fork把大任务分解成小任务，然后汇总小任务结果到最终结果。使用一个双端队列，当线程空闲时从双端队列的另一端领取任务。
 
 <br></br>
 
+<p align="center">
+  <img src="./Images/overall.png" alt="concurrent包的实现示意图" width=500 />
+</p>
 
-
-## Callable and Future
-----
-Java 5 introduced java.util.concurrent.Callable interface that is similar to Runnable interface but it can return any Object and able to throw Exception.
-
-Callable interface use Generic to define the return type of Object. Executors class provide useful methods to execute Callable in a thread pool. 
+<center><i>concurrent包实现示意图</i></center>
 
 <br></br>
 
 
 
-## FutureTask Class
+## 线程状态
 ----
-FutureTask is the base implementation class of Future interface and we can use it with Executors for asynchronous processing. We can just extend this class and override the methods according to our requirements.
+
+![Thread Lifecycle](./Images/thread_lifecycle.jpg)
+
+1. 可运行 runnable
+
+    线程创建后，其他线程调用该对象的`start()`，该状态线程位于可运行线程池中，等待被线程调度选中，获取CPU使用权 。
+
+2. 阻塞 block
+    
+    线程因某种原因放弃CPU使用权，暂时停止运行，阻塞情况分三种： 
+    
+        a. 等待阻塞：运行的线程执行`wait()`，JVM把该线程放入等待队列中。
+        b. 同步阻塞：运行的线程在获取对象同步锁时，若该同步锁被别的线程占用，则JVM把该线程放入锁池中。
+        c. 其他阻塞：运行的线程执行`Thread.sleep(long ms)`或`t.join()`，或发出I/O请求时，JVM把该线程置为阻塞状态。当`sleep()`超时、`join()`等待线程终止或超时、或I/O处理完毕，线程重新转入可运行状态。
+
+4. 死亡：线程`run()`、`main() `方法执行结束，或因异常退出`run()`，则线程结束生命周期。
+
+`wait()`与`sleep()`区别：
+* `wait()`是Object方法，而`sleep()`是Thread类静态方法。
+* `sleep()`使线程阻塞指定时间，当前线程让出CPU时间，时间结束后继续执行。**该过程不释放线程持有对象锁。**
+* **`wait()`释放锁并进入该锁等待队列。**当收到持有锁的其它线程`notify()`或`notifyAll()`后，`wait()`方法返回。
+
+`run()`与`start()`区别：
+* 通过调用`Thread`类的`start()`启动线程，这时线程处于就绪状态，没有运行，一旦得到时间片开始执行`run()`。
+* `run()`只是类的一个普通方法。如果直接调用`run()`，程序中依然只有主线程这一个线程，没有达到写线程的目的。
+
+<br></br>
+
+
+
+## 常用数据结构原理
+----
+### AtomicInteger, AtomicBoolean & AtomicLong
+基于**CAS**，是**乐观锁**。
+
+<br>
+
+
+### ConcurrentHashMap
+JDK 1.8前基于**segment的lock**，JDK1.8是对node使用了`volatile`保证读的**happens-before**。在写数据时，如果是新的结点，使用**CAS**，其它则用**synchronized**。
+
+<br>
+
+
+### BlockingQuque
+原理：
+* ArrayBlockingQueue - 由数组支持的有界阻塞队列。默认非公平锁，因为调用ReentrantLock构造函数创建锁。
+* SynchronousQueue - 同步队列没有任何内部容量。不能在同步队列上`peek()`；也不能迭代队列，因为其中没有元素可用于迭代。
+* LinkedBlockingQueue - 基于已链接节点的、范围任意的阻赛队列。队列头部是在队列中时间最长的元素。尾部是在队列中时间最短的元素。新元素插入队列尾部，队列检索操作会获得头部元素。
+
+> LinkedBlcokingQueue和ArrayBlockingQueue用ReentrantLock，默认非公平锁，即阻塞式队列。其中LinkedBlockingQueue使用了2个lock，takelock和putlock，读和写用不同的lock来控制，这样并发效率更高。
+
+<br>
+
+
+### ConcurrentLinkedQueue
+**CAS**，即lock-free非阻塞算法。
+
+> 一个lock-free程序能够确保执行它的所有线程中至少有一个能够继续往下执行。
+
+<br>
+
+
+### CopyOnWriteArrayList & CopyOnWriteArraySet
+复制时用lock。
+
+```java
+public boolean add(T e) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        // copy data to new array
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        // add new data into new array
+        newElements[len] = e;
+        // change old array reference
+        setArray(newElements);
+
+        return true;
+    } finally {
+        lock.unlock();
+    }
+}
+```
+
+<br>
+
+
+### AQS - Abstract Queued Synchronizer
+AQS为实现依赖于FIFO等待队列的阻塞锁和同步器（信号量、事件等）提供一个框架。
+
+设计目标是成为依靠单个原子int值表示状态的大多数同步器基础。子类须定义更改此状态受保护方法，并定义哪种状态对于此对象意味着被获取或被释放。假定这些条件后，此类中其他方法可实现所有排队和阻塞机制。子类可维护其他状态字段，但只为了获得同步而只追踪使用`getState()`、`setState(int)`和`compareAndSetState(int, int)`方法来操作以原子方式更新的int值。
+
+队列节点为：
+```java
+static final class Node {
+	static final int CANCELLED = 1;
+	static final int SIGNAL = -1;
+	static final int CONDITION = -2;
+	static final int PROPAGATE = -3;
+
+	volatile int waitStatus;
+	volatile Node prev;
+	volatile Node next;
+	volatile Thread thread;
+
+	Node nextWaiter;
+
+	Node(Thread thread, Node mode) { // Used by addWaiter
+		this.nextWaiter = mode;
+		this.thread = thread;
+	}
+
+	Node(Thread thread, int waitStatus) { // Used by Condition
+		this.waitStatus = waitStatus;
+		this.thread = thread;
+	}
+}
+```
+
+对于首尾结点（即获取释放锁和阻赛线程）和结点status设置都是类似CAS语义。
+
+
+<br>
+
+
+### HashTable
+**sychronized**
+
+<br>
+
+
+### ReentrantLock
+ReentrantLock由最近成功获取锁，还没有释放的线程所拥有。当锁被另一个线程拥有时，调用`lock()`方法线程可成功获取锁。如果锁已被当前线程拥有，当前线程立即返回。
+        
+在AQS里有一个`state`字段，在ReentrantLock中表示锁被持有的次数，是`volatile`类型整型值。一个线程持有锁，`state = 1`。如果再次调用`lock()`，那么`state = 2`。当前可重入锁要完全释放，调用多少次`lock()`，还得调用等量的`unlock()`释放锁。
+
+ReentrantLock**默认是nonfair**，当中的`lock()`是通过`static`内部类`sync`来进行锁操作：
+
+``` java
+public void lock() {
+     sync.lock();
+}
+
+// 定义成final型的成员变量，在构造方法中进行初始化 
+private final Sync sync;
+
+// 无参数默认非公平锁
+public ReentrantLock() {
+    sync = new NonfairSync();
+}
+
+// 根据参数初始化为公平锁或者非公平锁 
+public ReentrantLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+}
+```
+
+<br>
+
+
+### Synchronized
+**是fair**。
 
 <br></br>
 
@@ -46,11 +198,10 @@ FutureTask is the base implementation class of Future interface and we can use i
 public static native void yield();
 ```
 
-* 是静态原生(native)方法
-* 告诉当前正在执行的线程把运行机会交给线程池中拥有相同优先级的线程
-* 不能保证使得当前正在运行的线程迅速转换到可运行的状态
-* 它仅能使一个线程从运行状态转到可运行状态，而不是等待或阻塞状态
-* 与`sleep()`类似，但不能由用户指定暂停时间，且`yield()`方法只能让同优先级的线程有执行的机会
+* 是静态原生（native）方法。
+* 告诉当前执行的线程把运行机会交给线程池中有相同优先级的线程。
+* 仅使一个线程从运行状态转到可运行状态，而不是等待或阻塞状态。
+* 与`sleep()`类似，但不能由用户指定暂停时间，且`yield()`方法只能让同优先级的线程有执行的机会。
 
 <br>
 
@@ -58,17 +209,17 @@ public static native void yield();
 ### join()
 可使一个线程在另一个线程结束后再执行。如果`join()`方法在一个线程实例上调用，当前运行着的线程将阻塞直到这个线程实例完成了执行。
 
-在`join()`方法内设定超时，使得`join()`方法的影响在特定超时后无效。当超时时，主方法和任务线程申请运行的时候是平等的。然而，当涉及sleep时，`join()`方法依靠操作系统计时，所以不应假定`join()`方法将会等待指定的时间。像`sleep()`，`join()`通过抛出InterruptedException对中断做出回应。
+在`join()`方法内设定超时，使得`join()`方法的影响在特定超时后无效。当超时时，主方法和任务线程申请运行的时候是平等的。然而，当涉及sleep时，`join()`方法依靠操作系统计时，所以不应假定`join()`方法会等待指定的时间。`sleep()`和`join()`通过抛出InterruptedException对中断做出回应。
 
 <br>
 
 
 ### sleep()
-使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会继续执行，但不释放对象锁。注意该方法要捕捉异常。
+使当前线程（即调用该方法的线程）暂停执行一段时间，让其他线程有机会执行，但不释放对象锁。注意该方法要捕捉异常。
 
-例如有两个线程同时执行(没有synchronized)，一个线程优先级为MAX_PRIORITY，另一个为MIN_PRIORITY，如果没有Sleep()方法，只有高优先级的线程执行完毕后，低优先级的线程才能够执行；但是高优先级的线程sleep(500)后，低优先级就有机会执行了。
+例如有两个线程同时执行(没有synchronized)，一个线程优先级高过另一个。如果没有`sleep()`方法，只有高优先级线程执行完后，低优先级线程才能执行；但是高优先级的线程`sleep(500)`后，低优先级就有机会执行了。
 
-总之，sleep()可以使低优先级的线程得到执行的机会，当然也可以让同优先级、高优先级的线程有执行的机会。
+总之，`sleep()`可使低优先级线程得到执行机会，当然也可以让同优先级、高优先级的线程有执行的机会。
 
 <br></br>
 
@@ -78,183 +229,15 @@ public static native void yield();
 ----
 首先考虑可用的处理器核心数：`Runtime.getRuntime().availableProcessors()`。
 
-如果是计算密集型，则创建处理器可用核心数这么多个线程就可以 。创建更多的线程对于程序性能是不利的，因为多个线程间频繁进行上下文切换对于程序性能损耗较大。
+如果是CPU密集型，则创建处理器可用核心数这么多个线程就可以 。创建更多线程对于性能不利，因为多个线程间频繁上下文切换性能损耗大。
 
-如果任务都是IO密集型的，需要创建比处理器核心数大几倍的线程。
+如果是IO密集型，需创建比处理器核心数大几倍的线程。
 
-因此，线程数与任务处于阻塞状态的时间比例相关。任务有50%时间处于阻塞状态，那程序所需线程数是处理器核心数的两倍。计算程序所需的线程数公式如下：
-<i>线程数=CPU可用核心数/（1 - 阻塞系数），阻塞系数在0到1内（CPU密集型阻塞系数为0，IO密集型程阻塞系数接近1）</i>
-
-You really can't improve on having one thread reading the file sequentially. With one thread, you do one seek and then one long sequential read; with multiple threads you're going to have the threads causing multiple seeks as each gains control of the disk head.
-
-This is a way to parallelize the line processing while still using serial I/O to read the lines. It uses a BlockingQueue (Reading big file from disk like producer/consumer pattern) to communicate between threads; the FileTask adds lines to the queue, and the CPUTask reads them and processes them. You're using put(E e) to add strings to the queue, so if the queue is full, the FileTask blocks until space frees up; likewise you're using take() to remove items from the queue, so the CPUTask will block until an item is available.
-
-```java
-public class ReadingFile {
-    public static void main(String[] args) {
-        final int threadCount = 10;
-        BlockingQueue<String> queue = new ArrayBlockingQueue<>(200);
-
-        // create thread pool with given size
-        ExecutorService service = Executors.newFixedThreadPool(threadCount);
-
-        for (int i = 0; i < (threadCount - 1); i++) {
-            service.submit(new CPUTask(queue));
-        }
-
-        // Wait til FileTask completes
-        service.submit(new FileTask(queue)).get();
-
-        service.shutdownNow();  // interrupt CPUTasks
-
-        // Wait til CPUTasks terminate
-        service.awaitTermination(365, TimeUnit.DAYS);
-    }
-}
-
-class FileTask implements Runnable {
-    private final BlockingQueue<String> queue;
-
-    public FileTask(BlockingQueue<String> queue) {
-        this.queue = queue;
-    }
-
-    @Override
-    public void run() {
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader("D:/abc.txt"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                // block if the queue is full
-                queue.put(line);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-}
-
-class CPUTask implements Runnable {
-    private final BlockingQueue<String> queue;
-
-    public CPUTask(BlockingQueue<String> queue) {
-        this.queue = queue;
-    }
-
-    @Override
-    public void run() {
-        String line;
-        while(true) {
-            try {
-                // block if the queue is empty
-                line = queue.take(); 
-                // do things with line
-            } catch (InterruptedException ex) {
-                break; // FileTask has completed
-            }
-        }
-        // poll() returns null if the queue is empty
-        while((line = queue.poll()) != null) {
-            // do things with line;
-        }
-    }
-}
-```
+因此，线程数与任务处于阻塞状态时间比例相关。任务有50%时间处于阻塞状态，那程序所需线程数是处理器核心数两倍。计算程序所需的线程数公式如下：
+_线程数=CPU可用核心数/（1 - 阻塞系数），阻塞系数在0到1内（CPU密集型阻塞系数为0，IO密集型程阻塞系数接近1）_
 
 <br></br>
 
 
 
-## 外星方法的保护性锁
-例: 构造一个类从一个URL进行下载，并用`ProgressListeners`监听下载的进度：
 
-``` java
-class Downloader extends Thread {
-    private InputStream in;
-    private OutputStream out;
-    private ArrayList<ProgressListener> listeners;
-
-    public Downloader(URL url, String outputFilename) throws IOException {
-        in = url.openConnection().getInputStream();
-        out = new FileOutputStream(outputFilename);
-        listeners = new ArrayList<ProgressListener>();
-    }
-
-    public synchronized void addListener(ProgressListener listeners) {
-        listeners.add(listener);
-    }
-
-    public synchronized void removeListener(ProgressListener listener) {
-        listeners.remove(listener);
-    }
-
-    private synchronized void updateProgress(int n) {
-        for (ProgressListener listener: listeners)
-            listener.onProgress(n);   // 这里调用了一个外星方法
-    }
-
-    public void run() {
-        int n = 0, total = 0;
-        byte[] buffer = new byte[1024];
-
-        try {
-            while ((n = in.read(buffer)) != -1) {
-                out.write(buffer, 0, n);
-                total += n;
-                updateProgress(total);
-            }
-            out.flush();
-        } catach (IOException e) {}
-    }
-}
-```
-
-* 问题：调用了`onProgress()`这个外星方法，可能引入其他锁导致死锁。
-* 解决方案：采用保护性复制（defensive copy），即不对原始对象进行操作，而是对克隆出来的对象进行操作。
-* 注意：保护性复制是个好方法。前提是进行只读的操作，不做修改。
-
-``` java
-private void updatePrgress(int n) {
-    ArrayList<ProgressListener> listernersCopy;
-    synchronized(this) {
-        listernersCopy = (ArrayList<ProgressListener>)listeners.clone();
-    }
-    for (ProgressListener listener : listernersCopy)
-        listener.onProgress(n);
-}
-```
-
-<br></br>
-
-
-
-## 线程类的构造方法、静态块
-----
-线程类的构造方法、静态块是被new这个线程类所在的线程所调用的，而`run()`里面的代码才是被线程自身所调用的。
-
-假设`Thread2`中new了`Thread1`，`main()`中new了`Thread2`，那么：
-* `Thread2`的构造方法、静态块是`main`线程调用的，`Thread2`的`run()`是`Thread2`自己调用的。
-* `Thread1`的构造方法、静态块是`Thread2`调用的，`Thread1`的`run()`是`Thread1`自己调用的。
-
-<br></br>
-
-
-
-## 获取线程dump文件
-----
-线程dump就是线程堆栈，获取到线程堆栈有两步：
-1. 获取到线程的`pid`, 在Linux环境下还可以使用ps -ef | grep java
-2. 打印线程堆栈, 在Linux环境下还可以使用kill -3 pid
-
-Thread类提供了`getStackTrace()`用于获取线程堆栈。这是一个实例方法，因此此方法是和具体线程实例绑定的，每次获取获取到的是具体某个线程当前运行的堆栈。
-
-<br></br>

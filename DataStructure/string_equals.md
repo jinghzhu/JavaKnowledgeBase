@@ -1,11 +1,9 @@
-# <center>String的equals()</center>
+# <center>String.equals()</center>
+
+
 
 <br></br>
 
-
-
-## Solution
-----
 ```java
 public class Test {
     private int num;
@@ -14,7 +12,8 @@ public class Test {
     public boolean equals(Object obj) {
         if(this == obj)
             return true;
-        else if((obj == null) || (obj.getClass() != this.getClass())) 
+        
+        if((obj == null) || (obj.getClass() != this.getClass())) 
             return false;
         
         // object must be Test at this point
@@ -42,11 +41,11 @@ public class Test {
 ----
 1. Use `==` to check if the argument is the reference to this object. 
 
-2. Cast the method argument to the correct type. Again, the correct type may not be the same class. Also, since this step is done after the above type-check condition, it will not result in a _ClassCastException_. 
+2. Cast the method argument to correct type. The correct type may not be the same class. Also, since this step is done after above type-check condition, it will not result in a _ClassCastException_. 
 
-3. Compare significant variables of both, the argument object and this object and check if they are equal. If all of them are equal then return true, otherwise return false. Again, as mentioned earlier, while comparing these class members/variables; *primitive variables* can be compared directly with `==` after performing any necessary conversions. Whereas, *object references* can be compared by invoking their equals method recursively. Also need to ensure that invoking equals method on these object references does not result in a `NullPointerException`.
+3. Compare significant variables of both, the argument object and this object and check if they are equal. If all of them are equal then return true. Again, as mentioned, while comparing these class members/variables; *primitive variables* can be compared directly with `==` after performing any necessary conversions. Whereas, *object references* can be compared by invoking their equals method recursively. Also need to ensure that invoking equals method on these object references does not result in a `NullPointerException`.
 
-4. Do not change the type of the argument of the equals method. It takes a `java.lang.Object` as an argument, do not use your own class instead. If do that, you will not be overriding the equals method, but you will be overloading it instead; which would cause problems. 
+4. Do not change the type of argument of `equals()` method. It takes a `java.lang.Object` as an argument, do not use your own class instead. If do that, you will not be overriding `equals()` method. 
 
 5. Do override `hashCode()` method whenever you override `equals()` method.
 
@@ -58,7 +57,7 @@ public class Test {
 
 ## Immutable Class
 ----
-* All of its fields are `final` and the class is declared `final`
+* All of its fields are `final` and the class is declared `final`.
 
 * Any fields that contain references to mutable objects, such as arrays, collections, or mutable classes like Date: 
     * private

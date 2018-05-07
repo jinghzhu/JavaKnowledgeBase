@@ -93,22 +93,65 @@ public class MyWaitNotify2{
 
 
 
-## 假唤醒
+## 假唤醒 Spurious Wakeup
 ----
-线程可能在没有调用过`notify()`和`notifyAll()`的情况下醒来，这就是假唤醒（spurious wakeups）。
+，这就是假唤醒（spurious wakeups）。
 
-如果在MyWaitNotify2的`doWait()`方法里发生了假唤醒，等待线程即使没有收到正确的信号，也能够执行后续的操作。为防止假唤醒，保存信号的成员变量将在一个while循环里接受检查，而不是在if表达式里。这样的一个while循环叫做自旋锁（这种做法要慎重，JVM实现自旋会消耗CPU）。被唤醒的线程会自旋直到自旋锁（while循环）里的条件变为false。
+一般调用`wait()`方法后，需其他线程调用`notify()`或`notifyAll()`方法后，线程才会从`wait()`方法中返回。假唤醒（Spurious Wakeup）指线程通过其他方式从`wait()`方法中返回，即线程可能在没调用`notify()`和`notifyAll()`情况下醒来。
+
+下面是一个买票退票例子。线程A买票，如果没有余票，会调用`wait()`方法，线程进入等待队列。线程B进行退票，余票数量加一，然后调用`notify()`方法通知等待线程。此时线程A被唤醒执行购票操作。
+
+从程序顺序来看，`if (remainTicketNum<=0)`没有问题，但为什么会出现假唤醒呢？
+
+因为`wait()`方法分为三个操作：
+1. 释放锁并阻塞；
+2. 等待条件cond发生；
+3. 获取通知后，竞争获取锁。
+
+假设有线程A和C买票，A用`wait()`方法进入等待队列。C买票时发现B在退票，获取锁失败，C阻塞，进入阻塞队列。B退票时，余票数量+1（此时满足条件2-等待条件发生）。B调用`notify()`方法后，C马上竞争获取到锁，购票成功后余票为0。而A此时正处于`wait()`方法醒来中第三步（竞争获取锁获取锁）。当C释放锁，A获取锁后，会执行购买操作，而此时没有余票。
+
+解决办法是条件判断`while(remainTicketNum<=0)`，但问题是如果一直没有退票操作线程Notify，while语句会一直循环，CPU消耗大。
+
+```java
+public class SpuriousWakeUp {
+  static Object lock=newObject();
+  static  int remainTicketNum=0;
+
+  public void buyTicket() {
+    synchronized(lock) {
+      while(remainTicketNum<=0) { //if (remainTicketNum<=0)虚假唤醒
+        try {
+          lock.wait();
+        } catch(InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+      remainTicketNum--;
+      System.out.println(Thread.currentThread().getName() +"购买成功");
+    }
+  }
+
+  public voidreturnTicket() {
+    synchronized(lock) {
+      remainTicketNum++;
+      lock.notify();
+      System.out.println(Thread.currentThread().getName() +"退票成功");
+    }
+  }
+}
+```
+
+如果在MyWaitNotify2的`doWait()`方法里发生了假唤醒，等待线程即使没有收到正确的信号，也能够执行后续的操作。为防止假唤醒，保存信号的成员变量将在一个while循环里接受检查，而不是在if表达式里。这样的一个while循环叫做自旋锁（要慎重，JVM自旋会消耗CPU）。被唤醒线程会自旋直到自旋锁（while循环）条件false。
 
 ``` java
-public class MyWaitNotify3{
-
+public class MyWaitNotify3 {
   MonitorObject myMonitorObject = new MonitorObject();
   boolean wasSignalled = false;
 
-  public void doWait(){
-    synchronized(myMonitorObject){
-      while(!wasSignalled){
-        try{
+  public void doWait() {
+    synchronized(myMonitorObject) {
+      while(!wasSignalled ){
+        try {
           myMonitorObject.wait();
          } catch(InterruptedException e){...}
       }
@@ -117,8 +160,8 @@ public class MyWaitNotify3{
     }
   }
 
-  public void doNotify(){
-    synchronized(myMonitorObject){
+  public void doNotify() {
+    synchronized(myMonitorObject) {
       wasSignalled = true;
       myMonitorObject.notify();
     }
