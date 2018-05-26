@@ -15,17 +15,40 @@
 
 
 
+## 引用计数
+----
+在每个对象内部维护一个整数值引用计数。对象被引用时加一，不被引用时减一。为0时，自动销毁对象。
+
+主要用在C++标准库的*std::shared_ptr*、微软的COM、Objective-C和PHP中。
+
+优点：
+1. 渐进式。内存管理与程序执行在一起，将GC代价分散到整个程序。不像标记-清扫需STW。
+2. 易于实现。
+3. 内存单元能很快被回收。相比于其他GC，堆被耗尽或达到某个阈值才进行GC。
+
+缺点：
+1. 循环引用问题。
+2. 每次对象赋值都要将引用计数加一，增加消耗。
+3. 单元池free list实现不是cache-friendly。导致频繁cache miss，降低效率。
+
+<br></br>
+
+
+
 ## 标记清除 Mark-Sweep
 ----
-步骤：
+内存单元不会在变成垃圾立刻回收，而是保持不可达状态，直到到达某个阈值或固定时间长度。这时候系统会STW，转而执行GC。步骤：
 1. 标记：根据可达性分析对不可达对象进行标记
 2. 清理：回收被标记的对象所占用的空间
 
 优点：实现简单
 
 缺点：
-* 标记和清理的效率不高（因为垃圾对象比较少，大部分都不是垃圾）。
-* 产生内存碎片，导致后续需要为大对象分配空间时无法找到足够的空间而提前触发GC。
+1. 标记和清理的效率不高。因为垃圾对象比较少，大部分都不是垃圾。并且对象增多时，递归遍历整个对象树消耗很多时间。
+2. 产生内存碎片，导致后续需要为大对象分配空间时无法找到足够的空间而提前触发GC。
+3. STW。因为在标记时须暂停程序，否则其他线程代码可能改变对象状态，从而可能把不该回收的对象当做垃圾。
+
+golang 1.5以前使用这个算法。
 
 适用场景：老年代。
 
@@ -37,14 +60,16 @@
 
 ## 复制 Copying
 -----
-Copying算法为了解决Mark-Sweep缺陷。
+Copying算法是基于追踪的算法，为解决Mark-Sweep缺陷。
 
 步骤：
 1. 将堆内分成两个相同空间。
 2. 从根开始访问每一个关联的活跃对象，将空间A的活跃对象全部复制到空间B。
 3. 一次性回收整个空间A。
 
-优点：无内存碎片
+优点：
+1. 所有存活数据结构都缩并地排列在Tospace底部，不存在内存碎片问题。
+2. 获取新内存可简单通过递增自由空间指针实现。
 
 缺点：
 1. 耗时高。
@@ -91,8 +116,61 @@ Mark-Sweep-Compact算法为了解决Copying算法缺陷。
 
 
 
+## 三色标记
+----
+三色标记是Mark-Sweep改进，是并发的GC算法。
+
+步骤：
+1. 创建三个集合：白、灰、黑。
+2. 将所有对象放入白色集合。
+3. 从根节点遍历所有对象（注意不递归遍历），把遍历到的对象从白色集合放入灰色集合。
+4. 遍历灰色集合，将灰色对象引用的对象从白色集合放入灰色集合。之后将此灰色对象放入黑色集合。
+5. 重复4直到灰色集合无对象。
+6. 通过write-barrier检测对象如果有变化，重复以上操作。
+7. 收集所有白色对象（垃圾）。
+
+<p align="center">
+  <iframe height=690 width=860 src="./Images/gc1.gif">
+</p>
+
+优点：可实现*on-the-fly*，即程序运行同时进行收集，不需要暂停整个程序。
+
+缺点：可能垃圾产生速度大于GC速度，导致程序垃圾越来越多无法被收集。
+
+使用这种算法的是Go 1.5及以后。
+
+<p align="center">
+  <img src="./Images/gc2.png" width = "400"/>
+</p>
+
+注意：
+1. 首先从root开始遍历，root包括全局指针和goroutine栈上指针。
+2. mark有两个过程：
+    1. 从root开始遍历，标记为灰色。遍历灰色队列。
+    2. re-scan全局指针和栈。因为mark和用户程序并行，所以在过程1时可能会新对象分配。这时需通过写屏障（write barrier）记录。re-scan再完成检查一下。
+3. STW有两个过程：
+    1. GC将要开始时，主要是一些准备工作，比如enable write barrier。
+    2. 是re-scan过程。如果这时候没有STW，那么mark将无休止。
+4. 针对上图各阶段对应GCPhase如下：
+    * Off: _GCoff
+    * Stack scan ~ Mark: _GCmark
+    * Mark termination: _GCmarktermination
+
+<br>
+
+
+### 写屏障 Write Barrier
+GC中的Write Barrier可理解为编译器在写操作时特意插入一段代码。之所以需要Write Barrier，因为对于和用户程序并发运行的GC，用户程序会一直修改内存，所以需记录。
+
+Golang 1.7前Write Barrier使用的经典*Dijkstra-style insertion write barrier [Dijkstra ‘78]*。STW 主要耗时在stack re-scan过程。1.8后采用混合Write Barrier方式 （Yuasa-style deletion write barrier [Yuasa ‘90] 和 Dijkstra-style insertion write barrier [Dijkstra ‘78]）避免re-scan。
+
+<br></br>
+
+
+
 ## 分代收集 Generational Collection
 ----
+主要用于JVM和.Net。
 
  ![Generation1](./Images/generation1.png)
 
