@@ -35,12 +35,6 @@ This feature adds the same set of sorting operations currently provided by the A
 <br>
 
 
-### ConcurrentHashMap
-`ConcurrentHashMap` class introduces over 30 new methods in this release. These include various forEach methods (`forEach`, `forEachKey`, `forEachValue`, and `forEachEntry`), and search methods (`search`, `searchKeys`, `searchValues`, and `searchEntries`).
-
-<br>
-
-
 ### Performance Improvement for HashMaps with Key Collisions
 Hash bins containing a large number of colliding keys improve performance by storing their entries in a balanced tree instead of a linked list. JDK 8 change applies only to HashMap, LinkedHashMap, and ConcurrentHashMap.
 

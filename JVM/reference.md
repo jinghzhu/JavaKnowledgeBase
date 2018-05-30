@@ -19,41 +19,13 @@ Object obj = new Object();
 String str = "hello";
 ```
 
-只要某个对象有强引用与之关联，JVM必定不会回收这个对象，即使在内存不足的情况下，JVM宁愿抛出OOM也不会回收这种对象。如果想中断强引用和某个对象的关联，可以显示地将引用赋值为`null`， 比如Vector类的`clear()`方法：
-
-```java
-public synchronized E remove(int index) {
-    modCount++;
-    if (index >= elementCount)
-        throw new ArrayIndexOutOfBoundsExpection(index);
-    Object oldValue = elementData(index);
-    int numMoved = elementCount - index - 1;
-    if (numMoved > 0)
-        System.arraycopy(elementData, index + 1, elementData, index, numMoved);
-    elementData[--elementCount] = null; // let gc do its work
-
-    return (E)oldValue;
-}
-```
+只要某个对象有强引用与之关联，JVM必定不会回收这个对象，即使在内存不足的情况下，JVM宁愿抛出OOM也不会回收这种对象。如果想中断强引用和某个对象的关联，可以显示地将引用赋值为`null`。
 
 <br>
 
 
 ### SoftReference 软引用
 软引用是一些有用但不是必需的对象，用`java.lang.ref.SoftReference`类表示。软引用对象，只有内存不足时JVM才会回收，适合实现缓存。
-
-软引用可和一个引用队列（ReferenceQueue）联合使用。如果软引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中：
-
-```java
-import java.lang.ref.SoftReference;
-
-public class Main {
-    public static void main(String[] args) {
-        SoftReference<String> ar = new SoftReference<String>(new String("hello"));
-        System.out.println(sr.get());
-    }
-}
-```
 
 <br>
 

@@ -44,7 +44,7 @@
 4. 注解处理器不能修改已存在的Java文件，也不能对方法做修改或添加。
 
 <p align="center">
-  <img src="./Images/annotation2.png" width = "400"/>
+  <img src="./Images/annotation2.png" width = "500"/>
 </p>
 
 <br>

@@ -9,10 +9,10 @@
 
 | 类型  | 存储需求 | bit数  |    存储数据量     |        取值范围   |
 | :--: | :------:| :---: | :--------------: | :-----------------: |
-| byte  | 1字节  | 1 * 8  |  $$256=2^{8}$$   | -128 ~ 127         |
-| short | 2字节  | 2 * 8  | $$65536=2^{16}$$ | $$-32768 = -2^{15}$$ ~ $$32767 = 2^{15} - 1$$ |
-| int   |  4字节 | 4 * 8  | $$2^{32}$$       | $$-2^{31}$$ ~ $$2^{31} - 1$$ (0x8000 0000 ~ 0x7FFF FFFF) |
-| long   |  8字节 | 8 * 8 | $$2^{64}$$       | $$-2^{63}$$ ~ $$2^{63} - 1 $$ |
+| byte  | 1字节  | 1 * 8  |  $$ 256=2^{8} $$   | -128 ~ 127         |
+| short | 2字节  | 2 * 8  | $$ 65536=2^{16} $$ | $$ -32768 = -2^{15} $$ ~ $$32767 = 2^{15} - 1 $$ |
+| int   |  4字节 | 4 * 8  | $$ 2^{32} $$       | $$ -2^{31} $$ ~ $$ 2^{31} - 1 $$ (0x8000 0000 ~ 0x7FFF FFFF) |
+| long   |  8字节 | 8 * 8 | $$ 2^{64} $$       | $$ -2^{63} $$ ~ $$ 2^{63} - 1 $$ |
 | float  | 4字节  | 4 * 8 |                  | float类型数值有一个后缀F(例如：3.14F) |
 | double | 8字节  | 8 * 8 |                  |                    |
 | char   | 2字节  | 2 * 8 |                  |                      |
@@ -87,92 +87,8 @@ public class ASCII {
 ----
 1. foreach遍历集合时，集合须实现Iterator接口。
 2. foreach遍历集合时不能向集合增加删除元素，否则会抛出ConcurrentModificationException异常。
-3. for效率最好，尤其是实现RandomAccess接口的collection。但在LinkedList中，Iterator效果更好；foreach效率最差，因为其实现一个Enum，每次都要调用。
+3. for效率最好，尤其是实现RandomAccess接口的collection。
 4. foreach遍历对象时可以修改对象属性值，但不能修改对象引用。
-
-<br></br>
-
-
-
-## 面向对象特征
----- 
-1. 抽象(abstraction)：抽象是忽略一个主题中与当前目标无关的那些方面，以便更充分地注意与当前目标有关的方面。
-2. 继承(inheritance)
-3. 封装(encapsulation)。
-4. 多态(polymorphism)
-
-<br></br>
-
-
-
-## Composition 组合
-----
-通过在类中直接使用另一个类的对象来达到重用代码的目的。Composition用在新类中使用已有类的功能，而不是使用已有类接口。这时，在新类中嵌入已有类对象，完成想要的功能。Composition常表述为*HAS-A*关系。
-
-One of the best practices is to “favor composition over inheritance”:
-1. Any change in the superclass might affect subclass. If we have a method `test()` in subclass and somebody introduces a method `test()` in superclass, we will get compilation errors in subclass. Composition will never face this issue because we are using only what methods we need.
-
-2. Inheritance exposes all super class methods and variables to client, it can lead to security holes. Composition allows us to provide restricted access to the methods.
-
-3. We can get runtime binding in composition where inheritance binds classes at compile time. So composition provides flexibility in invocation of methods.
-
-什么时候用继承？什么时候用组合？
-1. 如果存在*IS-A*关系（比如Bee是一个Insect），且类需向另一个类暴露所有方法接口，用继承。
-2. 如果存在*HAS-A*关系（比如Bee有一个attack功能），用组合。
-
-定义一个`Battery`类，并用`power`表示电量。`Battery`可以充电`chargeBattery()`和使用`useBattery()`。`Torch`类定义中使用`Battery`类型对象作为数据成员：
-```java
-class Battery {
-    public void chargeBattery(double p) {
-        if (this.power < 1.)
-            this.power = this.power + p;
-    }
-    public boolean useBattery(double p) {
-        if (this.power >= p) {
-            this.power = this.power - p;
-            return true;
-        } else {
-            this.power = 0.0;
-            return false;
-        }
-    }
-
-    private double power = 0.0;
-}
-
-class Torch {
-    /** 
-     * 10% power per hour use
-     * warning when out of power
-     */
-    public void turnOn(int hours) {
-        boolean usable;
-        usable = this.theBattery.useBattery( hours*0.1 );
-        if (usable != true)
-            System.out.println("No more usable, must charge!");
-    }
-
-    /**
-     * 20% power per hour charge
-     */
-    public void charge(int hours) {
-        this.theBattery.chargeBattery( hours*0.2 );
-    }
-
-    /**
-     * composition
-     */
-    private Battery theBattery = new Battery();
-}
-```
-
-`Torch`类使用一个`Battery`类型的对象(`theBattery`)作为数据成员。在`Torch`方法中，通过操纵`theBattery`对象接口，实现`Battery`类提供的功能。上述关系表示成:
-
-<p align="center">
-  <img src="./Images/composition1.jpg" />
-</p>
-
-通过组合，可复用Battery相关代码。假如还有其他使用Battery的类，比如手机，都可将Battery对象组合进去。这样就不用为每个类单独编写相关功能。
 
 <br></br>
 
@@ -272,9 +188,9 @@ public class Student implements Cloneable {
 ----
 * 变量: A static variable is a class variable and doesn’t belong to Object/instance of the class.
 
-* 方法: Same as static variables, static methods belong to class and not to class instances. **A static method can access only static variables of class and invoke only static methods of the class. 即使没有声明为static，类构造器也是静态方法。**
+* 方法: **Same as static variables. A static method can access only static variables of class and invoke only static methods of the class. 即使没有声明为static，类构造器也是静态方法。**
 
-* Block: is the group of statements that gets executed when the class is loaded into memory by Java ClassLoader.
+* Block: The group of statements that gets executed when class is loaded into memory by Java ClassLoader.
 
 * Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes.
 

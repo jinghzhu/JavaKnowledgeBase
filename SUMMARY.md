@@ -2,11 +2,12 @@
 
 * [Fundanmental](/Fundamental/fundanmental.md)
   * [Annotation & Reflection](/Fundamental/annotation_reflection.md)
-  * [Upcast & Downcast](/Fundamental/upcast_downcast.md)
-  * [Class](/Fundamental/class.md)
-  * [Serializable](/Fundamental/serializable.md)
-  * [Pass By Value](/Fundamental/pass_by_value.md)
   * [Changelog](/Fundamental/changelog.md)
+  * [Class](/Fundamental/class.md)
+  * [Pass By Value](/Fundamental/pass_by_value.md)
+  * [Serializable](/Fundamental/serializable.md)
+  * [Upcast & Downcast](/Fundamental/upcast_downcast.md)
+
 
 * [Data Structure]()
   * [Collection](/DataStructure/collection.md)
@@ -42,9 +43,9 @@
 
 
 * [JVM](/JVM/jvm.md)
-  * [Reference](/JVM/reference.md)
   * [Garbage Collector](/JVM/gc.md)
   * [Memory Model](/JVM/jmm.md)
+  * [Reference](/JVM/reference.md)
   
   
 * [Advanced]()
@@ -54,5 +55,6 @@
   * [Inner Class](/Advanced/nested_class.md)
   * [enum](/Advanced/enum.md)
   
+
 * [Practice](/Practice/practice.md)
   * [Troubleshooting OOM](/Practice/oom.md)

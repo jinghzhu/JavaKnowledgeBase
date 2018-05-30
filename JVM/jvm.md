@@ -147,7 +147,7 @@ JMM对正确同步的多线程程序的内存一致性做了如下保证：如�
 <br>
 
 
-### 同步程序的、执行特性
+### 同步程序的执行特性
 
 ``` java
 class SynchronizedExample {

@@ -18,7 +18,7 @@
 * Java 1.5
 * Unbounded queue based on a priority heap.
 * The elements are ordered by default in natural order or we can provide a Comparator for ordering at the time of instantiation of queue.
-* Doesn’t allow `null` values and we can’t create PriorityQueue of bbjects that are non-comparable.
+* Doesn’t allow `null` values and we can’t create PriorityQueue of objects that are non-comparable.
 * No thread safe or we can use PriorityBlockingQueue.
 * _O(log(n))_ for enqueing and dequeing; _O(nlog(n))_ to go through entire queue.
 
@@ -82,7 +82,6 @@ For Map key:
 * 再哈希
 * 拉链法
 * 公共溢出区：分为基本表和溢出表，和基本表发生冲突填入溢出表
-* Rehash
 
 <br></br> 
 

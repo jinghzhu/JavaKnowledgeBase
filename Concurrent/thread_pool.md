@@ -9,17 +9,16 @@
 * ForkJoinPool：
     * JDK1.7引入；
     * 大任务分割成小任务；
-    * 工作窃取（work-stealing）算法。
+    * 工作窃取算法。
 
 * ExecutorService：
 
 ![Overall of ExecutorService](./Images/executorservice_workflow.png)
 
-
-    * 使用工厂方法创建不同线程池。
-    * 线程池把任务封装成FutureTask对象。
-    * 工作线程在`run()`方法中循环，从线程池领取可执行的task，调用task的`run()`方法执行。
-    * FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务结果返回给FutureTask的`result`变量。
+* 使用工厂方法创建不同线程池。
+* 线程池把任务封装成FutureTask对象。
+* 工作线程在`run()`方法中循环，从线程池领取可执行的task，调用task的`run()`方法执行。
+* FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务结果返回给FutureTask的`result`变量。
 
 <br></br>
 

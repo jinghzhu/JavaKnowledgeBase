@@ -52,11 +52,10 @@
 ----
 * synchronized是Java语言特性，得到虚拟机直接支持。ReentrantLock是concurrent包下的类。
 * synchronized进入退出同步方法代码块时会自动获取释放锁。ReentrantLock须显式获取锁，且要在finally中显式释放锁。
-* 在资源竞争不是很激烈的情况下，synchronized性能优于ReetrantLock。但在资源竞争激烈情况下，synchronized性能会下降几十倍，但是ReetrantLock性能维持常态。
 * ReentrantLock提供更大灵活性：
     * 可通过`tryLock()`实现轮询或定时获取锁，避免死锁发生；
     * `lockInterruptibly()`能在获取锁过程中保持对中断响应；
-    * synchronized方法和synchronized块都基于块结构加锁，ReentrantLock可用于非块结构加锁（例如ConcurrentHashMap中分段锁）；
+    * synchronized方法和synchronized块都基于块结构加锁，ReentrantLock可用于非块结构加锁；
     * synchronized使用内置锁和ReentrantLock默认都是非公平，ReentrantLock可选择公平锁。
 * Lock对应synchronized，使用之前都要先获取锁：
 

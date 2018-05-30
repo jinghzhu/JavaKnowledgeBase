@@ -4,7 +4,6 @@
 
 <br></br>
 
-* String池不属于堆和栈，属于常量池。
 * StringBuilder和StringBuffer都继承自AbstractStringBuilder类，底层都是char数组操作。StringBuffer线程安全是所有方法都加Synchronized。
 
 <br></br>
@@ -17,9 +16,9 @@ String Pool is possible only because String is immutable and it’s the implemen
 
 > String pool is also example of Flyweight design pattern.
 
-When we use double quotes to create a String(`String str = "test"`), it firstly looks for String with same value in String pool. If found, it returns the reference else it creates a new String in pool and then returns the reference.
+When we use double quotes to create a String (`String str = "test"`), it firstly looks for String with same value in String pool. If found, it returns the reference else it creates a new String in pool and then returns the reference.
 
-However using `new` operator, we force String class to create a new String object in heap and then we can use `intern()` method to put it into pool or refer to other String object from pool having same value.
+However, using `new` operator, we force String class to create a new String object in heap and then we can use `intern()` method to put it into pool or refer to other String object from pool having same value.
 
 <br></br>
 
