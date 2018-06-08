@@ -17,7 +17,7 @@
 ## Annotation
 ----
 <p align="center">
-  <img src="./Images/annotation1.jpg" />
+  <img src="./Images/annotation1.jpg" width = "900"/>
 </p>
 
 概念：
@@ -118,9 +118,9 @@ public static int dataexample = 1;
 `Status`类：
 ```java
 public class Status {
-@IConfig(name = "ontime.starttime", type = IConfig.DInteger)
-public static int data = 1;
-public static final int d = 2;
+    @IConfig(name = "ontime.starttime", type = IConfig.DInteger)
+    public static int data = 1;
+    public static final int d = 2;
 }
 ```
 

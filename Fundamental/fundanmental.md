@@ -9,28 +9,14 @@
 
 | 类型  | 存储需求 | bit数  |    存储数据量     |        取值范围   |
 | :--: | :------:| :---: | :--------------: | :-----------------: |
-| byte  | 1字节  | 1 * 8  |  $$ 256=2^{8} $$   | -128 ~ 127         |
-| short | 2字节  | 2 * 8  | $$ 65536=2^{16} $$ | $$ -32768 = -2^{15} $$ ~ $$32767 = 2^{15} - 1 $$ |
-| int   |  4字节 | 4 * 8  | $$ 2^{32} $$       | $$ -2^{31} $$ ~ $$ 2^{31} - 1 $$ (0x8000 0000 ~ 0x7FFF FFFF) |
-| long   |  8字节 | 8 * 8 | $$ 2^{64} $$       | $$ -2^{63} $$ ~ $$ 2^{63} - 1 $$ |
+| byte  | 1字节  | 1 * 8  |  256=2^{8}   | -128 ~ 127         |
+| short | 2字节  | 2 * 8  | 65536=2^{16} | -32768 = -2^{15} ~ $$32767 = 2^{15} - 1 |
+| int   |  4字节 | 4 * 8  | 2^{32}       | -2^{31} ~ 2^{31} - 1 (0x8000 0000 ~ 0x7FFF FFFF) |
+| long   |  8字节 | 8 * 8 | 2^{64}       | -2^{63} ~ 2^{63} - 1 |
 | float  | 4字节  | 4 * 8 |                  | float类型数值有一个后缀F(例如：3.14F) |
 | double | 8字节  | 8 * 8 |                  |                    |
 | char   | 2字节  | 2 * 8 |                  |                      |
 | boolean | 1字节 | 1 * 8 |                  |                     |
-
-``` java
-for(int i=0;i<t;i++) {
-                long x=sc.nextLong();
-                if(x>=-128 && x<=127)
-                	System.out.println("* byte");
-                if(x >= -Math.pow(2, 15) && x <= Math.pow(2, 15) - 1)
-                	System.out.println("* short");
-                if(x >= -Math.pow(2, 31) && x <= Math.pow(2, 31) - 1)
-                	System.out.println("* int");
-                if(x >= -Math.pow(2, 63) && x <= Math.pow(2, 63) - 1)
-                	System.out.println("* long");
-}
-```
 
 ASCII码：
 ``` java
@@ -186,7 +172,7 @@ public class Student implements Cloneable {
 
 ## static
 ----
-* 变量: A static variable is a class variable and doesn’t belong to Object/instance of the class.
+* 变量: A static variable is a class variable and doesn’t belong to Object instance of the class.
 
 * 方法: **Same as static variables. A static method can access only static variables of class and invoke only static methods of the class. 即使没有声明为static，类构造器也是静态方法。**
 

@@ -21,8 +21,8 @@
   * [Blocking Queue](/Concurrent/blockingqueue.md)
   * [CAS](/Concurrent/cas.md)
   * [Concurrent Memory Model](/Concurrent/con_mem_mdl.md)
-  * [ConcurrentHashMap (before JDK 1.8)](/Concurrent/concurrenthashmap_7.md)
-  * [ConcurrentHashMap (JDK 1.8)](/Concurrent/concurrenthashmap_8.md)
+  * [ConcurrentHashMap (1.7-)](/Concurrent/concurrenthashmap_7.md)
+  * [ConcurrentHashMap (1.8+)](/Concurrent/concurrenthashmap_8.md)
   * [final](/Concurrent/final.md)
   * [JVM Lock](/Concurrent/lock.md)
   * [ReentrantLock](/Concurrent/reentrantLock.md)
@@ -45,6 +45,7 @@
 * [JVM](/JVM/jvm.md)
   * [Garbage Collector](/JVM/gc.md)
   * [Memory Model](/JVM/jmm.md)
+  * [Memory Barrier](/JVM/memory_barrier.md)
   * [Reference](/JVM/reference.md)
   
   

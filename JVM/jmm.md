@@ -1,7 +1,5 @@
 # <center>Memory Model</center>
 
-
-
 <br></br>
 
 <p align="center">

@@ -4,6 +4,11 @@
 
 <br></br>
 
+如果分析concurrent包源码，会发现通用化实现模式：
+* 首先，声明共享变量为volatile；
+* 然后，使用CAS原子条件更新来实现线程间同步；
+* 同时，配合以volatile读写和CAS具有的volatile读写内存语义实现线程通信。
+
 <p align="center">
   <img src="./Images/overall.png" alt="concurrent包的实现示意图" width=500 />
 </p>

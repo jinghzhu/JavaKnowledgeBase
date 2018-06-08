@@ -84,26 +84,6 @@ Copying算法是基于追踪的算法，为解决Mark-Sweep缺陷。
 
 
 
-## 标记压缩 Mark-Compact
-----
-完成标记后，不是直接清理可回收对象，而将存活对象向一端移动，然后清理掉端边界以外的内存。
-
-步骤：
-1. 在标记好待回收对象后，将存活的对象移至一端。
-2. 然后对剩余的部分进行回收。
-
-优点：可解决内存碎片问题。
-
-缺点：耗时高。
-
-适用场景：基于Mark-Compact的GC多用于老年代
-
- ![Mark-Compact](./Images/mark_compact.png)
-
-<br></br>
-
-
-
 ## 标记-整理-压缩 Mark-Sweep-Compact
 ----
 Mark-Sweep-Compact算法为了解决Copying算法缺陷。
@@ -130,7 +110,7 @@ Mark-Sweep-Compact算法为了解决Copying算法缺陷。
 7. 收集所有白色对象（垃圾）。
 
 <p align="center">
-  <iframe height=690 width=860 src="./Images/gc1.gif">
+  <iframe height=380 width=500 src="./Images/gc1.gif">
 </p>
 
 优点：可实现*on-the-fly*，即程序运行同时进行收集，不需要暂停整个程序。

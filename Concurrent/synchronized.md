@@ -21,7 +21,6 @@
 * Wait Set：调用`wait()`方法被阻塞的线程放置到Wait Set。
 * OnDeck：任何时刻最多只能有一个线程竞争锁，该线程称为OnDeck。
 * Owner：获得锁线程称为Owner。
-* !Owner：释放锁的线程。
 
 ![Synchronized](./Images/synchronized.png)
 
@@ -50,7 +49,7 @@
 
 ## synchronized vs ReentrantLock
 ----
-* synchronized是Java语言特性，得到虚拟机直接支持。ReentrantLock是concurrent包下的类。
+* synchronized是Java语言特性。ReentrantLock是concurrent包下的类。
 * synchronized进入退出同步方法代码块时会自动获取释放锁。ReentrantLock须显式获取锁，且要在finally中显式释放锁。
 * ReentrantLock提供更大灵活性：
     * 可通过`tryLock()`实现轮询或定时获取锁，避免死锁发生；

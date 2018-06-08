@@ -32,12 +32,6 @@ Most classes are thread safe and immutable.
 ### Parallel Array Sorting
 This feature adds the same set of sorting operations currently provided by the Arrays class, but with a parallel implementation that utilizes the Fork/Join framework. The methods are called `parallelSort()` and are overloaded for all the primitive data types and Comparable objects.
 
-<br>
-
-
-### Performance Improvement for HashMaps with Key Collisions
-Hash bins containing a large number of colliding keys improve performance by storing their entries in a balanced tree instead of a linked list. JDK 8 change applies only to HashMap, LinkedHashMap, and ConcurrentHashMap.
-
 <br></br>
 
 

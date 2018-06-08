@@ -16,22 +16,11 @@
 
 
 
-## 面向对象特征
----- 
-1. 抽象 Abstraction：忽略主题中与当前目标无关的方面，以便注意与当前目标有关的。
-2. 继承 Inheritance
-3. 封装 Encapsulation
-4. 多态 Polymorphism
-
-<br></br>
-
-
-
 ## Composition 组合
 ----
-通过在类中直接使用另一个类的对象来达到重用代码的目的。Composition用在新类中使用已有类的功能，而不是使用已有类接口。这时，在新类中嵌入已有类对象，完成想要的功能。Composition常表述为*HAS-A*关系。
+Composition用在新类中使用已有类的功能，而不是使用已有类接口。这时，在新类中嵌入已有类对象，完成想要的功能。Composition常表述为*HAS-A*关系。
 
-One of the best practices is to “favor composition over inheritance”:
+Why favor composition over inheritance:
 1. Any change in the superclass might affect subclass. Composition will never face this issue because we are using only what methods we need.
 
 2. Inheritance exposes all super class methods and variables to client, it can lead to security holes. Composition allows us to provide restricted access to the methods.

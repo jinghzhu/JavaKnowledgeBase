@@ -6,7 +6,7 @@
 
 * 悲观锁。
 * synchronized可重入，ReentrantLock不是。
-* synchronized是Java语言特性，得到虚拟机直接支持。ReentrantLock是concurrent包下的类。
+* synchronized是Java语言特性。ReentrantLock是concurrent包下的类。
 * ReentrantLock实例化内部类Sync（fair或nofair），Sync类基于AQS。
 * 公平锁和非公平锁释放时，最后都要写一个volatile变量`state`。
 * 公平锁获取时，首先读这个volatile变量。
@@ -20,9 +20,8 @@
 
 ## synchronized vs ReentrantLock
 ----
-* synchronized是Java语言特性，得到虚拟机直接支持。ReentrantLock是concurrent包下的类。
+* synchronized是Java语言特性。ReentrantLock是concurrent包下的类。
 * synchronized进入退出同步方法代码块时会自动获取释放锁。ReentrantLock须显式获取锁，且要在finally中显式释放锁。
-* 在资源竞争不是很激烈的情况下，synchronized性能优于ReetrantLock。但在资源竞争激烈情况下，synchronized性能会下降几十倍，但是ReetrantLock性能维持常态。
 * ReentrantLock提供更大灵活性：
     * 可通过`tryLock()`实现轮询或定时获取锁，避免死锁发生；
     * `lockInterruptibly()`能在获取锁过程中保持对中断响应；
@@ -35,47 +34,6 @@
 | 休眠        |   wait     |  await     |
 | 唤醒单个线程 |   notify   |  signal    |
 | 唤醒所有线程 |  notifyAll | signalAll  |
-
-<br></br>
-
-
-
-## 可重入锁
-----
-
-```java
-public class Child extends Father implements Runnable {
-	final static Child child = new Child(); // 保证锁唯一
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 50; i++)
-			new Thread(child).start();
-	}
-
-	public synchronized void doSomething() {
-		System.out.println("1child.doSomething()");
-		doAnotherThing(); // 调用自己类中其他synchronized方法
-	}
-
-	private synchronized void doAnotherThing() {
-		super.doSomething(); // 调用父类synchronized方法
-		System.out.println("3child.doAnotherThing()");
-	}
-
-	@Override
-	public void run() {
-		child.doSomething();
-	}
-}
-
-class Father {
-	public synchronized void doSomething() {
-		System.out.println("2father.doSomething()");
-	}
-}
-```
-
-锁都是`child`对象。当执行`child.doSomething()`时，该线程获得`child`对象锁。在`doSomething()`方法内执行`doAnotherThing()`时再请求`child`对象锁。因为synchronized是重入锁，所以可得该锁。继续在`doAnotherThing()`执行父类`doSomething()`方法时第三次请求`child`对象锁，同理可得。如果不是重入锁，后面两次请求锁会被阻塞，导致死锁。 
 
 <br></br>
 
@@ -307,71 +265,6 @@ public class Interruptible {
         t1.start(); t2.start();
         Thread.sleep(2000);
         t1.interrupt(); t2.interrupt();  // 可以中断线程
-    }
-}
-```
-
-<br></br>
-
-
-
-## 交替锁
-----
-链表需插入一个节点，一种做法是锁整个链表，效率低。交替锁只锁住链表一部分。在链表中交替加锁过程为不断的加锁和解锁，直到找到要插入的位置对两边的节点加锁。
-
-<p align="center">
-  <img src="./Images/alternate_lock.png" alt="交替锁"/>
-</p>
-
-内置锁无法完成这种效果，可用ReentrantLock在需要地方使用`lock()`和`unlock()`。
-
-```java
-class ConcurrentSortedList {
-    private class Node {
-        int value;
-        Node prev, next;
-        ReentrantLock lock = new ReentrantLock();
-
-        Node(int value, Node prev, Node next) {
-            this.value =value; this.prev = prev; this.next = next;
-        }
-    }
-
-    private final Node head;
-    private final Node tail;
-
-    public ConcurrentSortedList() {
-        head = new Node(); tail = new Node();
-        head.next = tail; tail.prev = head;
-    }
-
-    public void insert(int value) {
-        Node current = head;
-        current.lock.lock();
-        Node next = current.next;
-        try {
-            while (true) {
-                next.lock.lock();
-                try {
-                    // 找到插入位置则插入且跳出while
-                    // 否则获取锁判断，再在finally中释放锁
-                    if (next == tail || next.value < value) {
-                        Node node = new Node(value, current, next);
-                        next.prev = node;
-                        current.next = node;
-
-                        return;
-                    }
-                } finally {
-                    current.lock.lock();
-                }
-                current = next;
-                next = current.next;
-            }
-            finally {
-                next.lock.unlock();  // 未找到插入位置，则释放锁
-            }
-        }
     }
 }
 ```
