@@ -82,12 +82,6 @@ Javadoc现支持在API文档中进行搜索。另外，Javadoc输出符合兼容
 <br>
 
 
-### HTTP/2
-有新方式处理HTTP调用，用于代替`HttpURLConnection` API，并提供对WebSocket和HTTP/2支持。
-
-<br>
-
-
 ### 多版本兼容JAR
 当新版本Java出现时，库用户要花费很久才会切换到新版本。意味着库得向后兼容想要支持的老Java版本。如今，多版本兼容JAR功能能创建仅在特定版本Java环境中运行库程序时选择使用的class版本：
 
@@ -121,19 +115,6 @@ List<String> list = new ArrayList<String>();
 ```java
 var list = new ArrayList<String>();
 ```
-
-<br>
-
-
-### 将JDK生态整合单个代码库
-
-<br>
-
-
-### GC优化
-一个干净的垃圾收集器接口，用来改善垃圾收集器源代码之间的隔离效果。为HotSpot中内部垃圾收集代码提供更好模块化功能，也可更容易向HotSpot添加新的垃圾收集器。
-
-此外，实现并行、完整G1垃圾收集器，通过实现并行性来改善最坏情况下的延迟问题。
 
 <br>
 

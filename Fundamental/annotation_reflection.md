@@ -17,7 +17,7 @@
 ## Annotation
 ----
 <p align="center">
-  <img src="./Images/annotation1.jpg" width = "900"/>
+  <img src="./Images/annotation1.jpg" width = "1100"/>
 </p>
 
 概念：

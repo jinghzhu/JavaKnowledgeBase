@@ -7,16 +7,16 @@
 ## 常用类型
 ----
 
-| 类型  | 存储需求 | bit数  |    存储数据量     |        取值范围   |
-| :--: | :------:| :---: | :--------------: | :-----------------: |
-| byte  | 1字节  | 1 * 8  |  256=2^{8}   | -128 ~ 127         |
-| short | 2字节  | 2 * 8  | 65536=2^{16} | -32768 = -2^{15} ~ $$32767 = 2^{15} - 1 |
-| int   |  4字节 | 4 * 8  | 2^{32}       | -2^{31} ~ 2^{31} - 1 (0x8000 0000 ~ 0x7FFF FFFF) |
-| long   |  8字节 | 8 * 8 | 2^{64}       | -2^{63} ~ 2^{63} - 1 |
-| float  | 4字节  | 4 * 8 |                  | float类型数值有一个后缀F(例如：3.14F) |
-| double | 8字节  | 8 * 8 |                  |                    |
-| char   | 2字节  | 2 * 8 |                  |                      |
-| boolean | 1字节 | 1 * 8 |                  |                     |
+|   类型   | 存储需求  | bit数  |    存储数据量       |        取值范围   |
+| :-----: | :------: | :----: | :--------------: | :-----------------: |
+| byte    | 1字节     | 1 * 8  |  256=$$2^{8}$$   | -128 ~ 127         |
+| short   | 2字节     | 2 * 8  | 65536=$$2^{16}$$ | -32768 = $$-2^{15}$$ ~ 32767 = $$2^{15} - 1$$ |
+| int     |  4字节    | 4 * 8  | $$2^{32} $$      | $$-2^{31}$$ ~ $$2^{31} - 1$$ (0x8000 0000 ~ 0x7FFF FFFF) |
+| long    |  8字节    | 8 * 8  | $$2^{64}$$       | $$-2^{63}$$ ~ $$2^{63} - 1$$ |
+| float   | 4字节     | 4 * 8  |                  | float类型数值有一个后缀F(例如：3.14F) |
+| double  | 8字节     | 8 * 8  |                  |                    |
+| char    | 2字节     | 2 * 8  |                  |                      |
+| boolean | 1字节     | 1 * 8  |                  |                     |
 
 ASCII码：
 ``` java
@@ -176,17 +176,7 @@ public class Student implements Cloneable {
 
 * 方法: **Same as static variables. A static method can access only static variables of class and invoke only static methods of the class. 即使没有声明为static，类构造器也是静态方法。**
 
-* Block: The group of statements that gets executed when class is loaded into memory by Java ClassLoader.
-
 * Class: We can use static keyword with nested classes. static keyword can’t be used with top-level classes.
-
-<br></br>
-
-
-
-## Marker Interface
-----
-A marker interface is an empty interface without any method but used to force some functionality in implementing classes by Java. Some of the well known marker interfaces are Serializable and Cloneable.
 
 <br></br>
 

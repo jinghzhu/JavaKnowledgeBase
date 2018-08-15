@@ -18,7 +18,7 @@
 
 ## Composition 组合
 ----
-Composition用在新类中使用已有类的功能，而不是使用已有类接口。这时，在新类中嵌入已有类对象，完成想要的功能。Composition常表述为*HAS-A*关系。
+Composition用在新类中使用已有类的功能，而不是使用已有类接口。Composition表述*HAS-A*关系。
 
 Why favor composition over inheritance:
 1. Any change in the superclass might affect subclass. Composition will never face this issue because we are using only what methods we need.

@@ -13,11 +13,10 @@ public class Test {
         if(this == obj)
             return true;
         
-        if((obj == null) || (obj.getClass() != this.getClass())) 
+        if(obj == null || obj.getClass() != this.getClass()) 
             return false;
         
-        // object must be Test at this point
-        Test test = (Test)obj;
+        Test test = (Test)obj; // object must be Test.
 
         return num == test.num &&
          (data == test.data || (data != null && data.equals(test.data)));
