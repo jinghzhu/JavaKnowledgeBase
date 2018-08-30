@@ -5,7 +5,6 @@
 <br></br>
 
 * 悲观锁。
-* synchronized可重入，ReentrantLock不是。
 * synchronized是Java语言特性。ReentrantLock是concurrent包下的类。
 * ReentrantLock实例化内部类Sync（fair或nofair），Sync类基于AQS。
 * 公平锁和非公平锁释放时，最后都要写一个volatile变量`state`。

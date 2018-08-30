@@ -33,6 +33,17 @@ public class ASCII {
 
 
 
+## FAQ
+----
+* 已知Integer a = 127; Integer b = 127; Integer c = 128; Integer d = 128; 求a == b与c == d。
+
+    a == b true  c == d false
+    Integer内部有-128到127的缓存池，a和b都使用常量池，超过了就在堆上分配空间。所以c和d在堆上地址不一样，为false。
+
+<br></br>
+
+
+
 ## Object Methods
 ----
 * toString
