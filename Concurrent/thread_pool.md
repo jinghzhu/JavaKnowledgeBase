@@ -16,7 +16,7 @@
 ![Overall of ExecutorService](./Images/executorservice_workflow.png)
 
 * 使用工厂方法创建不同线程池。
-* 线程池把任务封装成FutureTask对象。
+* `workQueue`保存等待被执行的任务的阻塞队列，且任务须实现Runable接口。`workQueue`可以是ArrayBlockingQueue、LinkedBlockingQuene、SynchronousQuene、LinkedBlockingQuene或priorityBlockingQuene。
 * 工作线程在`run()`方法中循环，从线程池领取可执行的task，调用task的`run()`方法执行。
 * FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务结果返回给FutureTask的`result`变量。
 
@@ -24,75 +24,13 @@
 
 
 
-## 简单线程池实现
+## ThreadPoolExecutor
 ----
-线程池实现由两部分组成：类ThreadPool是线程池公开接口；类PoolThread实现执行任务子线程。
-``` java
-public class ThreadPool { // 线程池公开接口
-  private BlockingQueue taskQueue = null;
-  private List<PoolThread> threads = new ArrayList<PoolThread>();
-  private boolean isStopped = false;
+![](./Images/threadpoolexecutor1.png)
 
-  public ThreadPool(int noOfThreads, int maxNoOfTasks) {
-    taskQueue = new BlockingQueue(maxNoOfTasks);
+![](./Images/threadpoolexecutor2.png)
 
-    for (int i=0; i<noOfThreads; i++) 
-      threads.add(new PoolThread(taskQueue));
-    for (PoolThread thread : threads)
-      thread.start();
-  }
-
-  public void synchronized execute(Runnable task) {
-    if(this.isStopped) 
-      throw new IllegalStateException("ThreadPool is stopped");
-
-    this.taskQueue.enqueue(task);
-  }
-
-  public synchronized boolean stop() {
-    this.isStopped = true;
-    for (PoolThread thread : threads)
-      thread.stop();
-  }
-}
-```
-
-```java
-public class PoolThread extends Thread { // 实现执行任务子线程
-  private BlockingQueue<Runnable> taskQueue = null;
-  private boolean isStopped = false;
-
-  public PoolThread(BlockingQueue<Runnable> queue) {
-    taskQueue = queue;
-  }
-
-  public void run() {
-    while (!isStopped()) {
-      try {
-        Runnable runnable =taskQueue.take();
-        runnable.run();
-      } catch(Exception e) {
-        // 写日志或报告异常，但保持线程池运行。
-      }
-    }
-  }
-
-  public synchronized void toStop() {
-    isStopped = true;
-    this.interrupt(); // 打断池中线程dequeue()调用。
-  }
-
-  public synchronized boolean isStopped() {
-    return isStopped;
-  }
-}
-```
-
-为执行任务，方法`ThreadPool.execute(Runnable r)`用Runnable实现作为调用参数。在内部，Runnable对象被放入阻塞队列。空闲PoolThread线程把Runnable对象从队列中取出并执行，可在`PoolThread.run()`方法里看到这些代码。执行完后，PoolThread进入循环且尝试从队列中再取出任务，直到线程终止。
-
-`ThreadPool.stop()`方法可停止ThreadPool。在内部，调用`stop()`先标记`isStopped`为`true`。然后，线程池每个子线程都调用`PoolThread.stop()`方法停止运行。如果线程池`execute()`在`stop()`后调用，会抛出IllegalStateException异常。
-
-子线程在完成当前任务后停止。`PoolThread.stop()`方法中调用`this.interrupt()`，确保阻塞在`taskQueue.dequeue()`的`wait()`调用线程能跳出`wait()`调用，并抛出InterruptedException异常离开`dequeue()`方法。这个异常在`PoolThread.run()`方法中被截获，然后再检查`isStopped`变量。由于`isStopped`是`true`，因此`PoolThread.run()`方法退出，子线程终止。
+![](./Images/threadpoolexecutor3.png)
 
 <br></br>
 
@@ -433,4 +371,3 @@ private void runTask(Runnable task) {
 4. 工作线程在其`run()`方法中一直循环，从线程池领取可以执行的task，调用task的`run()`方法执行task的任务。
 5. FutureTask的`run()`方法中调用内部类Sync的`innerRun()`方法执行具体任务，并把任务的执行结果返回给FutureTask的`result`变量。
 6. 当提及任务的角色调用FutureTask的`get()`方法获取执行结果时，Sync的`innerGet()`方法被调用。根据任务的执行状态判断，任务执行完毕则返回执行结果；未执行完毕则等待。
-
