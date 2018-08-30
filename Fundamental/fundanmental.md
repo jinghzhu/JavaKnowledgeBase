@@ -47,6 +47,22 @@ public class ASCII {
 
 
 
+## String vs StirngBuilder vs StringBuffer
+----
+区别：
+* String继承Object类，SrtringBuilder和StringBuffer继承AbstractStringBuilder类。
+* String是不可变类，可用作HashMap的key，但StringBuilder和StringBuffer不行。
+* 因为String不可变，StringBudiler线程不安全，StringBuffer线程安全，所以执行效率是String < StringBuffer < StringBudiler。
+
+适用情况：
+* String适用少量字符串操作。
+* StringBuilder适用单线程在字符缓冲区大量操作。
+* StringBuffer适用多线程在字符缓冲区大量操作。
+
+<br></br>
+
+
+
 ## 逻辑运算符
 ----
 * `&`，两个操作数中位都为1则为1，否则0。
