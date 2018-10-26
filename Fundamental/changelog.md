@@ -121,3 +121,13 @@ var list = new ArrayList<String>();
 
 ### 内存分配
 启用HotSpot将对象堆分配给指定的备用内存设备。预示未来系统可能会采用异构内存架构。
+
+<br></br>
+
+
+
+## v1.11
+----
+1. 在Lambda表达式中使用var。
+2. JDK原生HttpClient。
+3. 提供低开销的数据收集框架，用于对Jav应用和HotSpot JVM 故障排除。
