@@ -33,17 +33,6 @@ public class ASCII {
 
 
 
-## FAQ
-----
-* 已知Integer a = 127; Integer b = 127; Integer c = 128; Integer d = 128; 求a == b与c == d。
-
-    a == b true  c == d false
-    Integer内部有-128到127的缓存池，a和b都使用常量池，超过了就在堆上分配空间。所以c和d在堆上地址不一样，为false。
-
-<br></br>
-
-
-
 ## Object Methods
 ----
 * toString
@@ -64,11 +53,6 @@ public class ASCII {
 * String继承Object类，SrtringBuilder和StringBuffer继承AbstractStringBuilder类。
 * String是不可变类，可用作HashMap的key，但StringBuilder和StringBuffer不行。
 * 因为String不可变，StringBudiler线程不安全，StringBuffer线程安全，所以执行效率是String < StringBuffer < StringBudiler。
-
-适用情况：
-* String适用少量字符串操作。
-* StringBuilder适用单线程在字符缓冲区大量操作。
-* StringBuffer适用多线程在字符缓冲区大量操作。
 
 <br></br>
 
@@ -236,15 +220,6 @@ public class Student implements Cloneable {
 | 返回类型 |  可以修改     |  不能修改 |
 | 异常    |   可以修改     | 可以减少，但不能抛出新的或更广的异常  |
 | 访问    |   可以修改     | 可以降低限制，但不能做更严格限制  |
-
-<br></br>
-
-
-
-## Collection vs Collections
-----
-* Collection - 集合类上级接口，继承与他的接口主要有Set和List。
-* Collections - 针对集合类的帮助类，提供静态方法实现对各种集合的搜索、排序、线程安全化等操作。
 
 <br></br>
 

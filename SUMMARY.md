@@ -16,11 +16,11 @@
 
 
 * [Concurrent](/Concurrent/concurrent.md)
+  * [Concurrent Memory Model](/Concurrent/con_mem_mdl.md)
   * [AQS](/Concurrent/aqs.md)
   * [Atomic](/Concurrent/atomic.md)
   * [Blocking Queue](/Concurrent/blockingqueue.md)
   * [CAS](/Concurrent/cas.md)
-  * [Concurrent Memory Model](/Concurrent/con_mem_mdl.md)
   * [ConcurrentHashMap (1.7-)](/Concurrent/concurrenthashmap_7.md)
   * [ConcurrentHashMap (1.8+)](/Concurrent/concurrenthashmap_8.md)
   * [final](/Concurrent/final.md)
