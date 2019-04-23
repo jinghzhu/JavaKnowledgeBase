@@ -1,4 +1,4 @@
-# <center>Memory Model</center>
+# <center>Memory Barrier</center>
 
 <br></br>
 
