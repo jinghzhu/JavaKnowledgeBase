@@ -25,7 +25,7 @@
   * [ConcurrentHashMap (1.8+)](/Concurrent/concurrenthashmap_8.md)
   * [final](/Concurrent/final.md)
   * [JVM Lock](/Concurrent/lock.md)
-  * [ReentrantLock](/Concurrent/reentrantLock.md)
+  * [ReentrantLock](/Concurrent/reentrantlock.md)
   * [ReentrantReadWriteLock](/Concurrent/rwlock.md)
   * [Semaphore](/Concurrent/semaphore.md)
   * [Synchronized](/Concurrent/synchronized.md)
