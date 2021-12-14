@@ -4,7 +4,7 @@
 
     "plugins": [
         "image-captions",
-        "mathjax", 
+        "-mathjax", 
         "anchors",
         "splitter",
         "prism", 
@@ -17,7 +17,7 @@
 
     "pluginsConfig": {
         "mathjax":{
-            "forceSVG": false
+            "forceSVG": true
         },
         "tbfed-pagefooter": {
             "Contact":"jhzhu@outlook.com",
