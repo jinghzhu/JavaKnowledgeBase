@@ -1,6 +1,6 @@
 # Summary
 
-* [Fundanmental](/Fundamental/fundanmental.md)
+* [Fundamental](/Fundamental/fundamental.md)
   * [Annotation & Reflection](/Fundamental/annotation_reflection.md)
   * [Changelog](/Fundamental/changelog.md)
   * [Class](/Fundamental/class.md)
